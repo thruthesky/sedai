@@ -105,8 +105,9 @@ SED specifications are not limited to high-level concepts like file names, route
 - **Implementation Details:** From simple calculations to complex algorithms and business logic, everything must be documented.
 - **Data Structures:** Variable names, types, and data flow must be clearly defined.
 - **Control Flow:** Conditional logic, loops, and error handling paths must be specified.
+- **Complete Source Code:** Specifications include fully implemented source code for logic, functions, classes, and concepts—not just conceptual descriptions. To ensure complete AI compliance, everything is provided in executable form.
 
-The specification is a complete implementation blueprint that leaves no room for AI interpretation.
+The specification is a complete implementation blueprint that leaves no room for AI interpretation. By providing complete, executable code examples within the specification, we eliminate ambiguity and ensure the AI can follow the exact implementation pattern required.
 
 #### Intellectual Property and Copyright
 
@@ -157,6 +158,17 @@ Current Score: 42
    - When an error is suspected, the AI may request confirmation or revisions from a developer.
    - The AI may ask humans to update the spec but cannot modify the spec on its own.
 5. Ultimately, **the AI must always follow the specification.**
+
+#### 2.4 AI's Role in Spec Validation
+
+While AI cannot directly modify specifications, it plays a crucial role in maintaining spec quality:
+
+1. **Logic Verification:** AI can analyze the specification logic for inconsistencies, contradictions, or potential issues.
+2. **Testing and Validation:** AI executes tests based on the specification and reports results to developers.
+3. **Advisory Function:** AI can recommend spec updates, suggest improvements, and identify areas requiring clarification.
+4. **Feedback Loop:** AI reports findings to developers, who then update the specification accordingly.
+
+This creates a collaborative workflow where AI serves as both executor and quality assurance advisor, while developers maintain full control over specification content.
 
 ---
 
@@ -356,7 +368,7 @@ Organize specifications so AI can locate information quickly and reuse documents
 
 - **File Naming Pattern:**
   - `<project-name>-<module-name>-<function-name>.md`
-  - Use the structure “project-module(feature)-function(detail unit)” with a Markdown extension.
+  - Use the structure "project-module(feature)-function(detail unit)" with a Markdown extension.
 - **YAML Header Template:** Include the following front matter at the top of every spec file.
 
   ```yaml
@@ -373,23 +385,53 @@ Organize specifications so AI can locate information quickly and reuse documents
   ---
   ```
 
+- **Spec Naming Convention:**
+  - The `name` field in the YAML header serves as the **unique identifier** for the specification.
+  - Choose a globally unique name to avoid conflicts with other spec files.
+  - This name is used for spec discovery, dependency resolution, and cross-referencing.
+  - **Important:** All spec files within the same `./specs` directory must share the **same `name` value** in their YAML headers. This ensures they are recognized as part of the same specification project.
+
+- **Spec Repository Structure:**
+  - All project specifications must be stored in the `./specs` directory.
+  - This directory structure is standardized to enable spec sharing and reuse across projects.
+  - The spec repository can be hosted anywhere on the web (GitHub, GitLab, private servers, etc.).
+  - **Example:** If your spec repository is at `https://github.com/xxx/yyy/zzz`, all shareable spec files must be stored in:
+    ```
+    https://github.com/xxx/yyy/zzz/specs/
+    ```
+  - This convention ensures consistent spec discovery and dependency resolution.
+
 - **Dependencies Guidelines:**
   - Use dependencies to reference or require other specs for reuse.
-  - GitHub repositories use the `account/repository` format (e.g., `thruthesky/forum-spec`).
+  - GitHub repositories use the `account/repository/subpath` format (e.g., `xxx/yyy/zzz`).
+  - For GitHub repositories with specs in the standard `./specs` directory, simply reference the repository path:
+    ```yaml
+    dependencies: xxx/yyy/zzz, *another/repo/path, **high-priority/spec/repo
+    ```
   - Non-GitHub resources must include the full URL (e.g., `https://doma.com/abc/def`).
   - Indicate priority with leading asterisks—more asterisks mean higher priority when duplicates exist.
 
     ```
+    xxx/yyy/zzz               # Normal priority (loads specs from xxx/yyy/zzz/specs/)
     *withcenter/chat-spec     # Priority 1
     **another/spec            # Priority 2 (highest)
     ```
 
-  - To reference specific files or sections, append `[file.md]` or `[file.md#section-name]`.
+  - To reference specific files or sections within a spec repository, you have two options:
 
+    **Option 1: Using bracket notation**
     ```
     withcenter/chat-spec[chat-rooms-join.md]           # Particular file only
     withcenter/chat-spec[chat-rooms-join.md#overview]  # Specific section only
     ```
+
+    **Option 2: Using direct file paths**
+    ```
+    xxx/yyy/zzz/specs/abc.md                          # Direct file path to specific spec
+    *https://abc.com/def/specs/ghi.md                 # Full URL with priority
+    ```
+
+    This allows you to reference individual spec files instead of loading the entire spec directory.
 
 - **Index Specification:** Every project must provide `<project-name>-index.md` as a detailed table of contents (DTOC).
   - Summarize the specs contained in each file for quick navigation.
