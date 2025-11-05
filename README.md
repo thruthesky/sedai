@@ -389,6 +389,7 @@ Organize specifications so AI can locate information quickly and reuse documents
   - By using the **SED Specification License**, specification authors can protect their copyright.
   - The SED License is specifically designed for specification documents, ensuring that the original author's intellectual property rights are preserved while allowing proper usage and distribution according to the license terms.
   - Authors can choose any appropriate license (MIT, GPL, SED Specification License, proprietary, etc.) based on their needs.
+  - View the full SED Specification License: [SED-LICENSE](https://github.com/thruthesky/sedai/blob/main/SED-LICENSE)
 
 - **Spec Naming Convention:**
   - The `name` field in the YAML header serves as the **unique identifier** for the specification.
@@ -722,6 +723,8 @@ Specification documents created using SEDAI can be licensed under the **SED Spec
 - Enable collaborative development under specified terms
 
 Authors are free to choose any license (MIT, GPL, SED Specification License, proprietary, etc.) that best suits their project needs.
+
+For the full text of the SED Specification License, see: [SED-LICENSE](https://github.com/thruthesky/sedai/blob/main/SED-LICENSE)
 
 ## Author
 
