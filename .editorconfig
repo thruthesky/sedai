@@ -1,0 +1,39 @@
+# EditorConfig는 서로 다른 에디터와 IDE 간에 일관된 코딩 스타일을 유지하는 데 도움이 됩니다.
+# https://editorconfig.org
+
+# 최상위 EditorConfig 파일임을 명시
+root = true
+
+# 모든 파일에 적용되는 기본 설정
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Markdown 파일
+[*.md]
+charset = utf-8
+trim_trailing_whitespace = false
+
+# TypeScript 파일
+[*.ts]
+charset = utf-8
+indent_size = 2
+
+# JSON 파일
+[*.json]
+charset = utf-8
+indent_size = 2
+
+# YAML 파일
+[*.{yml,yaml}]
+charset = utf-8
+indent_size = 2
+
+# Package.json
+[package.json]
+charset = utf-8
+indent_size = 2
