@@ -5,7 +5,7 @@ description: SEDAI (NODE.JS NPM Module) 을 작성하기 위한 SED 가이드
 author: JaeHo Song
 email: thruthesky@gmail.com
 homepage: https://github.com/thruthesky/
-license: GPL
+license: SED Specification License v1.0
 dependencies:
 ---
 
