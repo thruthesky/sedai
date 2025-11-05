@@ -1,0 +1,79 @@
+SED Specification License (Version 1.0)
+
+Preamble
+
+The SED (Specification Execution Development) concept defines a methodology in which development work follows a structured specification (“SED Spec”). The SED Spec encompasses not only algorithms and source code, but also underlying philosophy, logic, operational design, invisible procedural knowledge, and UI/UX concepts.
+This License governs the creation, modification, and use of works derived from an SED Spec.
+
+⸻
+
+1. Ownership of SED-Derived Works
+
+1.1. Any work, result, or output created in accordance with an SED Spec shall be deemed to derive directly from that Spec.
+1.2. Even if such work is developed or executed by an artificial intelligence system, the authorship and copyright of the resulting output belong to the original SED Spec Author.
+1.3. The reasoning is that the SED Spec itself defines the entire structure, algorithmic intent, and design philosophy of the resulting product; the AI merely follows these instructions without independent creative contribution.
+
+⸻
+
+2. Use of the SED Specification
+
+2.1. Any person, organization, or system wishing to use an SED Spec must obtain explicit written permission from the SED Spec Author before use.
+2.2. Unauthorized use of an SED Spec or any portion thereof constitutes a violation of this License and may be subject to legal action.
+2.3. Permission may be granted for specific purposes or under specific conditions as defined by the Author.
+
+⸻
+
+3. Modification and Updates
+
+3.1. Anyone modifying, extending, or updating an existing SED Spec must notify the original SED Spec Author of such changes.
+3.2. The Original Author retains full copyright over both the original Spec and all subsequent updates or derivative versions.
+3.3. Updated versions of the SED Spec may be incorporated into the official SED framework at the discretion of the Author.
+3.4. Any derivative SED Spec automatically falls under this same License.
+
+⸻
+
+4. Scope of the SED Spec
+
+4.1. The SED Spec includes, but is not limited to:
+	•	Algorithmic definitions and code logic
+	•	System architecture and component relationships
+	•	Conceptual and philosophical design principles
+	•	User interface and user experience paradigms
+	•	Invisible operational logic, automation flows, or AI behavioral design
+	•	Development procedures, methodologies, and proprietary know-how
+4.2. Each of these elements is integral to the SED framework and protected under this License.
+
+⸻
+
+5. AI-Generated Works
+
+5.1. Any output produced by AI through execution of an SED Spec does not constitute independent authorship by the AI or its operator.
+5.2. Such output is an extension of the SED Spec itself, and the rights to the resulting work remain with the original SED Spec Author.
+
+⸻
+
+6. Enforcement
+
+6.1. Violation of any provision of this License automatically revokes the violator’s right to use the SED Spec.
+6.2. The SED Spec Author reserves the right to pursue all available remedies under intellectual property law.
+
+⸻
+
+7. Governing Law
+
+This License shall be governed and interpreted under the laws of the jurisdiction of the SED Spec Author, unless otherwise agreed in writing.
+
+⸻
+
+8. Definitions
+	•	SED Spec: A structured specification embodying code, concept, and operational design.
+	•	SED Spec Author: The original creator of the SED Spec.
+	•	Derived Work: Any work that implements, follows, or executes an SED Spec.
+
+⸻
+
+9. Version and Updates
+
+This License applies to SED Specification License v1.0.
+Future revisions may be published by the Author to refine or expand its legal scope.
+

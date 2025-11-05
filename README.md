@@ -380,10 +380,15 @@ Organize specifications so AI can locate information quickly and reuse documents
   email: Author email (≤64 chars)
   homepage: Reference homepage URL
   funding: Payment route for supporting the spec maintainer
-  license: License identifier (MIT, GPL, etc.)
+  license: License identifier (MIT, GPL, SED Specification License, etc.)
   dependencies: thruthesky/forum-spec, *withcenter/chat-spec[chat-rooms-join.md#chat-overview], **https://doma.com/abc/def
   ---
   ```
+
+- **License Protection:**
+  - By using the **SED Specification License**, specification authors can protect their copyright.
+  - The SED License is specifically designed for specification documents, ensuring that the original author's intellectual property rights are preserved while allowing proper usage and distribution according to the license terms.
+  - Authors can choose any appropriate license (MIT, GPL, SED Specification License, proprietary, etc.) based on their needs.
 
 - **Spec Naming Convention:**
   - The `name` field in the YAML header serves as the **unique identifier** for the specification.
@@ -705,7 +710,18 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+This SEDAI tool is released under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### SED Specification License
+
+Specification documents created using SEDAI can be licensed under the **SED Specification License** to protect the author's copyright while enabling proper sharing and collaboration. By using the SED Specification License, specification authors can:
+
+- Protect their intellectual property rights
+- Define clear terms for usage and distribution
+- Maintain attribution and recognition
+- Enable collaborative development under specified terms
+
+Authors are free to choose any license (MIT, GPL, SED Specification License, proprietary, etc.) that best suits their project needs.
 
 ## Author
 
