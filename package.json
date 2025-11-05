@@ -18,6 +18,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
+    "test:prod": "bash tests/prod/test.sh",
     "prepublishOnly": "npm run build",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\""
@@ -35,7 +36,7 @@
   "author": "송재호 <thruthesky@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

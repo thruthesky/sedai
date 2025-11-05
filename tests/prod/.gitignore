@@ -1,0 +1,8 @@
+# 테스트 중 생성된 프로젝트들
+test-project/
+my-test-project/
+*-test-project/
+
+# 기타 테스트 파일
+*.log
+.DS_Store

@@ -7,7 +7,7 @@
 ### 1. 프로젝트 초기화
 
 - ✅ TypeScript 기반 개발 환경
-- ✅ Node.js 버전 24로 고정 (`.nvmrc`, `package.json` engines)
+- ✅ Node.js 버전 20으로 고정 (`.nvmrc`, `package.json` engines)
 - ✅ Unit test 환경 (Vitest 2.0)
 
 ### 2. NPM 패키지 설정
@@ -89,7 +89,7 @@
 ## 🔧 기술 스택
 
 - **Language:** TypeScript 5.6.0
-- **Runtime:** Node.js ≥24.0.0
+- **Runtime:** Node.js ≥20.0.0
 - **CLI Framework:** Commander.js 12.0
 - **Styling:** Chalk 5.3.0
 - **Testing:** Vitest 2.0
@@ -100,8 +100,10 @@
 ```bash
 npm run build          # TypeScript 빌드
 npm run dev            # Watch 모드 개발
-npm test               # 테스트 실행
+npm test               # 단위 테스트 실행 (Vitest)
+npm run test:ui        # Vitest UI 모드
 npm run test:coverage  # 커버리지 포함 테스트
+npm run test:prod      # 프로덕션 CLI 테스트 (배포 전 필수)
 npm run lint           # ESLint 실행
 npm run format         # Prettier 포맷팅
 ```
@@ -127,6 +129,36 @@ node dist/cli.js doctor
 # 테스트 실행 (2개 테스트 모두 통과 확인됨)
 npm test
 ```
+
+### NPM에 배포하기 전 로컬 테스트
+
+배포 전에 실제 사용 환경과 동일하게 CLI를 테스트할 수 있습니다:
+
+```bash
+# 자동화된 프로덕션 테스트 실행
+npm run test:prod
+```
+
+또는 수동으로 개별 명령어 테스트:
+
+```bash
+# tests/prod 폴더로 이동
+cd tests/prod
+
+# 개별 명령어 테스트
+node ../../dist/cli.js --help
+node ../../dist/cli.js --version
+node ../../dist/cli.js doctor
+node ../../dist/cli.js init --name my-project
+node ../../dist/cli.js validate test-spec.md
+node ../../dist/cli.js score test-spec.md
+```
+
+자동화 스크립트는 다음을 수행합니다:
+- TypeScript 빌드
+- 모든 CLI 명령어 테스트 (--help, --version, doctor, init, validate, score)
+- 결과를 색상으로 구분하여 출력
+- 각 테스트의 성공/실패 표시
 
 ### NPM에 배포
 
@@ -171,7 +203,7 @@ sedai/
 ├── 📄 package-lock.json     # 의존성 잠금 파일
 ├── 📄 tsconfig.json         # TypeScript 컴파일러 설정
 ├── 📄 vitest.config.ts      # Vitest 테스트 설정
-├── 📄 .nvmrc                # Node.js 버전 24 고정
+├── 📄 .nvmrc                # Node.js 버전 20 고정
 ├── 📄 .gitignore            # Git 무시 파일 목록
 ├── 📄 LICENSE               # MIT 라이선스
 ├── 📄 README.md             # 프로젝트 문서 (영문 번역 완료)
@@ -181,6 +213,11 @@ sedai/
 │   ├── 📄 cli.ts            # CLI 진입점 (commander 기반)
 │   ├── 📄 version.ts        # 버전 정보
 │   └── 📄 index.test.ts     # 단위 테스트
+├── 📁 tests/                # 테스트 디렉토리
+│   └── 📁 prod/             # 프로덕션 CLI 테스트
+│       ├── 📄 test.sh       # 자동화된 테스트 스크립트
+│       ├── 📄 test-spec.md  # 테스트용 예시 스펙 파일
+│       └── 📄 README.md     # 테스트 가이드
 ├── 📁 dist/                 # 빌드된 JavaScript 파일
 │   ├── 📄 cli.js            # CLI 실행 파일 (#!/usr/bin/env node)
 │   ├── 📄 index.js          # 메인 모듈
@@ -213,6 +250,42 @@ CLI 진입점으로, Commander.js를 사용하여 다음 명령어를 구현합�
 버전 정보를 관리합니다. `package.json`의 버전과 동기화되어야 합니다.
 
 ## 💡 개발 참고사항
+
+### 언어 사용 규칙
+
+**문서 및 코드 작성 시 언어 사용 원칙:**
+
+- **README.md**: 반드시 **영문으로만** 작성 (국제 사용자 대상)
+- **소스 코드 주석**: 모두 **한글**로 작성 (개발자 이해도 향상)
+- **기타 문서** (CLAUDE.md, CHANGELOG.md 등): **한글**로 작성
+- **사용자 대상 메시지** (CLI 출력, 에러 메시지, 로그 등): 반드시 **영문**으로 작성
+  - 예: `console.log()`, `chalk.green()`, `throw new Error()` 등의 메시지
+  - 모든 최종 사용자가 영어만 사용할 수 있다고 가정
+
+**예시:**
+
+```typescript
+/**
+ * 스펙 파일을 검증하는 함수
+ * @param filePath - 검증할 파일 경로
+ * @returns 검증 결과 객체
+ */
+export function validateSpec(filePath: string): ValidationResult {
+  // 파일이 존재하는지 확인
+  if (!fs.existsSync(filePath)) {
+    // ✅ 사용자에게 표시되는 메시지는 영문으로
+    throw new Error('Spec file not found');
+  }
+
+  // 파일 내용을 읽어옴
+  const content = fs.readFileSync(filePath, 'utf-8');
+
+  // ✅ 사용자에게 표시되는 메시지는 영문으로
+  console.log('Validating spec file...');
+
+  return { valid: true, errors: [] };
+}
+```
 
 ### UTF-8 인코딩
 

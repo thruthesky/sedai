@@ -6,7 +6,7 @@ A development methodology and toolset where artificial intelligence implements s
 
 [![npm version](https://img.shields.io/npm/v/sedai.svg)](https://www.npmjs.com/package/sedai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D24.0.0-brightgreen)](https://nodejs.org/)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org/)
 
 ---
 
@@ -507,8 +507,68 @@ This is the level of rigor SED demands.
 - 🧠 *"AI does not imagine. It executes."*
 - 📜 *"Spec is the contract. Spec is the code."*
 - ⚙️ *"No assumption. No improvisation. Only implementation."*
+
 ---
-### SED's Core Challenge
+
+### 6. Prohibited Practices
+
+SED strictly prohibits the following development approaches to maintain specification integrity:
+
+#### 6.1 Incremental Prompt-Based Modifications
+
+**❌ Prohibited:**
+- Making iterative adjustments to AI output through progressive prompting
+- Asking AI to "fix this part" or "change that section" without updating the specification
+- Performing piecemeal modifications when the AI's implementation doesn't meet expectations
+
+**✅ Required Approach:**
+1. When AI output is unsatisfactory, **update the specification first**
+2. Clearly document what needs to change and why in the spec
+3. Instruct AI to re-implement based on the updated specification
+4. Maintain full traceability between spec changes and code changes
+
+**Example of Prohibited Workflow:**
+```
+Developer: "Make the button bigger"
+Developer: "No, change the color to blue"
+Developer: "Add a shadow effect"
+Developer: "Move it to the right"
+```
+
+**Example of Correct Workflow:**
+```
+Developer: [Updates design spec]
+  - Button: 48px height (increased from 40px)
+  - Color: Primary blue (#6366F1)
+  - Shadow: 0 2px 8px rgba(0,0,0,0.1)
+  - Position: Right-aligned in container
+
+Developer: "The specification has been updated. Please re-implement according to the new spec."
+```
+
+#### 6.2 Design Modifications Without Spec Updates
+
+**❌ Prohibited:**
+- Requesting design changes through ad-hoc prompts
+- Iteratively refining UI/UX by giving AI incremental feedback
+- Making visual adjustments without documenting them in the design specification
+
+**✅ Required Approach:**
+1. Document all design requirements in the specification
+2. Include exact measurements, colors, spacing, typography, and behavior
+3. When design needs to change, update the design spec with precise details
+4. Have AI re-implement based on the updated design specification
+
+**Why This Matters:**
+- **Consistency:** Every change is traceable and documented
+- **Reproducibility:** Anyone can recreate the exact implementation from specs
+- **Maintainability:** Future modifications have clear historical context
+- **Quality Assurance:** Specifications serve as the single source of truth
+
+> *"In SED, there are no 'quick fixes' or 'small tweaks.' Every change starts with the specification."*
+
+---
+### 7. SED's Core Challenge
 SED demands precision and completeness, which naturally enlarges the specification—and therefore the token budget.
 To craft a truly complete specification, expect book-length documentation. Supplying that to an LLM consumes a significant number of tokens.
 #### Proposed Solutions
@@ -521,34 +581,10 @@ To craft a truly complete specification, expect book-length documentation. Suppl
 
 This approach preserves SED's philosophy while making it practical for real projects.
 > "Spec-Exact Development (SED) moves beyond prompt engineering. It establishes an AI-driven development philosophy centered on specification completeness, automated verification, and uncompromising consistency."
----
-## Example Spec File Structure
 
-1. User submits credentials.
-2. Validate input format.
-3. Check user existence in database.
-4. Verify password hash.
-5. Generate JWT token.
-6. Return token to client.
 ---
 
-## Contributing
-
-## License
-MIT License — see the [LICENSE](LICENSE) file for details.
-## Author
-
-**Song Jaeho (송재호)**
-- Email: [thruthesky@gmail.com](mailto:thruthesky@gmail.com)
-
-> *"In SED, the specification is not just documentation—it is the source of truth that directly drives development."*
->
-> *"Spec-Exact Development transforms specifications into executable reality."*
-# Calculate specification score
-sedai score <file>
-```
-
-## =Ý Example Spec File
+## Example Spec File
 
 ```markdown
 ---
@@ -572,9 +608,9 @@ User authentication system supporting email/password and OAuth 2.0 (Google, Face
 - passport ^0.6.0
 
 ### Installation
-\`\`\`bash
+```bash
 npm install bcrypt jsonwebtoken passport
-\`\`\`
+```
 
 ## Workflow
 1. User submits credentials
@@ -588,22 +624,24 @@ npm install bcrypt jsonwebtoken passport
 ...
 ```
 
-## > Contributing
+---
+
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## =Ä License
+## License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
 
-## =d Author
+## Author
 
-**Song Jaeho (¡¬8)**
+**Song Jaeho**
 - Email: thruthesky@gmail.com
 - Created: November 4, 2025
 
 ---
 
-**Remember:** In SED, the specification is not just documentationit is the source of truth that directly drives development.
-
-> "Spec-Exact Development transforms specifications into executable reality."
+> *"In SED, the specification is not just documentation—it is the source of truth that directly drives development."*
+>
+> *"Spec-Exact Development transforms specifications into executable reality."*
