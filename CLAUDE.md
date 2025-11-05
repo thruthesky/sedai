@@ -13,14 +13,61 @@
 ### 2. NPM 패키지 설정
 
 - ✅ `npm i -g sedai` 로 설치 가능
-- ✅ `npx sedai --help` 명령으로 사용 가능
+- ✅ `npx sedai --help` 또는 `npx spec --help` 명령으로 사용 가능
+- ✅ **이중 명령어 지원**: `sedai`와 `spec` 둘 다 사용 가능
 - ✅ CLI 명령어 구현:
-  - `sedai doctor` - 스펙 검증
-  - `sedai init` - 프로젝트 초기화
-  - `sedai validate <file>` - 단일 파일 검증
-  - `sedai score <file>` - 점수 계산
+  - `spec doctor` - 스펙 검증 (예정)
+  - **`spec init`** - **프로젝트 초기화 (✅ 완전 구현됨)**
+  - `spec validate <file>` - 단일 파일 검증 (예정)
+  - `spec score <file>` - 점수 계산 (예정)
 
-### 3. SED 개념 문서화
+### 3. `spec init` 명령어 (완전 구현)
+
+`spec init` 명령어는 새로운 SED 프로젝트를 초기화합니다:
+
+**기능:**
+- 대화형 프롬프트로 프로젝트 정보 수집
+- `./specs` 폴더 자동 생성
+- YAML 헤더가 포함된 4개의 기본 스펙 파일 생성:
+  - `<name>-index.md` - 메인 인덱스 스펙
+  - `<name>-setup-database.md` - 데이터베이스 설정
+  - `<name>-setup-backend.md` - 백엔드 설정
+  - `<name>-setup-frontend.md` - 프론트엔드 설정
+- UTF-8 인코딩 보장
+
+**사용 방법:**
+
+```bash
+# 대화형 모드 (사용자 입력 받음)
+npx spec init
+
+# 비대화형 모드 (모든 옵션 제공)
+npx spec init -n "my-app" -s "My awesome application" -a "Your Name" -e "your@email.com"
+
+# 일부 옵션만 제공 (나머지는 대화형으로 입력)
+npx spec init -n "my-app"
+```
+
+**옵션:**
+- `-n, --name <name>` - 프로젝트 이름
+- `-s, --summary <summary>` - 프로젝트 요약/설명
+- `-a, --author <author>` - 작성자 이름
+- `-e, --email <email>` - 작성자 이메일
+
+**생성되는 YAML 헤더 예시:**
+```yaml
+---
+title: my-app - Index
+description: Main index specification for my-app
+author: Your Name
+email: your@email.com
+date: 2025-11-05
+version: 1.0.0
+status: draft
+---
+```
+
+### 4. SED 개념 문서화
 
 - ✅ 한글 내용을 영문으로 완전히 번역
 - ✅ README.md에 상세한 설명 포함:
@@ -31,9 +78,52 @@
   - Spec File Structure (스펙 파일 구조)
   - Testing Specifications (테스트 명세)
 
+## 🔥 UTF-8 인코딩 필수 규칙
+
+**🔥🔥🔥 최강력 경고: 모든 문서와 소스 코드는 반드시 UTF-8 인코딩으로 작성해야 합니다 🔥🔥🔥**
+
+### UTF-8 인코딩 규칙
+
+- **✅ 필수**: 모든 문서(\*.md) 파일은 **반드시 UTF-8 인코딩**으로 저장
+- **✅ 필수**: 모든 소스 코드(\*.ts, \*.js, \*.json) 파일은 **반드시 UTF-8 인코딩**으로 저장
+- **✅ 필수**: BOM(Byte Order Mark) 없는 UTF-8 사용
+- **✅ 필수**: 파일 생성 시 편집기의 인코딩 설정을 UTF-8로 지정
+- **❌ 금지**: EUC-KR, CP949, ISO-8859-1 등 다른 인코딩 사용 절대 금지
+- **❌ 금지**: ASCII만 지원하는 에디터 사용 금지
+
+### 인코딩 확인 방법
+
+**macOS/Linux:**
+```bash
+# 파일 인코딩 확인
+file -I docs/api.md
+
+# 올바른 출력: charset=utf-8
+# 잘못된 출력: charset=binary, charset=us-ascii
+```
+
+**VSCode 설정:**
+```json
+{
+  "files.encoding": "utf8",
+  "files.autoGuessEncoding": false
+}
+```
+
+### 위반 시 결과
+
+- 한글이 깨져서 표시됨 (예: 문서 → �8)
+- 파일을 읽을 수 없음
+- Git에서 충돌 발생
+- 웹사이트에서 한글이 제대로 표시되지 않음
+
+**⚠️ 모든 파일 생성 및 수정 시 반드시 UTF-8 인코딩을 확인하세요! ⚠️**
+
+---
+
 ## ⚙️ 개발 워크플로우
 
-**중요: 개발자가 요청할 때마다 항상 아래 워크플로우를 따라야 합니다.**
+**🚨 필수 준수 사항: 개발자(AI 포함)가 작업할 때마다 반드시 아래 워크플로우를 따라야 합니다 🚨**
 
 ### 코드 작성 전 필수 체크리스트
 
@@ -91,7 +181,9 @@
 - **Language:** TypeScript 5.6.0
 - **Runtime:** Node.js ≥20.0.0
 - **CLI Framework:** Commander.js 12.0
+- **User Input:** Prompts 2.4.2
 - **Styling:** Chalk 5.3.0
+- **YAML Parser:** yaml 2.5.0
 - **Testing:** Vitest 2.0
 - **Build Tool:** TypeScript Compiler
 
@@ -118,6 +210,12 @@ npm run build
 
 # CLI 도움말 확인
 node dist/cli.js --help
+
+# init 명령 테스트 (대화형)
+node dist/cli.js init
+
+# init 명령 테스트 (비대화형 - 모든 옵션 제공)
+node dist/cli.js init -n "my-app" -s "My awesome app" -a "Your Name" -e "your@email.com"
 
 # doctor 명령 테스트
 node dist/cli.js doctor
@@ -174,11 +272,11 @@ npm publish
 
 ### 1. 실제 기능 구현
 
-현재는 TODO 상태인 기능들을 구현해야 합니다:
-
+- [x] **`init` 명령어** - ✅ **완료됨** (대화형 입력, 파일 생성, YAML 헤더)
 - [ ] 스펙 파일 파싱 (YAML 파서)
-- [ ] 스펙 구조 검증 로직
-- [ ] 점수 계산 알고리즘
+- [ ] `doctor` 명령어 - 스펙 구조 검증 로직
+- [ ] `validate` 명령어 - 단일 파일 검증
+- [ ] `score` 명령어 - 점수 계산 알고리즘
 - [ ] Dependencies 해석 및 로드
 
 ### 2. 추가 테스트 작성
@@ -289,7 +387,15 @@ export function validateSpec(filePath: string): ValidationResult {
 
 ### UTF-8 인코딩
 
-모든 파일은 **UTF-8 인코딩(BOM 없음)**으로 작성되어야 합니다.
+**🔥 중요**: 모든 파일은 **UTF-8 인코딩(BOM 없음)**으로 작성되어야 합니다.
+
+자세한 내용은 상단의 [UTF-8 인코딩 필수 규칙](#-utf-8-인코딩-필수-규칙) 섹션을 참조하세요.
+
+**파일 작성 후 반드시 인코딩을 확인하세요:**
+```bash
+file -I <파일명>
+# 출력에 charset=utf-8 이 나와야 합니다
+```
 
 ### 코드 스타일
 

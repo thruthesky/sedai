@@ -1,11 +1,12 @@
 {
   "name": "sedai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Spec-Exact Development by AI - A development methodology where AI develops exactly as the spec defines",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "sedai": "dist/cli.js"
+    "sedai": "dist/cli.js",
+    "spec": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "@types/prompts": "^2.4.9",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@vitest/ui": "^2.0.0",
@@ -49,8 +51,9 @@
     "vitest": "^2.0.0"
   },
   "dependencies": {
-    "commander": "^12.0.0",
     "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "prompts": "^2.4.2",
     "yaml": "^2.5.0"
   }
 }

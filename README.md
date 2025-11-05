@@ -1,4 +1,4 @@
-# SEDAI - Spec-Exact Development by AI
+# SEDAI - Spec-Exact Development with AI
 
 > "AI develops exactly as the spec defines — no interpretation, no assumption."
 
@@ -16,40 +16,50 @@ A development methodology and toolset where artificial intelligence implements s
 # Global installation
 npm install -g sedai
 
-# Or use with npx
+# Or use with npx (both commands work)
 npx sedai --help
+npx spec --help
 ```
 
 ## Quick Start
 
 ```bash
-# Validate your specifications
-npx sedai doctor
+# Initialize a new SED project (interactive mode)
+npx spec init
 
-# Initialize a new SED project
-npx sedai init --name my-project
+# Or with all options (non-interactive)
+npx spec init -n "my-project" -s "My awesome project" -a "Your Name" -e "your@email.com"
 
-# Validate a single spec file
-npx sedai validate specs/my-spec.md
+# Validate your specifications (coming soon)
+npx spec doctor
 
-# Calculate specification score
-npx sedai score specs/my-spec.md
+# Validate a single spec file (coming soon)
+npx spec validate specs/my-spec.md
+
+# Calculate specification score (coming soon)
+npx spec score specs/my-spec.md
 ```
 
 ## CLI Commands
 
+Both `sedai` and `spec` commands are available:
+
 ```bash
-# Validate specifications
-sedai doctor [options]
+# Initialize new project (fully implemented)
+spec init [options]
+  -n, --name <name>        Project name
+  -s, --summary <summary>  Project summary/description
+  -a, --author <author>    Author name
+  -e, --email <email>      Author email
 
-# Initialize new project
-sedai init --name <project-name>
+# Validate specifications (coming soon)
+spec doctor [options]
 
-# Validate single file
-sedai validate <file>
+# Validate single file (coming soon)
+spec validate <file>
 
-# Calculate specification score
-sedai score <file>
+# Calculate specification score (coming soon)
+spec score <file>
 ```
 
 ---
@@ -86,6 +96,27 @@ sedai score <file>
 - In practice, the AI is given a complete architectural blueprint and reproduces it without deviation.
 
 > *"If the spec is wrong, the product is wrong — by design."*
+
+#### What Must Be Specified
+
+SED specifications are not limited to high-level concepts like file names, route names, or page names. They must include:
+
+- **Class Names and Function Names:** Every class, function, and method must be explicitly named in the specification.
+- **Implementation Details:** From simple calculations to complex algorithms and business logic, everything must be documented.
+- **Data Structures:** Variable names, types, and data flow must be clearly defined.
+- **Control Flow:** Conditional logic, loops, and error handling paths must be specified.
+
+The specification is a complete implementation blueprint that leaves no room for AI interpretation.
+
+#### Intellectual Property and Copyright
+
+When development is conducted using publicly available SED specifications with AI assistance:
+
+- **Copyright Ownership:** The copyright of the resulting code belongs to the **specification author**, not to the AI.
+- **Rationale:** Since the AI strictly follows the specification without making creative decisions, the intellectual property derives from the specification itself.
+- **Author Rights:** The person who writes the specification is the creator of the work, regardless of who or what implements it.
+
+This principle recognizes that in SED, the specification is the true creative work, and the implementation is merely its mechanical execution.
 
 ---
 
