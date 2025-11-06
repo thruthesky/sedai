@@ -1,6 +1,6 @@
 {
   "name": "sedai",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Spec-Exact Development by AI - A development methodology where AI develops exactly as the spec defines",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
