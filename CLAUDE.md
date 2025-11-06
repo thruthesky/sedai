@@ -29,7 +29,7 @@
 - 대화형 프롬프트로 프로젝트 정보 수집
 - `./specs` 폴더 자동 생성
 - YAML 헤더가 포함된 4개의 기본 스펙 파일 생성:
-  - `<name>-index.md` - 메인 인덱스 스펙
+  - `index.md` - 메인 인덱스 스펙 (이전: `<name>-index.md`, 하위 호환성 유지)
   - `<name>-setup-database.md` - 데이터베이스 설정
   - `<name>-setup-backend.md` - 백엔드 설정
   - `<name>-setup-frontend.md` - 프론트엔드 설정

@@ -381,7 +381,8 @@ Organize specifications so AI can locate information quickly and reuse documents
   homepage: Reference homepage URL
   funding: Payment route for supporting the spec maintainer
   license: License identifier (MIT, GPL, SED Specification License, etc.)
-  dependencies: thruthesky/forum-spec, *withcenter/chat-spec[chat-rooms-join.md#chat-overview], **https://doma.com/abc/def
+  step: Execution order (10, 20, 30... - lower numbers execute first)
+  dependencies: thruthesky/forum/specs, *withcenter/chat/firebase/specs[chat-rooms-join.md#chat-overview], **https://doma.com/abc/def/specs
   ---
   ```
 
@@ -389,7 +390,23 @@ Organize specifications so AI can locate information quickly and reuse documents
   - By using the **SED Specification License**, specification authors can protect their copyright.
   - The SED License is specifically designed for specification documents, ensuring that the original author's intellectual property rights are preserved while allowing proper usage and distribution according to the license terms.
   - Authors can choose any appropriate license (MIT, GPL, SED Specification License, proprietary, etc.) based on their needs.
+  - **Flexible Licensing:** Each spec file can have a different license. You are free to use MIT, GPL, SED Specification License, or any other license for individual specification files as needed.
   - View the full SED Specification License: [SED-LICENSE](https://github.com/thruthesky/sedai/blob/main/SED-LICENSE)
+
+- **Execution Order with Step:**
+  - The `step` field defines the execution order when AI processes multiple specification files.
+  - **Purpose:** Helps AI determine the sequence in which specifications should be processed.
+  - **Format:** Use increments of 10 (e.g., `step: 10`, `step: 20`, `step: 30`) to allow room for future insertions.
+  - **Insertion Flexibility:** You can later add intermediate steps (e.g., `step: 15`) between existing steps without reorganizing all numbers.
+  - **Execution Rule:** Lower step numbers execute first. For example, `step: 10` runs before `step: 20`.
+  - **Concurrent Execution:** Multiple spec files can share the same step value. Files with the same step number are processed simultaneously.
+  - **Example Usage:**
+    ```yaml
+    step: 10   # Database setup (runs first)
+    step: 20   # Backend API implementation (runs second)
+    step: 20   # Frontend setup (runs concurrently with backend)
+    step: 30   # Integration tests (runs after both backend and frontend)
+    ```
 
 - **Spec Naming Convention:**
   - The `name` field in the YAML header serves as the **unique identifier** for the specification.
@@ -409,37 +426,73 @@ Organize specifications so AI can locate information quickly and reuse documents
 
 - **Dependencies Guidelines:**
   - Use dependencies to reference or require other specs for reuse.
-  - GitHub repositories use the `account/repository/subpath` format (e.g., `xxx/yyy/zzz`).
-  - For GitHub repositories with specs in the standard `./specs` directory, simply reference the repository path:
+  - **IMPORTANT:** All dependency paths must end with `/specs` (plural form required).
+  - GitHub repositories use the format: `[account]/[repository]/[path]/specs`
+    - If the path does not start with `http://` or `https://`, it is interpreted as a GitHub path
+    - Example: `thruthesky/forum/specs` → GitHub repository at `github.com/thruthesky/forum/specs`
+  - Non-GitHub resources must include the full URL ending with `/specs`:
     ```yaml
-    dependencies: xxx/yyy/zzz, *another/repo/path, **high-priority/spec/repo
+    dependencies: https://abc.com/def/specs
     ```
-  - Non-GitHub resources must include the full URL (e.g., `https://doma.com/abc/def`).
-  - Indicate priority with leading asterisks—more asterisks mean higher priority when duplicates exist.
+  - **Priority System:** Use leading asterisks (*) to indicate priority when multiple specs contain similar content:
+    - No asterisk: Normal priority (default)
+    - `*`: Priority level 1
+    - `**`: Priority level 2 (highest)
+    - More asterisks = higher priority when conflicts occur
 
-    ```
-    xxx/yyy/zzz               # Normal priority (loads specs from xxx/yyy/zzz/specs/)
-    *withcenter/chat-spec     # Priority 1
-    **another/spec            # Priority 2 (highest)
+    ```yaml
+    thruthesky/forum/specs                    # Normal priority
+    *withcenter/chat/firebase/specs           # Priority 1
+    **https://example.com/high-priority/specs # Priority 2 (highest, overrides others)
     ```
 
   - To reference specific files or sections within a spec repository, you have two options:
 
-    **Option 1: Using bracket notation**
+    **Option 1: Using bracket notation (path must end with /specs)**
     ```
-    withcenter/chat-spec[chat-rooms-join.md]           # Particular file only
-    withcenter/chat-spec[chat-rooms-join.md#overview]  # Specific section only
+    withcenter/chat/firebase/specs[chat-rooms-join.md]           # Particular file only
+    withcenter/chat/firebase/specs[chat-rooms-join.md#overview]  # Specific section only
     ```
 
-    **Option 2: Using direct file paths**
+    **Option 2: Using direct file paths (must be under /specs directory)**
     ```
-    xxx/yyy/zzz/specs/abc.md                          # Direct file path to specific spec
+    thruthesky/forum/specs/abc.md                     # Direct file path to specific spec
     *https://abc.com/def/specs/ghi.md                 # Full URL with priority
+    **another/project/specs/main.md                   # Priority 2 with specific file
     ```
 
     This allows you to reference individual spec files instead of loading the entire spec directory.
+    **Note:** The parent path must always end with `/specs` directory.
 
-- **Index Specification:** Every project must provide `<project-name>-index.md` as a detailed table of contents (DTOC).
+- **Instructions File Requirement:**
+  - **MANDATORY:** Every `specs` directory must contain an `instructions.md` file.
+  - **Purpose:** This file contains instructions that AI must follow when working with the specifications.
+  - **Content:** Guidelines, rules, conventions, and directives for AI to adhere to during development.
+  - **Usage:** When instructing AI to work on a project, always direct it to follow the `specs/instructions.md` file.
+  - **Template:** You can copy the `sed-instructions.md` template as a starting point for your `instructions.md`.
+  - **Location:** Must be placed at `./specs/instructions.md` in your spec repository.
+
+  **Example instructions.md:**
+  ```markdown
+  # AI Development Instructions
+
+  ## Code Style
+  - Use TypeScript strict mode
+  - Follow functional programming principles
+  - Add comprehensive JSDoc comments
+
+  ## Testing Requirements
+  - Minimum 80% code coverage
+  - Write tests before implementation (TDD)
+  - Include edge cases and error scenarios
+
+  ## Naming Conventions
+  - Use camelCase for variables and functions
+  - Use PascalCase for classes and types
+  - Use UPPER_SNAKE_CASE for constants
+  ```
+
+- **Index Specification:** Every project must provide `index.md` (or optionally `<project-name>-index.md` for backwards compatibility) as a detailed table of contents (DTOC).
   - Summarize the specs contained in each file for quick navigation.
   - LLMs can consult the index to decide which document to open for additional detail.
   - The index file also begins with the YAML header above.
@@ -673,7 +726,7 @@ description: User authentication specification for My App
 author: Your Name
 email: your.email@example.com
 license: MIT
-dependencies: my-app-database[users-schema.md], my-app-security[encryption.md#password]
+dependencies: my-app/database/specs[users-schema.md], my-app/security/specs[encryption.md#password]
 ---
 
 ## Overview

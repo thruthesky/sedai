@@ -1,6 +1,6 @@
 {
   "name": "sedai",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Spec-Exact Development by AI - A development methodology where AI develops exactly as the spec defines",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,6 +36,14 @@
   ],
   "author": "송재호 <thruthesky@gmail.com>",
   "license": "GPL-3.0",
+  "homepage": "https://github.com/thruthesky/sedai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thruthesky/sedai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thruthesky/sedai/issues"
+  },
   "engines": {
     "node": ">=20.0.0"
   },

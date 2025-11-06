@@ -172,7 +172,7 @@ Add any additional notes here.
     // 생성할 파일 목록
     const files = [
       {
-        name: `${specName}-index.md`,
+        name: `index.md`,
         title: `${specName} - Index`,
         description: `Main index specification for ${specName}. ${summary}`
       },
@@ -379,7 +379,7 @@ Add any additional notes here.
     // 생성할 파일 목록
     const files = [
       {
-        name: `${response.name}-index.md`,
+        name: `index.md`,
         title: `${response.name} - Index`,
         description: `Main index specification for ${response.name}. ${response.summary}`
       },
@@ -425,9 +425,78 @@ Add any additional notes here.
 
   // 2. Validate 실행
   console.log(chalk.bold.cyan('📋 Step 2: Validating specifications...\n'));
+
+  // 필수 파일 확인
+  let hasErrors = false;
+
+  // instructions.md 파일 확인
+  const instructionsPath = path.join(specsDir, 'instructions.md');
+  if (!fs.existsSync(instructionsPath)) {
+    console.log(chalk.red('❌ MISSING: specs/instructions.md is required'));
+    console.log(chalk.dim('   This file must contain AI development instructions'));
+    console.log(chalk.dim('   You can copy sed-instructions.md as a starting template\n'));
+    hasErrors = true;
+  } else {
+    console.log(chalk.green('✅ FOUND: specs/instructions.md'));
+  }
+
+  // index.md 파일 확인
+  const indexPath = path.join(specsDir, 'index.md');
+  if (!fs.existsSync(indexPath)) {
+    console.log(chalk.red('❌ MISSING: specs/index.md is required'));
+    console.log(chalk.dim('   This file serves as the main index (table of contents)\n'));
+    hasErrors = true;
+  } else {
+    console.log(chalk.green('✅ FOUND: specs/index.md'));
+  }
+
+  console.log();
+
+  // 각 스펙 파일의 YAML 헤더 검증
+  console.log(chalk.blue('🔍 Validating YAML headers in spec files...\n'));
+
   for (const file of specFiles) {
-    console.log(chalk.blue(`🔍 Validating: ${path.basename(file)}`));
-    console.log(chalk.dim('  ✅ File validation feature coming soon!\n'));
+    const fileName = path.basename(file);
+
+    // instructions.md는 YAML 헤더가 선택사항이므로 검증에서 제외
+    if (fileName === 'instructions.md') {
+      console.log(chalk.dim(`⏭️  ${fileName}: Skipped (YAML header is optional for instructions.md)`));
+      continue;
+    }
+
+    const content = fs.readFileSync(file, 'utf-8');
+
+    // YAML 헤더 확인 (--- 로 시작하고 끝나는지)
+    const yamlMatch = content.match(/^---\n([\s\S]*?)\n---/);
+
+    if (!yamlMatch || !yamlMatch[1]) {
+      console.log(chalk.red(`❌ ${fileName}: Missing or invalid YAML header`));
+      hasErrors = true;
+    } else {
+      const yamlContent = yamlMatch[1];
+
+      // 필수 필드 확인
+      const requiredFields = ['title', 'description', 'author', 'email', 'date', 'version', 'status'];
+      const missingFields = [];
+
+      for (const field of requiredFields) {
+        if (!yamlContent.includes(`${field}:`)) {
+          missingFields.push(field);
+        }
+      }
+
+      if (missingFields.length > 0) {
+        console.log(chalk.yellow(`⚠️  ${fileName}: Missing YAML fields: ${missingFields.join(', ')}`));
+      } else {
+        console.log(chalk.green(`✅ ${fileName}: Valid YAML header`));
+      }
+    }
+  }
+
+  console.log();
+
+  if (hasErrors) {
+    console.log(chalk.red('⚠️  Some required files are missing. Please add them before continuing.\n'));
   }
 
   // 3. Doctor 실행
