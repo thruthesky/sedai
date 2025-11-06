@@ -492,10 +492,70 @@ Organize specifications so AI can locate information quickly and reuse documents
   - Use UPPER_SNAKE_CASE for constants
   ```
 
-- **Index Specification:** Every project must provide `index.md` (or optionally `<project-name>-index.md` for backwards compatibility) as a detailed table of contents (DTOC).
+- **Index Specification:** Every project must provide `index.md` as a detailed table of contents (DTOC).
   - Summarize the specs contained in each file for quick navigation.
   - LLMs can consult the index to decide which document to open for additional detail.
   - The index file also begins with the YAML header above.
+  - **DTOC Format:** The index contains summaries/storylines alongside a table of contents for each specification file, enabling AI to quickly understand the project structure and navigate to relevant specs.
+
+- **AI Integration Guide:**
+
+  **For Developers:** To ensure AI assistants follow SED methodology correctly, add the following directive to your AI-specific instruction files:
+
+  - **Claude Code**: Add to `.claude/CLAUDE.md`
+  - **GitHub Copilot**: Add to `.github/copilot-instructions.md`
+  - **Other AI Agents**: Add to their respective instruction files (e.g., `AGENTS.md`, `CODEX.md`)
+
+  **Required Directive (copy this to your AI instruction files):**
+
+  ```markdown
+  ## SEDAI Workflow - MANDATORY
+
+  **Before starting any task, you MUST follow this workflow:**
+
+  1. **Read specs/instructions.md first**
+     - This file contains SED (Spec-Exact Development) guidelines
+     - It explains how to work with specification files
+     - It defines the AI workflow and principles you must follow
+     - Understand the concepts thoroughly before proceeding
+
+  2. **Read specs/index.md second**
+     - This file contains the DTOC (Detailed Table of Contents) with summaries for all specification files
+     - Use the 5W1H principle (Who, What, When, Where, Why, How) to determine which specs are relevant to the current task
+     - Identify which specification documents you need to read based on the task requirements
+
+  3. **Read relevant specification files**
+     - Based on index.md, read the appropriate specification documents
+     - Understand the concepts, requirements, and workflows defined in each spec
+     - Follow the workflows exactly as specified
+
+  4. **Execute the task**
+     - Implement strictly according to the specification
+     - Do not interpret, assume, or improvise
+     - Follow the spec exactly, even if it seems incorrect
+     - If critical issues exist, report them and request clarification
+
+  **Key Points:**
+  - `specs/instructions.md`: Contains SED methodology and how to use spec files
+  - `specs/index.md`: Contains DTOC (summaries + table of contents) for navigation
+  - Never skip reading these files before starting work
+  - Always follow the specification without deviation
+  ```
+
+  **Implementation Example:**
+
+  For a project with SEDAI specifications, your `.claude/CLAUDE.md` might include:
+
+  ```markdown
+  # Project Development Instructions
+
+  ## SEDAI Workflow - MANDATORY
+  [Copy the directive above]
+
+  ## Project-Specific Guidelines
+  - Additional project-specific rules...
+  ```
+
 - **Spec Content Structure:** Each specification file follows this outline:
   1. **YAML Header** — includes dependency declarations.
   2. **Overview** — brief summary of the document.
