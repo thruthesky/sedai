@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore real-world examples of SED specifications and see how to structure complete, implementation-ready specification documents.">
+    <title>Examples - SEDAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        :root {
+            --bs-primary: #6366F1;
+            --bs-secondary: #8B5CF6;
+            --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; }
+        .navbar { background: var(--sedai-gradient) !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+        .navbar-brand { font-size: 1.5rem; font-weight: 700; }
+        .page-header { background: var(--sedai-gradient); color: white; padding: 4rem 0 3rem; }
+        .code-example { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;
+                        padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem;
+                        overflow-x: auto; }
+        .code-example pre { margin: 0; white-space: pre; }
+        .yaml-header { color: #0a7ea4; }
+        .comment { color: #6c757d; font-style: italic; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">SEDAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="nav-item"><a class="nav-link" href="principles.html">Principles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="nav-item"><a class="nav-link" href="workflow.html">Workflow</a></li>
+                    <li class="nav-item"><a class="nav-link" href="philosophy.html">Philosophy</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="examples.html">Examples</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">Examples and Use Cases</h1>
+            <p class="lead fs-5">Real-world specification examples and implementation patterns</p>
+        </div>
+    </header>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+
+                    <!-- Complete Spec File Example -->
+                    <div class="mb-5 pb-4 border-bottom">
+                        <h2 class="h3 text-primary mb-4">Complete Spec File Structure</h2>
+                        <p class="lead">
+                            Here's a complete example of a SED specification file for user authentication.
+                            Note the YAML header at the top and the detailed sections below.
+                        </p>
+
+                        <div class="code-example">
+<pre>---
+name: my-app-user-authentication
+version: 1.0.0
+description: User authentication specification for My App
+author: Your Name
+email: your.email@example.com
+license: MIT
+step: 20
+dependencies: my-app/database/specs[users-schema.md], my-app/security/specs[encryption.md#password]
+---
+
+## Overview
+User authentication system supporting email/password and OAuth 2.0 (Google, Facebook).
+
+## Requirements
+
+### Libraries
+- bcrypt ^5.1.0
+- jsonwebtoken ^9.0.0
+- passport ^0.6.0
+
+### Installation
+```bash
+npm install bcrypt jsonwebtoken passport
+```
+
+## Workflow
+1. User submits credentials
+2. Validate input format
+3. Check user existence in database
+4. Verify password hash
+5. Generate JWT token
+6. Return token to client
+
+## Details
+
+### Function: authenticateUser
+
+**Parameters:**
+- email: string (required, valid email format)
+- password: string (required, minimum 8 characters)
+
+**Returns:**
+- Promise&lt;{ token: string, user: UserProfile }&gt;
+
+**Implementation:**
+```typescript
+export async function authenticateUser(
+  email: string,
+  password: string
+): Promise&lt;{ token: string; user: UserProfile }&gt; {
+  // Validate email format
+  if (!isValidEmail(email)) {
+    throw new ValidationError('Invalid email format');
+  }
+
+  // Query database for user
+  const user = await db.users.findOne({ email });
+  if (!user) {
+    throw new AuthError('Invalid credentials');
+  }
+
+  // Verify password using bcrypt
+  const isValid = await bcrypt.compare(password, user.passwordHash);
+  if (!isValid) {
+    throw new AuthError('Invalid credentials');
+  }
+
+  // Generate JWT token
+  const token = jwt.sign(
+    { userId: user.id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+
+  return { token, user: user.profile };
+}
+```
+
+### Error Handling
+- **ValidationError:** Invalid email format or password requirements not met
+- **AuthError:** User not found or password mismatch
+- **DatabaseError:** Database connection or query failure
+
+### Testing Requirements
+```typescript
+describe('authenticateUser', () =&gt; {
+  it('should return token for valid credentials', async () =&gt; {
+    const result = await authenticateUser('user@example.com', 'Password123!');
+    expect(result.token).toBeDefined();
+    expect(result.user.email).toBe('user@example.com');
+  });
+
+  it('should throw ValidationError for invalid email', async () =&gt; {
+    await expect(
+      authenticateUser('invalid-email', 'Password123!')
+    ).rejects.toThrow(ValidationError);
+  });
+
+  it('should throw AuthError for wrong password', async () =&gt; {
+    await expect(
+      authenticateUser('user@example.com', 'WrongPassword')
+    ).rejects.toThrow(AuthError);
+  });
+});
+```</pre>
+                        </div>
+                    </div>
+
+                    <!-- YAML Header Fields Explained -->
+                    <div class="mb-5 pb-4 border-bottom">
+                        <h2 class="h3 text-primary mb-4">YAML Header Fields Explained</h2>
+                        <p>Every SED specification file begins with a YAML header containing metadata and configuration.</p>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 25%;">Field</th>
+                                        <th style="width: 35%;">Description</th>
+                                        <th style="width: 40%;">Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>name</code></td>
+                                        <td>Unique identifier for the specification</td>
+                                        <td><code>my-app-user-authentication</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>version</code></td>
+                                        <td>Semantic version of the specification</td>
+                                        <td><code>1.0.0</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>description</code></td>
+                                        <td>Brief description of the specification</td>
+                                        <td><code>User authentication system</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>author</code></td>
+                                        <td>Specification author's name</td>
+                                        <td><code>Your Name</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>email</code></td>
+                                        <td>Author's contact email</td>
+                                        <td><code>your@email.com</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>license</code></td>
+                                        <td>License type (MIT, GPL, SED License, etc.)</td>
+                                        <td><code>MIT</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>step</code></td>
+                                        <td>Execution order (lower numbers first)</td>
+                                        <td><code>20</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>dependencies</code></td>
+                                        <td>Other specs required for this one</td>
+                                        <td><code>my-app/database/specs</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Different Types of Specifications -->
+                    <div class="mb-5 pb-4 border-bottom">
+                        <h2 class="h3 text-primary mb-4">Types of Specifications</h2>
+                        <p>SED specifications can cover different aspects of your project:</p>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="h5 mb-0">Database Specifications</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-2"><strong>Includes:</strong></p>
+                                        <ul class="mb-3">
+                                            <li>DBMS version and edition</li>
+                                            <li>Table structures with exact field types</li>
+                                            <li>Indexes and foreign key constraints</li>
+                                            <li>Migration procedures</li>
+                                            <li>Backup and recovery procedures</li>
+                                        </ul>
+                                        <p class="mb-0 small text-muted">
+                                            <strong>Example:</strong> <code>my-app-setup-database.md</code>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="h5 mb-0">API Specifications</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-2"><strong>Includes:</strong></p>
+                                        <ul class="mb-3">
+                                            <li>Complete route definitions</li>
+                                            <li>Request/response schemas</li>
+                                            <li>Authentication and authorization</li>
+                                            <li>Error codes and messages</li>
+                                            <li>Rate limiting and caching</li>
+                                        </ul>
+                                        <p class="mb-0 small text-muted">
+                                            <strong>Example:</strong> <code>my-app-api-endpoints.md</code>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="h5 mb-0">UI/UX Specifications</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-2"><strong>Includes:</strong></p>
+                                        <ul class="mb-3">
+                                            <li>Component structures and props</li>
+                                            <li>Exact colors, fonts, and spacing</li>
+                                            <li>Responsive breakpoints</li>
+                                            <li>User flows and navigation</li>
+                                            <li>Accessibility requirements</li>
+                                        </ul>
+                                        <p class="mb-0 small text-muted">
+                                            <strong>Example:</strong> <code>my-app-ui-components.md</code>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="h5 mb-0">Testing Specifications</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-2"><strong>Includes:</strong></p>
+                                        <ul class="mb-3">
+                                            <li>Unit test scenarios and assertions</li>
+                                            <li>Integration test workflows</li>
+                                            <li>E2E test user journeys</li>
+                                            <li>Performance benchmarks</li>
+                                            <li>Coverage requirements (≥80%)</li>
+                                        </ul>
+                                        <p class="mb-0 small text-muted">
+                                            <strong>Example:</strong> <code>my-app-testing-plan.md</code>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Real-World Use Cases -->
+                    <div class="mb-5 pb-4 border-bottom">
+                        <h2 class="h3 text-primary mb-4">Real-World Use Cases</h2>
+
+                        <div class="accordion" id="useCasesAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#usecase1">
+                                        Building a Social Media Platform
+                                    </button>
+                                </h2>
+                                <div id="usecase1" class="accordion-collapse collapse show" data-bs-parent="#useCasesAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Challenge:</strong> Complex features like user profiles, posts, comments, likes, notifications, and real-time chat.</p>
+                                        <p><strong>SED Approach:</strong></p>
+                                        <ul>
+                                            <li>Create 100+ storyline items covering all user journeys</li>
+                                            <li>Write detailed specifications for each feature module</li>
+                                            <li>Define database schemas with complete relationships</li>
+                                            <li>Specify API endpoints with exact request/response formats</li>
+                                            <li>Document UI components with pixel-perfect designs</li>
+                                            <li>Include complete test coverage for all scenarios</li>
+                                        </ul>
+                                        <p><strong>Result:</strong> AI implements all features precisely as specified, with predictable behavior and zero interpretation errors.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#usecase2">
+                                        E-Commerce Checkout System
+                                    </button>
+                                </h2>
+                                <div id="usecase2" class="accordion-collapse collapse" data-bs-parent="#useCasesAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Challenge:</strong> Payment processing, inventory management, order tracking, and email notifications with strict security requirements.</p>
+                                        <p><strong>SED Approach:</strong></p>
+                                        <ul>
+                                            <li>Specify exact payment gateway APIs (Stripe, PayPal)</li>
+                                            <li>Define complete order state machine with all transitions</li>
+                                            <li>Document security measures (encryption, PCI compliance)</li>
+                                            <li>Specify error handling for payment failures</li>
+                                            <li>Include rollback procedures for failed transactions</li>
+                                        </ul>
+                                        <p><strong>Result:</strong> Secure, compliant payment system with predictable error handling and complete auditability.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#usecase3">
+                                        Multi-Language Content Management
+                                    </button>
+                                </h2>
+                                <div id="usecase3" class="accordion-collapse collapse" data-bs-parent="#useCasesAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Challenge:</strong> Supporting 10+ languages with locale-specific formatting, RTL support, and culturally appropriate content.</p>
+                                        <p><strong>SED Approach:</strong></p>
+                                        <ul>
+                                            <li>Create complete translation dictionaries for all languages</li>
+                                            <li>Specify locale-specific date, number, and currency formats</li>
+                                            <li>Define RTL layout adjustments for Arabic and Hebrew</li>
+                                            <li>Document pluralization rules for each language</li>
+                                            <li>Include context-specific translations for ambiguous terms</li>
+                                        </ul>
+                                        <p><strong>Result:</strong> Consistent multilingual experience with proper localization across all supported languages.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dependencies Example -->
+                    <div class="mb-5 pb-4 border-bottom">
+                        <h2 class="h3 text-primary mb-4">Using Dependencies</h2>
+                        <p>
+                            Specifications can reference other specifications to promote reusability.
+                            Use the <code>dependencies</code> field in the YAML header to link related specs.
+                        </p>
+
+                        <div class="code-example">
+<pre class="yaml-header">---
+name: my-app-user-profile
+version: 1.0.0
+description: User profile management
+dependencies: my-app/database/specs[users-schema.md],
+              *my-app/auth/specs[authentication.md],
+              **https://cdn.example.com/shared/specs[validation.md]
+---</pre>
+                        </div>
+
+                        <p class="mt-3"><strong>Priority System:</strong></p>
+                        <ul>
+                            <li><strong>No asterisk:</strong> Normal priority (default)</li>
+                            <li><strong>One asterisk (*):</strong> Priority level 1</li>
+                            <li><strong>Two asterisks (**):</strong> Priority level 2 (highest)</li>
+                        </ul>
+                        <p class="text-muted small">
+                            When multiple specs contain conflicting information, higher priority specs override lower priority ones.
+                        </p>
+                    </div>
+
+                    <!-- Next Steps -->
+                    <div class="mb-5">
+                        <h2 class="h3 text-primary mb-4">Ready to Start?</h2>
+                        <p class="lead">
+                            Now that you've seen examples of SED specifications, you're ready to create your own.
+                        </p>
+
+                        <div class="card bg-light border-primary">
+                            <div class="card-body">
+                                <h3 class="h5 text-primary mb-3">Quick Start Commands</h3>
+                                <div class="code-example">
+<pre><span class="comment"># Initialize your project</span>
+npx spec init
+
+<span class="comment"># Edit generated spec files in ./specs directory</span>
+<span class="comment"># Follow SED principles to ensure completeness</span>
+
+<span class="comment"># Validate your specifications (coming soon)</span>
+npx spec doctor
+
+<span class="comment"># Check specification score (coming soon)</span>
+npx spec score specs/my-spec.md</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-primary" role="alert">
+                        <h4 class="alert-heading">Learn More</h4>
+                        <p class="mb-0">
+                            For more examples and the complete SEDAI documentation, visit the
+                            <a href="https://github.com/thruthesky/sedai" class="alert-link" target="_blank">GitHub repository</a>
+                            or check out the
+                            <a href="https://www.npmjs.com/package/sedai" class="alert-link" target="_blank">NPM package</a>.
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-5">
+                        <a href="philosophy.html" class="btn btn-outline-secondary">← Previous: Philosophy</a>
+                        <a href="index.html" class="btn btn-primary">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">SEDAI</h5>
+                    <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">Learn</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                        <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                        <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                        <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">Resources</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                        <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center py-3">
+                <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

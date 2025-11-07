@@ -7,987 +7,405 @@
     <meta name="keywords" content="SEDAI, SED, Spec-Exact Development, AI Development, Development Methodology, Specifications">
     <meta name="author" content="Song Jaeho">
     <title>SEDAI - Spec-Exact Development with AI</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
+    <!-- Bootstrap 5.3.8 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <style>
         :root {
-            --primary-color: #6366F1;
-            --secondary-color: #8B5CF6;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
-            --bg-light: #F9FAFB;
-            --bg-white: #FFFFFF;
-            --border-color: #E5E7EB;
-            --success-color: #10B981;
-            --warning-color: #F59E0B;
+            --bs-primary: #6366F1;
+            --bs-primary-rgb: 99, 102, 241;
+            --bs-secondary: #8B5CF6;
+            --bs-secondary-rgb: 139, 92, 246;
+            --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            --sedai-text-dark: #1F2937;
+            --sedai-text-light: #6B7280;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.8;
-            color: var(--text-dark);
-            background-color: var(--bg-white);
-            font-size: 17px;
+            line-height: 1.7;
+            color: var(--sedai-text-dark);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        .navbar {
+            background: var(--sedai-gradient) !important;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            font-size: 1.8rem;
+        .navbar-brand {
+            font-size: 1.5rem;
             font-weight: 700;
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
+        .nav-link {
             font-weight: 500;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s ease;
         }
 
-        nav a:hover {
+        .nav-link:hover {
             opacity: 0.8;
         }
 
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 6rem 0;
-            text-align: center;
+            background: var(--sedai-gradient);
+            min-height: 600px;
+            display: flex;
+            align-items: center;
         }
 
-        .hero h2 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
+        .hero .display-3 {
             letter-spacing: -0.02em;
         }
 
-        .hero .tagline {
-            font-size: 1.6rem;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-            opacity: 0.95;
-            line-height: 1.6;
-        }
-
-        .hero .description {
-            font-size: 1.25rem;
-            max-width: 800px;
-            margin: 0 auto 2.5rem;
-            opacity: 0.9;
-            line-height: 1.7;
-        }
-
-        .hero .badges {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .hero .badges img {
-            height: 20px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
         .btn {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
             font-weight: 600;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.2s;
-            display: inline-block;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
         }
 
-        .btn-primary {
-            background: white;
-            color: var(--primary-color);
-        }
-
-        .btn-primary:hover {
+        .btn-light:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
+        .btn-outline-light:hover {
             background: white;
-            color: var(--primary-color);
+            color: #6366F1;
         }
 
-        /* Section */
-        section {
-            padding: 5rem 0;
+        .card {
+            border-radius: 0.75rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
         }
 
-        section:nth-child(even) {
-            background-color: var(--bg-light);
-        }
-
-        section h2 {
-            font-size: 2.75rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            color: var(--text-dark);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        section h3 {
-            font-size: 1.5rem;
-            margin: 2rem 0 1rem;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-
-        section p {
-            line-height: 1.9;
-            margin-bottom: 1.2rem;
-        }
-
-        section .section-subtitle {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 1.2rem;
-            margin-bottom: 3.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.7;
-        }
-
-        /* What is SED */
-        .what-is-sed {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .what-is-sed .highlight-box {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 600;
-            line-height: 1.6;
-        }
-
-        .what-is-sed ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .what-is-sed li {
-            padding: 0.9rem 0;
-            padding-left: 2.5rem;
-            position: relative;
-            line-height: 1.8;
-        }
-
-        .what-is-sed li:before {
-            content: "✔";
-            position: absolute;
-            left: 0;
-            color: var(--success-color);
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        /* Core Principles */
-        .principles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3.5rem;
-        }
-
-        .principle-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .principle-card:hover {
+        .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .principle-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 1.2rem;
-            font-size: 1.4rem;
-        }
-
-        .principle-card p {
-            color: var(--text-light);
-            line-height: 1.9;
-        }
-
-        /* Quick Start */
-        .quick-start {
-            background: var(--bg-light);
-        }
-
-        .code-block {
-            background: #2B2B2B;
-            color: #E8E8E8;
-            padding: 2rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .code-block .comment {
-            color: #7A7A7A;
-        }
-
-        .code-block .command {
-            color: #6A9955;
-        }
-
-        /* Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 3.5rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2.5rem;
-            background: white;
-            border-radius: 12px;
-            transition: transform 0.2s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
         }
 
         .feature-icon {
             width: 70px;
             height: 70px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: var(--sedai-gradient);
             border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
         }
 
-        .feature-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-        }
-
-        .feature-card p {
-            color: var(--text-light);
-            line-height: 1.8;
-        }
-
-        /* Workflow */
-        .workflow-steps {
-            max-width: 900px;
-            margin: 3.5rem auto;
-        }
-
-        .workflow-step {
-            display: flex;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-            align-items: start;
-        }
-
-        .step-number {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .step-content h3 {
-            margin-bottom: 0.8rem;
-            color: var(--text-dark);
-            font-size: 1.5rem;
-        }
-
-        .step-content p {
-            color: var(--text-light);
-            line-height: 1.9;
-        }
-
-        /* Philosophy */
-        .philosophy-table {
-            max-width: 1000px;
-            margin: 3rem auto;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .philosophy-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .philosophy-table th {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 1.5rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .philosophy-table td {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            line-height: 1.8;
-        }
-
-        .philosophy-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .philosophy-table td:first-child {
-            font-weight: 600;
-            color: var(--primary-color);
-            width: 200px;
-        }
-
-        /* Slogans */
-        .slogans {
-            max-width: 900px;
-            margin: 3rem auto;
-        }
-
-        .slogan {
-            font-size: 1.5rem;
-            margin: 2rem 0;
-            padding: 2rem 2.5rem;
-            background: white;
-            border-left: 6px solid var(--primary-color);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        .slogan-icon {
-            display: inline-block;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 35px;
-            color: white;
-            font-weight: bold;
-            margin-right: 1rem;
-            vertical-align: middle;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--text-dark);
-            color: white;
-            padding: 4rem 0 1.5rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1.5rem;
-            color: var(--primary-color);
-            font-size: 1.3rem;
-        }
-
-        .footer-section p {
-            line-height: 1.8;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: #D1D5DB;
-            text-decoration: none;
-            display: block;
-            padding: 0.4rem 0;
-            transition: color 0.2s;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2.5rem;
-            border-top: 1px solid #374151;
-            color: #9CA3AF;
-            line-height: 1.8;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            body {
-                font-size: 16px;
-            }
-
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-
-            .hero .tagline {
-                font-size: 1.3rem;
-            }
-
-            .hero .description {
-                font-size: 1.1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            section h2 {
-                font-size: 2.2rem;
-            }
-
-            section {
-                padding: 3.5rem 0;
-            }
-
-            .workflow-step {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .slogan {
-                font-size: 1.3rem;
-            }
+        footer a:hover {
+            color: white !important;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <h1>SEDAI</h1>
-            <nav>
-                <ul>
-                    <li><a href="#what-is-sed">What is SED?</a></li>
-                    <li><a href="#principles">Principles</a></li>
-                    <li><a href="#quick-start">Quick Start</a></li>
-                    <li><a href="#workflow">Workflow</a></li>
-                    <li><a href="https://github.com/thruthesky/sedai">GitHub</a></li>
+            <a class="navbar-brand" href="index.html">SEDAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="what-is-sed.html">What is SED?</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="principles.html">Principles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="getting-started.html">Getting Started</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="workflow.html">Workflow</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="philosophy.html">Philosophy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="examples.html">Examples</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a>
+                    </li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h2>SEDAI</h2>
-            <p class="tagline">"AI develops exactly as the spec defines - no interpretation, no assumption."</p>
-            <p class="description">
-                A development methodology and toolset where artificial intelligence implements solutions
+    <section class="hero text-white text-center">
+        <div class="container py-5">
+            <h1 class="display-3 fw-bold mb-4">SEDAI</h1>
+            <p class="lead fst-italic fs-3 mb-4">
+                "AI develops exactly as the spec defines - no interpretation, no assumption."
+            </p>
+            <p class="fs-5 mb-4 opacity-90">
+                A development methodology and toolset where artificial intelligence implements solutions<br>
                 strictly according to specifications without deviation.
             </p>
 
-            <div class="badges">
-                <img src="https://img.shields.io/npm/v/sedai.svg" alt="npm version">
-                <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
-                <img src="https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen" alt="Node.js Version">
+            <div class="d-flex justify-content-center gap-3 mb-4 flex-wrap">
+                <img src="https://img.shields.io/npm/v/sedai.svg" alt="npm version" height="20">
+                <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" height="20">
+                <img src="https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen" alt="Node.js Version" height="20">
             </div>
 
-            <div class="cta-buttons">
-                <a href="#quick-start" class="btn btn-primary">Get Started</a>
-                <a href="https://github.com/thruthesky/sedai" class="btn btn-secondary">View on GitHub</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- What is SED -->
-    <section id="what-is-sed">
-        <div class="container">
-            <h2>What is Spec-Exact Development?</h2>
-            <div class="what-is-sed">
-                <p>
-                    <strong>Spec-Exact Development (SED)</strong> is an AI-driven development paradigm in which
-                    the AI never deviates by even a single line from the specification.
-                </p>
-
-                <div class="highlight-box">
-                    "If the spec is wrong, the product is wrong - by design."
-                </div>
-
-                <h3>Background</h3>
-                <p>
-                    Created by <strong>Song Jaeho</strong> on <strong>November 4, 2025</strong> to overcome
-                    the limitations of vibe coding and ensure consistent, predictable AI-driven development.
-                </p>
-
-                <h3>Problems with Prior Approaches</h3>
-                <ul>
-                    <li>Specifications, context, and required skills are often described vaguely</li>
-                    <li>MCPs provide only fragmented pieces of information</li>
-                    <li>AI freely interprets requirements, creating unpredictable outcomes</li>
-                </ul>
-
-                <h3>SED's Solution</h3>
-                <ul>
-                    <li>Provide AI with complete blueprints</li>
-                    <li>AI follows the blueprints precisely without making inferences</li>
-                    <li>Specifications become the absolute standard that guarantees consistency</li>
-                </ul>
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                <a href="getting-started.html" class="btn btn-light btn-lg px-5">Get Started</a>
+                <a href="what-is-sed.html" class="btn btn-outline-light btn-lg px-5">Learn More</a>
             </div>
         </div>
     </section>
 
-    <!-- Core Principles -->
-    <section id="principles">
+    <!-- Quick Overview -->
+    <section class="py-5">
         <div class="container">
-            <h2>Core Principles</h2>
-            <p class="section-subtitle">
-                SED is built on fundamental principles that ensure specification integrity and implementation accuracy
+            <h2 class="display-5 text-center mb-3">Why Spec-Exact Development?</h2>
+            <p class="text-center text-muted mb-5 fs-5">
+                Traditional AI development often produces unpredictable results.<br>
+                SED ensures consistency, reproducibility, and complete control.
             </p>
 
-            <div class="principles-grid">
-                <div class="principle-card">
-                    <h3>1. Spec-Exactness</h3>
-                    <p>
-                        Development implements only what the specification defines. If the specification
-                        is incomplete, the AI must immediately return a Spec Error and stop development.
-                    </p>
-                </div>
-
-                <div class="principle-card">
-                    <h3>2. Spec Completeness Scoring</h3>
-                    <p>
-                        Before development begins, the AI evaluates the specification and assigns a score
-                        from 0-100. Development may start only when the score is 90 or higher.
-                    </p>
-                </div>
-
-                <div class="principle-card">
-                    <h3>3. Spec Is the Law</h3>
-                    <p>
-                        AI never attempts to infer human intent. Ambiguous sentences in the specification
-                        are ignored and not implemented. Guessing is forbidden; only written instructions
-                        are executed.
-                    </p>
-                </div>
-
-                <div class="principle-card">
-                    <h3>4. AI's Role in Validation</h3>
-                    <p>
-                        While AI cannot modify specifications, it analyzes logic for inconsistencies,
-                        executes tests, and provides advisory feedback to developers who maintain full
-                        control over specification content.
-                    </p>
-                </div>
-
-                <div class="principle-card">
-                    <h3>5. No Incremental Modifications</h3>
-                    <p>
-                        Iterative adjustments through progressive prompting are prohibited. When AI output
-                        is unsatisfactory, update the specification first, then instruct AI to re-implement
-                        based on the updated spec.
-                    </p>
-                </div>
-
-                <div class="principle-card">
-                    <h3>6. Complete Specification</h3>
-                    <p>
-                        Specifications must include class names, function names, implementation details,
-                        data structures, control flow, complete source code, code comments, CSS styling,
-                        user-facing text, and internationalization.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quick Start -->
-    <section id="quick-start" class="quick-start">
-        <div class="container">
-            <h2>Quick Start</h2>
-            <p class="section-subtitle">
-                Get started with SEDAI in just a few minutes
-            </p>
-
-            <h3>Installation</h3>
-            <div class="code-block">
-<span class="comment"># Global installation</span>
-npm install -g sedai
-
-<span class="comment"># Or use with npx (both commands work)</span>
-npx sedai --help
-npx spec --help
-            </div>
-
-            <h3>Initialize a New SED Project</h3>
-            <div class="code-block">
-<span class="comment"># Interactive mode (prompts for user input)</span>
-npx spec init
-
-<span class="comment"># Non-interactive mode (all options provided)</span>
-npx spec init -n "my-project" -s "My awesome project" -a "Your Name" -e "your@email.com"
-
-<span class="comment"># Partial options (remaining prompted interactively)</span>
-npx spec init -n "my-project"
-            </div>
-
-            <h3>Available Commands</h3>
-            <div class="code-block">
-<span class="comment"># Initialize new project (fully implemented)</span>
-spec init [options]
-  -n, --name &lt;name&gt;        Project name
-  -s, --summary &lt;summary&gt;  Project summary/description
-  -a, --author &lt;author&gt;    Author name
-  -e, --email &lt;email&gt;      Author email
-
-<span class="comment"># Validate specifications (coming soon)</span>
-spec doctor [options]
-
-<span class="comment"># Validate single file (coming soon)</span>
-spec validate &lt;file&gt;
-
-<span class="comment"># Calculate specification score (coming soon)</span>
-spec score &lt;file&gt;
-            </div>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section id="features">
-        <div class="container">
-            <h2>Features</h2>
-            <p class="section-subtitle">
-                Powerful tools and methodology for spec-exact development
-            </p>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">S</div>
-                    <h3>Complete Specifications</h3>
-                    <p>
-                        Create comprehensive specifications that cover every aspect of your project,
-                        from database schemas to UI/UX details.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">A</div>
-                    <h3>AI-Driven Development</h3>
-                    <p>
-                        Let AI implement your specifications exactly as written, without interpretation
-                        or assumption, ensuring consistent results.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">V</div>
-                    <h3>Spec Validation</h3>
-                    <p>
-                        Automatically score specifications from 0-100 to ensure completeness before
-                        development begins (score >= 90 required).
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">R</div>
-                    <h3>Reproducible Builds</h3>
-                    <p>
-                        Generate the exact same implementation every time from the same specification,
-                        ensuring consistency across teams.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">C</div>
-                    <h3>Copyright Protection</h3>
-                    <p>
-                        Specification authors retain full copyright of the resulting code, as AI
-                        strictly follows specs without creative decisions.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">M</div>
-                    <h3>Spec Reusability</h3>
-                    <p>
-                        Share and reuse specifications across projects with dependency management
-                        and version control.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Workflow -->
-    <section id="workflow">
-        <div class="container">
-            <h2>Development Workflow</h2>
-            <p class="section-subtitle">
-                A systematic approach to spec-exact development
-            </p>
-
-            <div class="workflow-steps">
-                <div class="workflow-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Preparation Phase</h3>
-                        <p>
-                            Write comprehensive specification storylines (100+ items) and convert them
-                            into blueprint-level detail. Include database specs, feature specs, routing,
-                            functions, UI/UX requirements, testing specs, and deployment configs.
-                        </p>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon">
+                                    <span class="text-white fw-bold fs-2">✓</span>
+                                </div>
+                            </div>
+                            <h3 class="h5 text-primary mb-3">No Interpretation</h3>
+                            <p class="text-muted">
+                                AI executes only what is explicitly written in specifications.
+                                No guessing, no assumptions, no improvisation.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="workflow-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Validation Phase</h3>
-                        <p>
-                            AI analyzes and scores the specification (0-100). Development proceeds only
-                            when the score is 90 or higher. If insufficient, identify gaps and revise
-                            the specification.
-                        </p>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon">
+                                    <span class="text-white fw-bold fs-2">∞</span>
+                                </div>
+                            </div>
+                            <h3 class="h5 text-primary mb-3">Reproducible</h3>
+                            <p class="text-muted">
+                                Same specification always produces identical results.
+                                Perfect consistency across teams and time.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="workflow-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Execution Phase</h3>
-                        <p>
-                            AI implements precisely what the specification dictates - nothing more, nothing
-                            less. Anything outside the specification is ignored. Code changes and spec
-                            updates are inseparable.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Verification Phase</h3>
-                        <p>
-                            Automated testing based on the specification. Test cases and expected outcomes
-                            are derived directly from the spec. Every feature is evaluated by: "Does it
-                            match the specification?"
-                        </p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h3>Deployment Phase</h3>
-                        <p>
-                            Human involvement is mandatory. AI generates deployment scripts, environment
-                            configs, and CI/CD procedures, but humans review and execute the actual
-                            deployment commands.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="workflow-step">
-                    <div class="step-number">6</div>
-                    <div class="step-content">
-                        <h3>Operation Phase</h3>
-                        <p>
-                            AI monitors, reports, and recommends automated fixes based on operational specs.
-                            When new requirements appear, follow the loop: update spec > re-evaluate score
-                            > redevelop.
-                        </p>
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon">
+                                    <span class="text-white fw-bold fs-2">◉</span>
+                                </div>
+                            </div>
+                            <h3 class="h5 text-primary mb-3">Complete Control</h3>
+                            <p class="text-muted">
+                                Developers maintain full control through specifications.
+                                AI becomes a precise implementation tool.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Philosophy -->
-    <section id="philosophy">
+    <!-- Learn More Section -->
+    <section class="py-5 bg-light">
         <div class="container">
-            <h2>Philosophy</h2>
-            <p class="section-subtitle">
-                The core beliefs that drive Spec-Exact Development
-            </p>
+            <h2 class="display-5 text-center mb-5">Explore SEDAI</h2>
 
-            <div class="philosophy-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Content</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Philosophy</td>
-                            <td>Spec is the truth. Development simply executes that truth.</td>
-                        </tr>
-                        <tr>
-                            <td>AI's Role</td>
-                            <td>Makes no judgments - executes the specification without interpretation.</td>
-                        </tr>
-                        <tr>
-                            <td>Developer's Role</td>
-                            <td>Devote energy to crafting complete, unambiguous specifications.</td>
-                        </tr>
-                        <tr>
-                            <td>Quality Assurance</td>
-                            <td>Testing and verification are fully automated from the specification.</td>
-                        </tr>
-                        <tr>
-                            <td>Deliverable Traits</td>
-                            <td>Consistent, verifiable, maintainable, and predictably high-quality.</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h4 text-primary mb-3">What is SED?</h3>
+                            <p class="text-muted mb-3">
+                                Learn about the core concept, background, and the problems SED solves
+                                in modern AI-driven development.
+                            </p>
+                            <a href="what-is-sed.html" class="btn btn-outline-primary">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h4 text-primary mb-3">Core Principles</h3>
+                            <p class="text-muted mb-3">
+                                Understand the 6 fundamental principles that ensure specification
+                                integrity and implementation accuracy.
+                            </p>
+                            <a href="principles.html" class="btn btn-outline-primary">View Principles →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h4 text-primary mb-3">Getting Started</h3>
+                            <p class="text-muted mb-3">
+                                Install SEDAI, initialize your first project, and learn the basic
+                                commands in this step-by-step guide.
+                            </p>
+                            <a href="getting-started.html" class="btn btn-outline-primary">Get Started →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h4 text-primary mb-3">Development Workflow</h3>
+                            <p class="text-muted mb-3">
+                                Follow the 6-phase systematic approach: Preparation, Validation,
+                                Execution, Verification, Deployment, and Operation.
+                            </p>
+                            <a href="workflow.html" class="btn btn-outline-primary">See Workflow →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h4 text-primary mb-3">Philosophy</h3>
+                            <p class="text-muted mb-3">
+                                Explore the philosophy behind SED: "AI does not imagine. It executes."
+                                and understand the developer's role.
+                            </p>
+                            <a href="philosophy.html" class="btn btn-outline-primary">Read Philosophy →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="h4 text-primary mb-3">Examples</h3>
+                            <p class="text-muted mb-3">
+                                See real-world specification examples, understand file structures,
+                                and learn best practices for writing specs.
+                            </p>
+                            <a href="examples.html" class="btn btn-outline-primary">View Examples →</a>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="slogans">
-                <div class="slogan">
-                    <span class="slogan-icon">AI</span> "AI does not imagine. It executes."
-                </div>
-                <div class="slogan">
-                    <span class="slogan-icon">S</span> "Spec is the contract. Spec is the code."
-                </div>
-                <div class="slogan">
-                    <span class="slogan-icon">E</span> "No assumption. No improvisation. Only implementation."
-                </div>
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container text-center">
+            <h2 class="display-6 mb-4">Ready to Start?</h2>
+            <p class="lead text-muted mb-4">
+                Install SEDAI and begin your journey to precise, reproducible AI-driven development.
+            </p>
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                <a href="getting-started.html" class="btn btn-primary btn-lg px-5">Get Started</a>
+                <a href="https://github.com/thruthesky/sedai" class="btn btn-outline-primary btn-lg px-5" target="_blank">View on GitHub</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>SEDAI</h3>
-                    <p>
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">SEDAI</h5>
+                    <p class="small">
                         Spec-Exact Development with AI<br>
                         Created by Song Jaeho<br>
                         November 4, 2025
                     </p>
                 </div>
 
-                <div class="footer-section">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="https://github.com/thruthesky/sedai">GitHub Repository</a></li>
-                        <li><a href="https://www.npmjs.com/package/sedai">NPM Package</a></li>
-                        <li><a href="https://github.com/thruthesky/sedai/blob/main/README.md">Documentation</a></li>
-                        <li><a href="https://github.com/thruthesky/sedai/blob/main/SED-LICENSE">SED License</a></li>
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">Learn</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <ul>
-                        <li><a href="mailto:thruthesky@gmail.com">thruthesky@gmail.com</a></li>
-                        <li><a href="https://github.com/thruthesky/sedai/issues">Report Issues</a></li>
-                        <li><a href="https://github.com/thruthesky/sedai/pulls">Contribute</a></li>
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">Resources</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub Repository</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM Package</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Documentation</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="https://github.com/thruthesky/sedai/blob/main/SED-LICENSE" class="text-white-50 text-decoration-none" target="_blank">SED License</a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="footer-section">
-                    <h3>License</h3>
-                    <p>
-                        SEDAI Tool: MIT License<br>
-                        SED Specifications: SED Specification License
-                    </p>
+                <div class="col-md-3">
+                    <h5 class="text-primary mb-3">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">thruthesky@gmail.com</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Report Issues</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="https://github.com/thruthesky/sedai/pulls" class="text-white-50 text-decoration-none" target="_blank">Contribute</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                <p>
+            <hr class="border-secondary">
+
+            <div class="text-center py-3">
+                <p class="small text-muted mb-0">
                     &copy; 2025 Song Jaeho. All rights reserved.<br>
                     "In SED, the specification is not just documentation - it is the source of truth that directly drives development."
                 </p>
             </div>
         </div>
     </footer>
+
+    <!-- Bootstrap 5.3.8 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -360,6 +360,19 @@ CLI 진입점으로, Commander.js를 사용하여 다음 명령어를 구현합�
   - 예: `console.log()`, `chalk.green()`, `throw new Error()` 등의 메시지
   - 모든 최종 사용자가 영어만 사용할 수 있다고 가정
 
+### Homepage (Web) Development
+
+**홈페이지 작업 시 필수 참고 문서:**
+
+- **`sedai-homepage/specs/instructions.md`**: 홈페이지(웹) 작업을 수행할 때는 반드시 이 문서를 참고하세요
+- 이 문서에는 다음과 같은 중요한 지시사항이 포함되어 있습니다:
+  - Index-Driven Development 워크플로우
+  - Dependency Resolution 규칙
+  - Specification Obedience 원칙
+  - HTML Content Language 규칙 (모든 HTML 콘텐츠는 영어로 작성)
+  - Step-based Execution Order
+- 홈페이지 관련 작업 전에 반드시 해당 문서를 읽고 지시사항을 따라야 합니다
+
 **예시:**
 
 ```typescript

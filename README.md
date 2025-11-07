@@ -597,6 +597,7 @@ Organize specifications so AI can locate information quickly and reuse documents
   funding: Payment route for supporting the spec maintainer
   license: License identifier (MIT, GPL, SED Specification License, etc.)
   step: Execution order (10, 20, 30... - lower numbers execute first)
+  screenshot: URL to preview image (optional, e.g., https://example.com/preview.png)
   dependencies: thruthesky/forum/specs, *withcenter/chat/firebase/specs[chat-rooms-join.md#chat-overview], **https://doma.com/abc/def/specs
   ---
   ```
@@ -638,6 +639,28 @@ Organize specifications so AI can locate information quickly and reuse documents
     https://github.com/xxx/yyy/zzz/specs/
     ```
   - This convention ensures consistent spec discovery and dependency resolution.
+
+- **Preview Images and Screenshots:**
+  - **Specification Preview Image:** Each spec repository can include a `./specs/preview.png` file to represent the specification's identity visually.
+    - **Format:** Square image (width equals height)
+    - **Size:** 1024px × 1024px
+    - **Purpose:** Provides a visual identity for the specification, used in spec listings, repositories, and documentation
+    - **Location:** Must be placed at `./specs/preview.png` in the spec repository
+    - **Usage:** Spec browsers, catalogs, and repository viewers can display this image to help users quickly identify specifications
+
+  - **Individual Spec File Screenshots (Optional):** Each specification file can include a `screenshot` field in its YAML header to provide a visual preview.
+    - **Field:** `screenshot: <URL>`
+    - **Value:** A valid URL pointing to an image
+    - **Purpose:** Shows a preview or screenshot specific to that particular spec file
+    - **Example:**
+      ```yaml
+      ---
+      name: my-app-user-authentication
+      version: 1.0.0
+      screenshot: https://example.com/screenshots/auth-preview.png
+      ---
+      ```
+    - **Use Case:** Documentation tools, spec viewers, and AI assistants can display these screenshots to give developers a visual understanding of what the spec implements before reading the detailed text.
 
 - **Dependencies Guidelines:**
   - Use dependencies to reference or require other specs for reuse.
@@ -1001,6 +1024,7 @@ description: User authentication specification for My App
 author: Your Name
 email: your.email@example.com
 license: MIT
+screenshot: https://example.com/screenshots/auth-preview.png
 dependencies: my-app/database/specs[users-schema.md], my-app/security/specs[encryption.md#password]
 ---
 

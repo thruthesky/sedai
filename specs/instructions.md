@@ -146,6 +146,20 @@ This document contains specifications for SEDAI CLI's basic options and commands
 - Verify encoding after creating or modifying files
 - Never use EUC-KR, CP949, or other legacy encodings
 
+### HTML Content Language
+- **MANDATORY**: All HTML document content must be written in English
+- This includes:
+  - All text content visible to users
+  - Page titles, headings, and body text
+  - Navigation menus and buttons
+  - Form labels and placeholders
+  - Error messages and notifications
+  - Footer content and copyright notices
+- Exceptions:
+  - Code comments may be in Korean for internal development
+  - Configuration files may contain Korean comments
+- Rationale: Ensures international accessibility and broader audience reach
+
 ## AI Workflow Summary
 
 ```mermaid
