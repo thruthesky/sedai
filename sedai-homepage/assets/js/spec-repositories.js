@@ -60,7 +60,7 @@ let appCheck;
 try {
     console.log('[App Check] Initializing with reCAPTCHA Enterprise...');
     appCheck = initializeAppCheck(app, {
-        provider: new ReCaptchaEnterpriseProvider('6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP'),
+        provider: new ReCaptchaEnterpriseProvider('6Lc4HAUsAAAAABJ8FeyXPeprPHh0njp4PPcKtMfm'),
         isTokenAutoRefreshEnabled: true // 토큰 자동 갱신 활성화
     });
 
@@ -77,7 +77,7 @@ try {
         // 프로덕션 환경에서 실패 시 도메인 설정 확인 안내
         console.error('[App Check] 🚨 PRODUCTION ERROR: Please verify the following:');
         console.error(`  1. Domain "${window.location.hostname}" is added to reCAPTCHA Enterprise key`);
-        console.error('  2. reCAPTCHA key: 6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP');
+        console.error('  2. reCAPTCHA key: 6Lc4HAUsAAAAABJ8FeyXPeprPHh0njp4PPcKtMfm');
         console.error('  3. Check Google Cloud Console: https://console.cloud.google.com/security/recaptcha');
     } else {
         console.error('[App Check] Register debug token in Firebase Console to continue');
