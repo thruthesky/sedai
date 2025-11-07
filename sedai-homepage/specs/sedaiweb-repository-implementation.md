@@ -37,17 +37,27 @@ README.md 가 정의한 SED 철학에 따라, 본 명세는 Firebase Realtime Da
 | 역할 | 권한 | UX 흐름 |
 | --- | --- | --- |
 | Visitor | 읽기 전용 | Repository 리스트 탐색 (`onValue` → 카드 렌더링) |
-| Contributor | 제출 | 폼 작성 → 클라이언트 검증 → Firebase 저장 → 성공 메시지 |
+| Contributor | 제출 (로그인 필수) | 로그인 확인 → 폼 작성 → 클라이언트 검증 → Firebase 저장 → 성공 메시지 |
 | Moderator (auth admin) | 상태 변경 | 별도 툴에서 처리 (본 명세 범위 밖) |
+
+**인증 요구사항**:
+- Repository 제출은 **반드시 로그인한 사용자만** 가능합니다.
+- Firebase Authentication을 통해 로그인한 사용자의 `uid`, `phoneNumber`, `email`을 사용하여 제출 데이터를 작성합니다.
+- 비로그인 사용자가 Register 버튼을 클릭하면 로그인 페이지(`login.html`)로 리다이렉트됩니다.
 
 ### 3.1 Submission Flow (필수 단계)
 
-1. `initRepositoryModule()` 실행 시 Firebase 앱과 DOM 요소를 결속.
-2. 폼 입력값 수집 → `collectFormValues()` → `validateRepositoryValues()`.
-3. 유효성 통과 시 `buildRepositoryPayload()` 로 DB 스키마에 맞는 payload 생성.
-4. `executeRepositoryWrite()` 가 다중 경로 업데이트(`repository/entries`, `index/*`, `stats`)를 한 번에 수행.
-5. `logRepositoryAudit()` 로 감사 기록 생성.
-6. 성공 UI 피드백 → 폼 초기화 → 토스트 메시지 표출.
+1. 사용자가 Register 버튼 클릭.
+2. `checkUserAuthentication()` 실행 → Firebase Auth 상태 확인.
+   - 비로그인 상태: `login.html?redirect=spec-repositories.html`로 리다이렉트.
+   - 로그인 상태: 다음 단계 진행.
+3. `initRepositoryModule()` 실행 시 Firebase 앱과 DOM 요소를 결속.
+4. 폼 입력값 수집 → `collectFormValues()` → `validateRepositoryValues()`.
+5. 유효성 통과 시 `buildRepositoryPayload()` 로 DB 스키마에 맞는 payload 생성.
+   - 로그인한 사용자의 `uid`, `phoneNumber`, `email`을 자동으로 payload에 포함.
+6. `executeRepositoryWrite()` 가 다중 경로 업데이트(`repository/entries`, `index/*`, `stats`)를 한 번에 수행.
+7. `logRepositoryAudit()` 로 감사 기록 생성.
+8. 성공 UI 피드백 → 폼 초기화 → 토스트 메시지 표출.
 
 ### 3.2 Listing Flow
 
@@ -225,12 +235,55 @@ export async function initRepositoryModule(): Promise<void> {
 
 | 함수 | 역할 | 세부 규칙 |
 | --- | --- | --- |
+| `checkUserAuthentication(): Promise<User \| null>` | 인증 상태 확인 | Firebase Auth의 `currentUser` 반환. 비로그인 시 `null`. |
+| `redirectToLogin(returnUrl?: string): void` | 로그인 페이지 리다이렉트 | `returnUrl`을 쿼리 파라미터로 전달. 기본값은 현재 페이지. |
 | `collectFormValues(form: HTMLFormElement): RepositoryFormValues` | FormData → 객체 | `homepage` 가 빈 문자열이면 `null`. 모든 문자열 `trim()`. |
 | `validateRepositoryValues(values, limits, allowedLicenses): ValidationResult` | 입력 검증 | `limits` 는 `/repository/meta/fieldLimits`. 실패 시 `errors` map 반환. |
 | `hashSha256(input: string): Promise<string>` | 해시 유틸 | `crypto.subtle.digest('SHA-256', TextEncoder())` 사용, hex 문자열 앞에 `sha256:` 접두사. |
-| `buildRepositoryPayload(values, context): Promise<RepositoryEntryPayload>` | 스키마 변환 | `repositoryId`, `specsHost`, `normalizedName`, 해시 필드, timestamp 생성. |
+| `buildRepositoryPayload(values, context): Promise<RepositoryEntryPayload>` | 스키마 변환 | `repositoryId`, `specsHost`, `normalizedName`, 해시 필드, timestamp 생성. 로그인 사용자 정보 포함. |
 | `executeRepositoryWrite(payload, db): Promise<void>` | RTDB 업데이트 | 1) 다중 경로 업데이트 2) 통계 transaction 3) 감사 로그 push 순으로 진행. |
 | `resetRepositoryForm(form)` | 성공 후 초기화 | 폼 리셋 + 버튼/메시지 상태 복원. |
+
+#### 인증 확인 및 리다이렉트
+
+```ts
+import { getAuth } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
+
+/**
+ * 현재 사용자 인증 상태 확인
+ * @returns {Promise<User | null>} 로그인된 사용자 또는 null
+ */
+async function checkUserAuthentication() {
+  const auth = getAuth();
+  return auth.currentUser;
+}
+
+/**
+ * 로그인 페이지로 리다이렉트
+ * @param {string} returnUrl - 로그인 후 돌아올 URL (선택사항)
+ */
+function redirectToLogin(returnUrl) {
+  const redirect = returnUrl || window.location.pathname;
+  window.location.href = `login.html?redirect=${encodeURIComponent(redirect)}`;
+}
+
+/**
+ * Register 버튼 클릭 이벤트 핸들러
+ */
+async function handleRegisterButtonClick() {
+  const user = await checkUserAuthentication();
+
+  if (!user) {
+    // 비로그인 상태 → 로그인 페이지로 리다이렉트
+    alert('You must be logged in to register a repository.');
+    redirectToLogin('spec-repositories.html');
+    return;
+  }
+
+  // 로그인 상태 → 등록 폼 모달 표시
+  showRepositoryForm();
+}
+```
 
 #### `repositoryId` 생성 규칙
 
@@ -342,11 +395,13 @@ export const RepositoryErrorCode = {
 
 ## 10. Implementation Constraints
 
-1. **Spec Obedience:** 여기 정의되지 않은 추가 필드/기능을 추가하지 않는다.
-2. **No Hidden Requests:** 외부 API 호출 금지 (IP 확인, Geo, analytics 제외).
-3. **Single Source of Truth:** 모든 허용 라이선스/길이 제한은 `/repository/meta` 에서 읽은 값을 기준으로 한다.
-4. **Schema Sync:** `metadata.schemaVersion` 은 DB 메타와 항상 동일해야 하므로, 모듈 로드 시 `get(metaRef)` 로 읽어와 캐시한다.
-5. **Error Surfacing:** Firebase 예외 발생 시 `RepositoryErrorCode.FIREBASE_WRITE_FAILED` 와 `error.message` 를 함께 사용자에게 전달.
+1. **Authentication Required:** Repository 제출은 반드시 로그인한 사용자만 가능. 비로그인 사용자는 `checkUserAuthentication()` 에서 차단되고 로그인 페이지로 리다이렉트.
+2. **Spec Obedience:** 여기 정의되지 않은 추가 필드/기능을 추가하지 않는다.
+3. **No Hidden Requests:** 외부 API 호출 금지 (IP 확인, Geo, analytics 제외).
+4. **Single Source of Truth:** 모든 허용 라이선스/길이 제한은 `/repository/meta` 에서 읽은 값을 기준으로 한다.
+5. **Schema Sync:** `metadata.schemaVersion` 은 DB 메타와 항상 동일해야 하므로, 모듈 로드 시 `get(metaRef)` 로 읽어와 캐시한다.
+6. **Error Surfacing:** Firebase 예외 발생 시 `RepositoryErrorCode.FIREBASE_WRITE_FAILED` 와 `error.message` 를 함께 사용자에게 전달.
+7. **User Data Integration:** 로그인한 사용자의 `uid`, `phoneNumber`, `email`을 payload에 자동으로 포함. 사용자가 직접 입력한 `author`, `email`은 사용하지 않고, Firebase Auth의 정보를 우선 사용.
 
 ---
 

@@ -133,14 +133,13 @@ const firebaseConfig = {
 
         // Firebase 구성
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
+            apiKey: "AIzaSyCb6xetNmUryJB44czwe9BrQPwYaSee7Rs",
+            authDomain: "sedai-firebase.firebaseapp.com",
+            databaseURL: "https://sedai-firebase-default-rtdb.firebaseio.com",
+            projectId: "sedai-firebase",
+            storageBucket: "sedai-firebase.firebasestorage.app",
+            messagingSenderId: "275784781126",
+            appId: "1:275784781126:web:91b75808d32ec3fa28a947"
         };
 
         // Firebase 초기화
@@ -180,13 +179,13 @@ const firebaseConfig = {
     import { getDatabase, ref, set, get, child, onValue } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js';
 
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT.firebaseapp.com",
-        databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyCb6xetNmUryJB44czwe9BrQPwYaSee7Rs",
+        authDomain: "sedai-firebase.firebaseapp.com",
+        databaseURL: "https://sedai-firebase-default-rtdb.firebaseio.com",
+        projectId: "sedai-firebase",
+        storageBucket: "sedai-firebase.firebasestorage.app",
+        messagingSenderId: "275784781126",
+        appId: "1:275784781126:web:91b75808d32ec3fa28a947"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -309,7 +308,15 @@ service cloud.firestore {
         onAuthStateChanged
     } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
 
-    const firebaseConfig = { /* 구성 정보 */ };
+    const firebaseConfig = {
+        apiKey: "AIzaSyCb6xetNmUryJB44czwe9BrQPwYaSee7Rs",
+        authDomain: "sedai-firebase.firebaseapp.com",
+        databaseURL: "https://sedai-firebase-default-rtdb.firebaseio.com",
+        projectId: "sedai-firebase",
+        storageBucket: "sedai-firebase.firebasestorage.app",
+        messagingSenderId: "275784781126",
+        appId: "1:275784781126:web:91b75808d32ec3fa28a947"
+    };
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
@@ -379,7 +386,15 @@ service cloud.firestore {
         getDocs
     } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js';
 
-    const firebaseConfig = { /* 구성 정보 */ };
+    const firebaseConfig = {
+        apiKey: "AIzaSyCb6xetNmUryJB44czwe9BrQPwYaSee7Rs",
+        authDomain: "sedai-firebase.firebaseapp.com",
+        databaseURL: "https://sedai-firebase-default-rtdb.firebaseio.com",
+        projectId: "sedai-firebase",
+        storageBucket: "sedai-firebase.firebasestorage.app",
+        messagingSenderId: "275784781126",
+        appId: "1:275784781126:web:91b75808d32ec3fa28a947"
+    };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
@@ -450,7 +465,15 @@ service cloud.firestore {
         deleteObject
     } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js';
 
-    const firebaseConfig = { /* 구성 정보 */ };
+    const firebaseConfig = {
+        apiKey: "AIzaSyCb6xetNmUryJB44czwe9BrQPwYaSee7Rs",
+        authDomain: "sedai-firebase.firebaseapp.com",
+        databaseURL: "https://sedai-firebase-default-rtdb.firebaseio.com",
+        projectId: "sedai-firebase",
+        storageBucket: "sedai-firebase.firebasestorage.app",
+        messagingSenderId: "275784781126",
+        appId: "1:275784781126:web:91b75808d32ec3fa28a947"
+    };
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
 

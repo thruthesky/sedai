@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Random Repository Data - SEDAI Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        :root {
+            --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .log-container {
+            background: #f8f9fa;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-left: 3px solid transparent;
+        }
+
+        .log-entry.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+
+        .log-entry.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .log-entry.info {
+            border-left-color: #17a2b8;
+            background: #d1ecf1;
+        }
+
+        .stats-card {
+            background: var(--sedai-gradient);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .btn-generate {
+            background: var(--sedai-gradient);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+
+        .btn-generate:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-4">
+            <h1 class="display-5 fw-bold text-white mb-2">SEDAI Test Data Generator</h1>
+            <p class="text-white-50">Generate random repository data for testing purposes</p>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <div class="stats-number" id="generated-count">0</div>
+                    <div class="small">Generated</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <div class="stats-number" id="success-count">0</div>
+                    <div class="small">Success</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <div class="stats-number" id="error-count">0</div>
+                    <div class="small">Errors</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Generate Settings</h2>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="count-input" class="form-label">Number of Repositories</label>
+                        <input type="number" class="form-control" id="count-input" value="5" min="1" max="50">
+                        <div class="form-text">Maximum 50 repositories at once</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="delay-input" class="form-label">Delay (ms)</label>
+                        <input type="number" class="form-control" id="delay-input" value="500" min="0" max="5000" step="100">
+                        <div class="form-text">Delay between each generation</div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button id="generate-button" class="btn btn-generate btn-lg">
+                        Generate Random Data
+                    </button>
+                    <button id="clear-button" class="btn btn-outline-danger">
+                        Clear All Logs
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Generation Log</h2>
+                <div id="log-container" class="log-container"></div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="../spec-repositories.html" class="btn btn-outline-light">
+                View Repositories
+            </a>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
+        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
+        import {
+            getDatabase,
+            ref,
+            set,
+            push,
+            update,
+            runTransaction
+        } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js';
+
+        // Firebase $
+        const firebaseConfig = {
+            apiKey: "AIzaSyCb6xetNmUryJB44czwe9BrQPwYaSee7Rs",
+            authDomain: "sedai-firebase.firebaseapp.com",
+            databaseURL: "https://sedai-firebase-default-rtdb.firebaseio.com",
+            projectId: "sedai-firebase",
+            storageBucket: "sedai-firebase.firebasestorage.app",
+            messagingSenderId: "275784781126",
+            appId: "1:275784781126:web:91b75808d32ec3fa28a947"
+        };
+
+        // Firebase 0T
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // ��
+        let stats = {
+            generated: 0,
+            success: 0,
+            error: 0
+        };
+
+        // �d pt0 \�
+        const SPEC_NAMES = [
+            'React Component Library',
+            'TypeScript API Framework',
+            'Python Data Pipeline',
+            'Go Microservice Architecture',
+            'Vue.js Dashboard Template',
+            'Node.js REST API',
+            'Django Web Application',
+            'Flutter Mobile App',
+            'Angular Enterprise System',
+            'Spring Boot Microservices',
+            'Express.js Backend',
+            'FastAPI Machine Learning API',
+            'Next.js Full Stack App',
+            'Laravel PHP Framework',
+            'Ruby on Rails Application',
+            'ASP.NET Core Web API',
+            'Svelte UI Components',
+            'Rust CLI Tool',
+            'Kotlin Android App',
+            'Swift iOS Application'
+        ];
+
+        const DESCRIPTIONS = [
+            'A comprehensive specification for building scalable and maintainable applications following SED methodology.',
+            'Complete implementation blueprint with detailed API endpoints, database schemas, and testing strategies.',
+            'Production-ready specification covering authentication, authorization, and data validation patterns.',
+            'Detailed architectural design with microservices patterns, event-driven architecture, and deployment strategies.',
+            'Full-stack development guide with frontend components, backend services, and database design specifications.',
+            'Enterprise-grade specification including security best practices, performance optimization, and monitoring.',
+            'Modern development specification with CI/CD pipelines, containerization, and cloud deployment guidelines.',
+            'Comprehensive testing specification covering unit tests, integration tests, and end-to-end testing scenarios.',
+            'Scalable system design with load balancing, caching strategies, and database optimization techniques.',
+            'Complete API specification with request/response formats, error handling, and rate limiting strategies.'
+        ];
+
+        const AUTHORS = [
+            'Alice Johnson',
+            'Bob Smith',
+            'Charlie Brown',
+            'Diana Prince',
+            'Ethan Hunt',
+            'Fiona Gallagher',
+            'George Wilson',
+            'Hannah Montana',
+            'Isaac Newton',
+            'Julia Roberts',
+            'Kevin Hart',
+            'Laura Palmer',
+            'Michael Scott',
+            'Nancy Drew',
+            'Oliver Twist',
+            'Patricia Taylor',
+            'Quinn Fabray',
+            'Rachel Green',
+            'Steve Rogers',
+            'Tony Stark'
+        ];
+
+        const LICENSES = [
+            'SED 1.0',
+            'MIT',
+            'Apache-2.0',
+            'GPL-3.0',
+            'BSD-3-Clause',
+            'ISC',
+            'MPL-2.0',
+            'LGPL-3.0',
+            'CC-BY-4.0',
+            'Unlicense'
+        ];
+
+        const GITHUB_REPOS = [
+            'awesome-project',
+            'spec-library',
+            'dev-blueprint',
+            'architecture-specs',
+            'implementation-guide',
+            'system-design',
+            'api-specification',
+            'framework-docs',
+            'service-templates',
+            'app-blueprints'
+        ];
+
+        const DOMAINS = [
+            'github.com',
+            'gitlab.com',
+            'bitbucket.org'
+        ];
+
+        /**
+         * �d ��  �
+         */
+        function randomChoice(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        /**
+         * SHA-256 t� �1
+         */
+        async function hashSha256(input) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return `sha256:${hashHex}`;
+        }
+
+        /**
+         * �d Repository pt0 �1
+         */
+        async function generateRandomRepository() {
+            const now = Date.now();
+            const repositoryId = `repo-${new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14)}-${Math.random().toString(36).slice(2, 8)}`;
+
+            const name = randomChoice(SPEC_NAMES);
+            const author = randomChoice(AUTHORS);
+            const license = randomChoice(LICENSES);
+            const domain = randomChoice(DOMAINS);
+            const repo = randomChoice(GITHUB_REPOS);
+            const username = author.toLowerCase().replace(/\s+/g, '-');
+
+            const specsUrl = `https://${domain}/${username}/${repo}`;
+            const email = `${username}@example.com`;
+            const homepage = Math.random() > 0.5 ? `https://${username}.dev` : null;
+            const description = randomChoice(DESCRIPTIONS) + ` Built by ${author} using ${name} patterns.`;
+
+            // URL� 8�� ��
+            const specsUrlObj = new URL(specsUrl);
+            const specsHost = specsUrlObj.hostname;
+
+            // �T t�
+            const normalizedName = name.toLowerCase().replace(/\s+/g, '-');
+
+            // t� �1
+            const emailHash = await hashSha256(email.toLowerCase());
+            const specsUrlHash = await hashSha256(specsUrl);
+
+            // License slug
+            const licenseSlug = license.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+            // L��� ��� �
+            const uid = `test-user-${Math.random().toString(36).slice(2, 11)}`;
+            const phoneNumber = `+8210${Math.floor(10000000 + Math.random() * 90000000)}`;
+
+            return {
+                repositoryId,
+                name,
+                description,
+                specsUrl,
+                specsHost,
+                author,
+                email,
+                homepage,
+                license,
+                status: 'pending',
+                reviewComment: null,
+                createdAt: now,
+                updatedAt: now,
+                createdIpHash: 'sha256:client-not-tracked',
+                uid,
+                phoneNumber,
+                test: true,
+                metadata: {
+                    normalizedName,
+                    emailHash,
+                    specsUrlHash,
+                    licenseSlug,
+                    schemaVersion: 1,
+                    score: Math.floor(Math.random() * 100)
+                }
+            };
+        }
+
+        /**
+         * Repository| RTDB�  �
+         */
+        async function saveRepositoryToRTDB(payload) {
+            const id = payload.repositoryId;
+
+            try {
+                // 1. � �\ �pt�
+                const updates = {};
+                updates[`repository/entries/${id}`] = payload;
+                updates[`repository/index/email/${payload.metadata.emailHash}/${id}`] = true;
+                updates[`repository/index/specsUrl/${payload.metadata.specsUrlHash}/${id}`] = true;
+                updates[`repository/index/license/${payload.license}/${id}`] = true;
+
+                await update(ref(db), updates);
+
+                // 2. �� �pt�
+                await runTransaction(ref(db, 'repository/stats/totals'), (current) => {
+                    const next = current ?? { all: 0, pending: 0, approved: 0, rejected: 0 };
+                    next.all = (next.all || 0) + 1;
+                    next.pending = (next.pending || 0) + 1;
+                    next.lastUpdated = Date.now();
+                    return next;
+                });
+
+                // 3. � \�
+                const auditRef = push(ref(db, `repository/audit/${id}`));
+                await set(auditRef, {
+                    auditId: auditRef.key,
+                    action: 'create',
+                    performedBy: 'test-generator',
+                    details: {
+                        fields: ['name', 'description', 'specsUrl', 'license'],
+                        source: 'random-data-generator'
+                    },
+                    at: Date.now()
+                });
+
+                return { success: true, id };
+            } catch (error) {
+                console.error('Failed to save repository:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        /**
+         * \� � 
+         */
+        function addLog(type, message) {
+            const logContainer = document.getElementById('log-container');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+
+            const timestamp = new Date().toLocaleTimeString();
+            logEntry.textContent = `[${timestamp}] ${message}`;
+
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        /**
+         * �� �pt�
+         */
+        function updateStats() {
+            document.getElementById('generated-count').textContent = stats.generated;
+            document.getElementById('success-count').textContent = stats.success;
+            document.getElementById('error-count').textContent = stats.error;
+        }
+
+        /**
+         * �� X �d pt0 �1
+         */
+        async function generateMultipleRepositories(count, delay) {
+            const generateButton = document.getElementById('generate-button');
+            generateButton.disabled = true;
+            generateButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+
+            addLog('info', `Starting generation of ${count} repositories...`);
+
+            for (let i = 0; i < count; i++) {
+                try {
+                    const payload = await generateRandomRepository();
+                    stats.generated++;
+                    updateStats();
+
+                    addLog('info', `Generated: ${payload.name} (${i + 1}/${count})`);
+
+                    const result = await saveRepositoryToRTDB(payload);
+
+                    if (result.success) {
+                        stats.success++;
+                        addLog('success', ` Saved: ${payload.name} (ID: ${result.id})`);
+                    } else {
+                        stats.error++;
+                        addLog('error', ` Failed to save: ${payload.name} - ${result.error}`);
+                    }
+
+                    updateStats();
+
+                    // t
+                    if (i < count - 1 && delay > 0) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+
+                } catch (error) {
+                    stats.error++;
+                    updateStats();
+                    addLog('error', ` Error: ${error.message}`);
+                }
+            }
+
+            addLog('info', `Completed! Generated ${stats.success}/${count} repositories successfully.`);
+
+            generateButton.disabled = false;
+            generateButton.innerHTML = 'Generate Random Data';
+        }
+
+        /**
+         * \� 0T
+         */
+        function clearLogs() {
+            document.getElementById('log-container').innerHTML = '';
+            stats = { generated: 0, success: 0, error: 0 };
+            updateStats();
+            addLog('info', 'Logs cleared.');
+        }
+
+        // t�� ��
+        document.getElementById('generate-button').addEventListener('click', async () => {
+            const count = parseInt(document.getElementById('count-input').value);
+            const delay = parseInt(document.getElementById('delay-input').value);
+
+            if (count < 1 || count > 50) {
+                addLog('error', 'Count must be between 1 and 50.');
+                return;
+            }
+
+            await generateMultipleRepositories(count, delay);
+        });
+
+        document.getElementById('clear-button').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all logs?')) {
+                clearLogs();
+            }
+        });
+
+        // u� \�x (Firebase Auth D�)
+        signInAnonymously(auth)
+            .then(() => {
+                addLog('success', 'Connected to Firebase successfully.');
+            })
+            .catch((error) => {
+                addLog('error', `Failed to connect to Firebase: ${error.message}`);
+            });
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
