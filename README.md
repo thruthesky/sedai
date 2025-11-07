@@ -106,8 +106,12 @@ SED specifications are not limited to high-level concepts like file names, route
 - **Data Structures:** Variable names, types, and data flow must be clearly defined.
 - **Control Flow:** Conditional logic, loops, and error handling paths must be specified.
 - **Complete Source Code:** Specifications include fully implemented source code for logic, functions, classes, and concepts—not just conceptual descriptions. To ensure complete AI compliance, everything is provided in executable form.
+- **Code Comments:** Documentation comments, inline comments, and JSDoc/TSDoc annotations that should appear in the source code must be specified in advance.
+- **CSS Styling:** All styling information including colors, spacing, fonts, animations, responsive breakpoints, and visual design details must be defined.
+- **User-Facing Text:** Every text string displayed to users—labels, buttons, messages, tooltips, placeholders—must be specified verbatim.
+- **Internationalization (i18n):** Translation dictionaries for all supported languages, including locale-specific formats, pluralization rules, and right-to-left (RTL) support requirements.
 
-The specification is a complete implementation blueprint that leaves no room for AI interpretation. By providing complete, executable code examples within the specification, we eliminate ambiguity and ensure the AI can follow the exact implementation pattern required.
+The specification is a complete implementation blueprint that leaves no room for AI interpretation. By providing complete, executable code examples within the specification, we eliminate ambiguity and ensure the AI can follow the exact implementation pattern required. This includes not just functional code, but also comments, styling, user interface text, and translations—everything that comprises the final product.
 
 #### Intellectual Property and Copyright
 
@@ -312,6 +316,217 @@ SED requires every function's name, purpose, parameters, location, and usage to 
 - **User Flow:** Login → Dashboard → Post List → Post Detail → Comment Creation → Notification Receipt (Figma reference: `https://figma.com/file/xxx`)
 - **Accessibility:** WCAG 2.1 Level AA, keyboard navigation, ARIA labels for screen readers
 - **Animation:** Framer Motion v11 — page transitions (fade-in 300 ms), button hover (scale 1.05 over 200 ms), modal (slide-up 250 ms)
+
+###### Code Comments, Styling, Text, and Internationalization
+
+SED specifications must include every element that appears in the final product—not just code structure, but also documentation, presentation, and language support.
+
+**Code Comments Specification**
+
+All comments that should appear in the source code must be specified in advance:
+
+- **File Headers:**
+  ```typescript
+  /**
+   * User Authentication Service
+   *
+   * Handles user login, registration, password reset, and session management.
+   * Uses bcrypt for password hashing and JWT for session tokens.
+   *
+   * @module services/auth
+   * @author Your Name
+   * @version 1.0.0
+   */
+  ```
+
+- **Function Documentation:**
+  ```typescript
+  /**
+   * Authenticates a user with email and password
+   *
+   * @param email - User's email address (must be valid format)
+   * @param password - Plain text password (will be hashed for comparison)
+   * @returns Promise resolving to JWT token and user data
+   * @throws {AuthError} When credentials are invalid
+   * @example
+   * const result = await authenticateUser('user@example.com', 'password123');
+   */
+  ```
+
+- **Inline Comments:**
+  ```typescript
+  // Verify email format before querying database to reduce unnecessary DB calls
+  if (!isValidEmail(email)) {
+    throw new ValidationError('Invalid email format');
+  }
+
+  // Use constant-time comparison to prevent timing attacks
+  const isValid = await bcrypt.compare(password, user.passwordHash);
+  ```
+
+**CSS and Styling Specification**
+
+Every visual detail must be explicitly defined:
+
+- **Component Styles:**
+  ```css
+  .button-primary {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+  }
+
+  .button-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+
+  .button-primary:active {
+    transform: scale(0.98);
+  }
+  ```
+
+- **Responsive Design:**
+  ```css
+  /* Mobile: < 768px */
+  @media (max-width: 767px) {
+    .container {
+      padding: 16px;
+      max-width: 100%;
+    }
+  }
+
+  /* Tablet: 768px - 1024px */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+      padding: 24px;
+      max-width: 720px;
+    }
+  }
+
+  /* Desktop: > 1024px */
+  @media (min-width: 1025px) {
+    .container {
+      padding: 32px;
+      max-width: 1280px;
+    }
+  }
+  ```
+
+**User-Facing Text Specification**
+
+Every text string that users see must be specified exactly as it should appear:
+
+- **Button Labels:**
+  - Primary action: "Sign In"
+  - Secondary action: "Create Account"
+  - Cancel action: "Cancel"
+  - Delete confirmation: "Delete Post"
+
+- **Form Labels and Placeholders:**
+  - Email input label: "Email Address"
+  - Email input placeholder: "Enter your email"
+  - Password input label: "Password"
+  - Password input placeholder: "Enter your password (minimum 8 characters)"
+
+- **Messages and Notifications:**
+  - Success: "Your account has been created successfully!"
+  - Error (invalid email): "Please enter a valid email address."
+  - Error (weak password): "Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters."
+  - Loading: "Processing your request..."
+  - Empty state: "No posts yet. Create your first post to get started!"
+
+- **Tooltips and Help Text:**
+  - Password requirements: "Must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters"
+  - Profile visibility: "Choose who can see your profile information"
+
+**Internationalization (i18n) Specification**
+
+For multilingual applications, specify complete translation dictionaries:
+
+- **Translation Keys and Values:**
+  ```json
+  {
+    "en": {
+      "auth.signIn": "Sign In",
+      "auth.signUp": "Create Account",
+      "auth.forgotPassword": "Forgot Password?",
+      "auth.emailLabel": "Email Address",
+      "auth.passwordLabel": "Password",
+      "auth.emailPlaceholder": "Enter your email",
+      "auth.passwordPlaceholder": "Enter your password",
+      "auth.success": "Welcome back, {username}!",
+      "auth.error.invalidCredentials": "Invalid email or password.",
+      "auth.error.weakPassword": "Password must be at least 8 characters."
+    },
+    "ko": {
+      "auth.signIn": "로그인",
+      "auth.signUp": "계정 만들기",
+      "auth.forgotPassword": "비밀번호를 잊으셨나요?",
+      "auth.emailLabel": "이메일 주소",
+      "auth.passwordLabel": "비밀번호",
+      "auth.emailPlaceholder": "이메일을 입력하세요",
+      "auth.passwordPlaceholder": "비밀번호를 입력하세요",
+      "auth.success": "환영합니다, {username}님!",
+      "auth.error.invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다.",
+      "auth.error.weakPassword": "비밀번호는 최소 8자 이상이어야 합니다."
+    },
+    "ja": {
+      "auth.signIn": "ログイン",
+      "auth.signUp": "アカウント作成",
+      "auth.forgotPassword": "パスワードをお忘れですか？",
+      "auth.emailLabel": "メールアドレス",
+      "auth.passwordLabel": "パスワード",
+      "auth.emailPlaceholder": "メールアドレスを入力",
+      "auth.passwordPlaceholder": "パスワードを入力",
+      "auth.success": "おかえりなさい、{username}さん！",
+      "auth.error.invalidCredentials": "メールアドレスまたはパスワードが正しくありません。",
+      "auth.error.weakPassword": "パスワードは8文字以上である必要があります。"
+    }
+  }
+  ```
+
+- **Locale-Specific Formatting:**
+  - Date format (en-US): `MM/DD/YYYY` → `12/31/2025`
+  - Date format (ko-KR): `YYYY.MM.DD` → `2025.12.31`
+  - Date format (ja-JP): `YYYY年MM月DD日` → `2025年12月31日`
+  - Number format (en-US): `1,234.56`
+  - Number format (de-DE): `1.234,56`
+  - Currency (USD): `$1,234.56`
+  - Currency (KRW): `₩1,234`
+  - Currency (JPY): `¥1,234`
+
+- **RTL (Right-to-Left) Support:**
+  ```css
+  /* Arabic and Hebrew language support */
+  [dir="rtl"] .container {
+    text-align: right;
+    direction: rtl;
+  }
+
+  [dir="rtl"] .sidebar {
+    left: auto;
+    right: 0;
+  }
+  ```
+
+**Why This Level of Detail Matters**
+
+By specifying comments, styles, text, and translations in advance:
+- **Consistency:** All user-facing elements maintain uniform voice and style
+- **Localization Accuracy:** Translations are contextually appropriate and culturally sensitive
+- **Maintainability:** Future developers understand intent through comprehensive comments
+- **Reproducibility:** AI can recreate the exact look, feel, and language of the application
+- **Quality Assurance:** No ambiguity about how the final product should appear and behave
+
+*In SED, every pixel, every word, and every comment is part of the specification. Nothing is left to interpretation or assumption.*
 
 ###### Testing Specification — the Most Detailed Section
 
