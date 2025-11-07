@@ -37,7 +37,10 @@ const isDevelopment = window.location.hostname === 'localhost' ||
 if (isDevelopment) {
     // 디버그 모드 활성화 (브라우저 콘솔에 디버그 토큰 표시)
     self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    console.log('[App Check] Debug mode enabled - Check console for debug token');
+    console.log('[App Check] 🔧 Debug mode enabled - Check console for debug token');
+} else {
+    // 프로덕션 환경
+    console.log(`[App Check] 🌐 Production mode - Domain: ${window.location.hostname}`);
 }
 
 // Firebase 초기화
@@ -46,14 +49,30 @@ const app = initializeApp(firebaseConfig);
 // App Check 초기화 (반드시 다른 Firebase 서비스보다 먼저 초기화)
 let appCheck;
 try {
+    console.log('[App Check] Initializing with reCAPTCHA Enterprise...');
     appCheck = initializeAppCheck(app, {
         provider: new ReCaptchaEnterpriseProvider('6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP'),
         isTokenAutoRefreshEnabled: true // 토큰 자동 갱신 활성화
     });
-    console.log('[App Check] Initialized successfully');
+
+    if (isDevelopment) {
+        console.log('[App Check] ✅ Initialized successfully (Debug mode)');
+    } else {
+        console.log('[App Check] ✅ Initialized successfully (Production mode)');
+        console.log('[App Check] reCAPTCHA Enterprise is active');
+    }
 } catch (error) {
-    console.error('[App Check] Initialization failed:', error);
-    // App Check 실패해도 앱 실행은 계속 (개발 중에는 디버그 토큰 등록 필요)
+    console.error('[App Check] ❌ Initialization failed:', error);
+
+    if (!isDevelopment) {
+        // 프로덕션 환경에서 실패 시 도메인 설정 확인 안내
+        console.error('[App Check] 🚨 PRODUCTION ERROR: Please verify the following:');
+        console.error(`  1. Domain "${window.location.hostname}" is added to reCAPTCHA Enterprise key`);
+        console.error('  2. reCAPTCHA key: 6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP');
+        console.error('  3. Check Google Cloud Console: https://console.cloud.google.com/security/recaptcha');
+    } else {
+        console.error('[App Check] Register debug token in Firebase Console to continue');
+    }
 }
 
 // 다른 Firebase 서비스 초기화

@@ -138,6 +138,47 @@ npx http-server -p 8000
 
 ## 프로덕션 환경 테스트
 
+### ⚠️ 사전 요구사항: reCAPTCHA Enterprise 도메인 설정 (필수)
+
+프로덕션 배포 **전에 반드시** reCAPTCHA Enterprise 키에 프로덕션 도메인을 추가해야 합니다.
+
+**단계:**
+
+1. **Google Cloud Console 접속**
+   - [https://console.cloud.google.com/security/recaptcha](https://console.cloud.google.com/security/recaptcha) 접속
+   - `sedai-firebase` 프로젝트 선택
+
+2. **reCAPTCHA 키 선택**
+   - 키 목록에서 사용 중인 키 찾기
+   - 키 ID: `6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP`
+   - 키 이름 클릭하여 상세 페이지로 이동
+
+3. **도메인 추가**
+   - **"도메인"** 또는 **"Domains"** 섹션 찾기
+   - **"도메인 추가"** 또는 **"Add domain"** 클릭
+   - 프로덕션 도메인 입력:
+     - `sedai.dev` (메인 도메인)
+     - `www.sedai.dev` (www 서브도메인 사용 시)
+   - **주의**: 프로토콜(https://)이나 경로(/)는 포함하지 않음
+   - **저장** 클릭
+
+4. **개발 환경 도메인도 추가 (선택사항)**
+   - `localhost` (로컬 개발용)
+   - 스테이징 도메인 (있는 경우)
+
+5. **설정 확인**
+   - 도메인 목록에 다음이 포함되어 있는지 확인:
+     ```
+     ✓ sedai.dev
+     ✓ www.sedai.dev (선택)
+     ✓ localhost
+     ```
+
+**중요 참고사항:**
+- 도메인 설정 없이 배포하면 "Missing appcheck token" 에러 발생
+- 도메인 추가 후 즉시 적용됨 (별도 배포 불필요)
+- 여러 도메인 추가 가능 (개발/스테이징/프로덕션 모두 허용)
+
 ### 단계 1: 프로덕션 배포
 
 프로덕션 도메인에 배포합니다. HTTPS가 필수입니다.
@@ -239,7 +280,59 @@ firebase deploy --only hosting
 
 ## 에러 시나리오 및 해결 방법
 
-### 에러 1: "App Check token is invalid"
+### 에러 0: "Missing appcheck token" (프로덕션 환경)
+
+**증상:**
+```
+FIREBASE WARNING: Missing appcheck token (https://sedai-firebase-default-rtdb.firebaseio.com/)
+```
+
+또는 브라우저 콘솔에:
+```
+[App Check] ❌ Initialization failed
+[App Check] 🚨 PRODUCTION ERROR: Please verify the following:
+  1. Domain "sedai.dev" is added to reCAPTCHA Enterprise key
+  2. reCAPTCHA key: 6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP
+  3. Check Google Cloud Console: https://console.cloud.google.com/security/recaptcha
+```
+
+**원인:**
+- **프로덕션 도메인이 reCAPTCHA Enterprise 키에 등록되지 않음** (가장 흔한 원인)
+- reCAPTCHA Enterprise API가 비활성화됨
+- 잘못된 사이트 키 사용
+
+**해결 방법:**
+
+1. **Google Cloud Console에서 도메인 추가 (필수)**
+   - [https://console.cloud.google.com/security/recaptcha](https://console.cloud.google.com/security/recaptcha) 접속
+   - 프로젝트 `sedai-firebase` 선택
+   - 키 `6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP` 클릭
+   - "도메인" 섹션에서 **"도메인 추가"** 클릭
+   - `sedai.dev` 입력 (프로토콜 제외)
+   - 저장
+
+2. **reCAPTCHA Enterprise API 활성화 확인**
+   - [https://console.cloud.google.com/apis/library/recaptchaenterprise.googleapis.com](https://console.cloud.google.com/apis/library/recaptchaenterprise.googleapis.com)
+   - "사용 설정" 또는 "ENABLE" 버튼 확인
+   - 이미 활성화되어 있으면 "API 사용 설정됨" 표시
+
+3. **브라우저 캐시 삭제 및 새로고침**
+   - Cmd+Shift+R (Mac) / Ctrl+Shift+F5 (Windows)
+   - 또는 시크릿 모드에서 테스트
+
+4. **확인**
+   - 브라우저 콘솔에서 성공 메시지 확인:
+     ```
+     [App Check] 🌐 Production mode - Domain: sedai.dev
+     [App Check] ✅ Initialized successfully (Production mode)
+     [App Check] reCAPTCHA Enterprise is active
+     ```
+
+**참고:**
+- 위 "프로덕션 환경 테스트 > 사전 요구사항" 섹션 참조
+- 도메인 추가 후 즉시 적용됨 (별도 배포 불필요)
+
+### 에러 1: "App Check token is invalid" (개발 환경)
 
 **증상:**
 ```

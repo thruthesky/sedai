@@ -497,28 +497,63 @@ npm run dev
 
 로컬 개발 환경에서 Firebase App Check를 사용하려면 디버그 토큰이 필요합니다.
 
-### 디버그 토큰 생성 및 등록
+### 디버그 토큰 자동 생성
 
-1. **자동 생성 방식 (권장):**
-   - `spec-repositories.js` 및 `auth.js`에 이미 디버그 모드가 구현되어 있습니다
-   - `localhost` 또는 `127.0.0.1`에서 실행 시 자동 활성화
-   - 브라우저 콘솔에 디버그 토큰 표시:
-     ```
-     [App Check] Debug mode enabled - Check console for debug token
-     Firebase App Check debug token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-     ```
+`spec-repositories.js` 및 `auth.js`에 이미 디버그 모드가 구현되어 있습니다:
 
-2. **Firebase Console에 등록:**
-   - Firebase Console > App Check > Debug tokens
-   - "Add debug token" 클릭
-   - 콘솔에 표시된 토큰 붙여넣기
-   - 저장
+- `localhost` 또는 `127.0.0.1`에서 실행 시 자동 활성화
+- 브라우저 콘솔에 디버그 토큰 자동 표시:
+  ```
+  [App Check] Debug mode enabled - Check console for debug token
+  Firebase App Check debug token: 19c97634-f808-4fd9-99a8-e5135ce88f5e
+  ```
 
-3. **확인:**
-   - 페이지 새로고침
-   - Firebase 요청이 정상적으로 작동하는지 확인
+### Firebase Console에 Debug Token 등록 (필수)
 
-**참고 문서:**
+생성된 debug token은 Firebase Console에 등록해야 합니다. 등록하지 않으면 403 Forbidden 에러가 발생합니다.
+
+**단계 1: Firebase Console 접속**
+1. [https://console.firebase.google.com](https://console.firebase.google.com) 접속
+2. `sedai-firebase` 프로젝트 선택
+
+**단계 2: App Check 설정 페이지로 이동**
+1. 왼쪽 사이드바에서 **"빌드"** (Build) 섹션 찾기
+2. **"App Check"** 클릭
+
+**단계 3: Debug Token 등록**
+1. **"앱"** 탭에서 웹 앱 확인
+   - 앱 ID: `1:275784781126:web:91b75808d32ec3fa28a947`
+2. 페이지 상단 또는 앱 설정에서 **"Debug tokens"** 섹션 찾기
+3. **"Add debug token"** 또는 **"디버그 토큰 추가"** 버튼 클릭
+4. 토큰 입력란에 브라우저 콘솔에 표시된 토큰 붙여넣기
+   - 예: `19c97634-f808-4fd9-99a8-e5135ce88f5e`
+5. 토큰 이름(선택 사항) 입력:
+   - 권장: `Local Development - [사용자명]` 또는 `localhost-token`
+6. **"저장"** 또는 **"Save"** 클릭
+
+**단계 4: 브라우저에서 확인**
+1. 브라우저로 돌아가기 (`http://localhost:8000`)
+2. 페이지 새로고침 (F5 또는 Cmd+R)
+3. 브라우저 개발자 콘솔 확인
+
+**예상되는 성공 메시지:**
+```
+[App Check] Initialized successfully
+[Hot Reload] ✅ Connected: <socket-id>
+```
+
+403 에러 없이 Firebase App Check가 정상적으로 작동합니다.
+
+### Debug Token 관련 참고사항
+
+- **환경 제한**: Debug token은 개발 환경에서만 작동 (localhost, 127.0.0.1)
+- **프로덕션**: 프로덕션 환경에서는 실제 reCAPTCHA Enterprise 검증 사용
+- **팀 작업**: 여러 개발자가 작업하는 경우, 각자의 debug token을 개별적으로 등록해야 함
+- **만료**: Debug token은 만료되지 않으므로 한 번만 등록하면 됨
+- **보안**: Debug token은 개발 환경에서만 사용되므로 보안 위험 없음
+
+### 추가 참고 문서
+
 - `sedaiweb-firebase-security.md`: App Check 구현 명세
 - `sedaiweb-firebase-security-testing.md`: 상세 테스트 가이드
 
@@ -564,13 +599,49 @@ PORT=8001 npm run dev
 "dev": "PORT=8001 node server.js"
 ```
 
-### 문제 5: Firebase App Check 에러
+### 문제 5: Firebase App Check 403 Forbidden 에러
 
-**원인:** 디버그 토큰이 등록되지 않음
+**증상:**
+```
+App Check debug token: 19c97634-f808-4fd9-99a8-e5135ce88f5e. You will need to add it to your app's App Check settings in the Firebase console for it to work.
 
-**해결:**
+POST https://content-firebaseappcheck.googleapis.com/v1/projects/sedai-firebase/apps/.../exchangeDebugToken 403 (Forbidden)
+
+[FIREBASE WARNING: Invalid appcheck token]
+```
+
+**원인:**
+- Debug token이 자동으로 생성되었지만 Firebase Console에 등록되지 않음
+- Firebase는 등록되지 않은 debug token을 거부
+
+**해결 방법:**
+
+1. **브라우저 콘솔에서 debug token 확인**
+   ```
+   Firebase App Check debug token: 19c97634-f808-4fd9-99a8-e5135ce88f5e
+   ```
+
+2. **Firebase Console에 토큰 등록**
+   - [https://console.firebase.google.com](https://console.firebase.google.com) 접속
+   - `sedai-firebase` 프로젝트 선택
+   - 좌측 메뉴: **빌드 > App Check**
+   - 웹 앱에서 **"Debug tokens"** 섹션 찾기
+   - **"Add debug token"** 클릭
+   - 토큰 붙여넣기: `19c97634-f808-4fd9-99a8-e5135ce88f5e`
+   - **저장**
+
+3. **브라우저 새로고침**
+   - `http://localhost:8000` 페이지 새로고침
+   - 콘솔에서 성공 메시지 확인:
+     ```
+     [App Check] Initialized successfully
+     ```
+
+**추가 참고:**
+- 위 섹션 "Firebase App Check 디버그 토큰 사용" 참조
 - `sedaiweb-firebase-security-testing.md` 참조
-- 디버그 토큰을 Firebase Console에 등록
+- Debug token은 개발자별로 개별 등록 필요
+- 한 번 등록하면 만료되지 않음
 
 ## 검증 체크리스트
 
