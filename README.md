@@ -62,6 +62,21 @@ spec validate <file>
 spec score <file>
 ```
 
+## Community & Sharing
+
+**Homepage:** [https://sedai.dev](https://sedai.dev)
+**Spec Repository Collection:** [https://sedai.dev/spec-repositories](https://sedai.dev/spec-repositories)
+
+Anyone can write their specifications in SED format, publish them online, and share them with the community. We encourage everyone to participate and contribute their specifications!
+
+To share your specifications:
+1. Write your specification following the SED format
+2. Publish it in a public repository (GitHub, GitLab, or your own server)
+3. Register it at [https://sedai.dev/spec-repositories](https://sedai.dev/spec-repositories)
+4. Help build the growing collection of reusable specifications
+
+Your contributions help the entire SED community by providing proven, reusable specifications that others can learn from and build upon.
+
 ---
 
 ## Spec-Exact Development (SED) Manifesto
