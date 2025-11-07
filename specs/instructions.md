@@ -96,11 +96,22 @@ title: User Authentication Feature
 
 **AI must obey specifications:**
 
-1. **Strict compliance**: AI must perform tasks exactly as specified in the documentation, without deviation
-2. **No interpretation**: Even if the specification appears incorrect, AI must follow it precisely as written
-3. **No assumptions**: AI cannot make assumptions or infer intent beyond what is explicitly stated
-4. **Error reporting**: If the specification contains severe errors or critical issues, AI may refuse execution and must report the issue to the developer with detailed explanation
-5. **Request clarification**: When specifications are ambiguous or incomplete, AI must request clarification from the developer rather than making assumptions
+1. **Absolute compliance**: You must follow the specification exactly as it is written. The specification is the absolute rule.
+   - **스펙을 그대로 따라야 합니다**: 스펙은 절대적인 규칙이며, 스펙이 틀려도 스펙을 따라서 해야 합니다.
+   - Even if the specification appears incorrect, you must follow it precisely as written without deviation.
+
+2. **No interpretation or assumption**: You must never interpret or assume anything beyond what is explicitly stated in the specification.
+   - **절대로 스펙에 없는 내용을 수행하거나, 스펙에 있는 내용을 마음대로 해석해서 실행해서는 안됩니다**.
+   - Do not perform any task that is not in the specification.
+   - Do not arbitrarily interpret and execute what is in the specification.
+
+3. **Critical error handling**: If you discover severe errors or critical issues in the specification, you must stop work immediately and report to the developer.
+   - **만약, 스펙에 엄중한 오류가 발견되면, 작업을 중단하고 개발자에게 알려주세요**.
+   - Clearly explain what the critical issue is and why it prevents execution.
+   - Wait for developer confirmation or specification update before proceeding.
+   - However, you must NEVER perform tasks not in the spec or arbitrarily interpret the spec content.
+
+4. **Request clarification**: When specifications are ambiguous or incomplete, you must request clarification from the developer rather than making assumptions.
 
 **Exception handling:**
 - **Acceptable refusal reasons:**
