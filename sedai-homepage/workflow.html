@@ -11,348 +11,512 @@
             --bs-primary: #6366F1;
             --bs-secondary: #8B5CF6;
             --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            --sidebar-width: 280px;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; }
-        .navbar { background: var(--sedai-gradient) !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; }
-        .page-header { background: var(--sedai-gradient); color: white; padding: 4rem 0 3rem; }
-        .phase-number { width: 70px; height: 70px; background: var(--sedai-gradient); border-radius: 50%;
-                        display: inline-flex; align-items: center; justify-content: center; color: white;
-                        font-size: 1.75rem; font-weight: bold; }
-        .workflow-connector { border-left: 3px solid #6366F1; margin-left: 35px; height: 40px; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--sedai-gradient);
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-brand {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-brand:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav-item {
+            margin: 0;
+        }
+
+        .sidebar-nav-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left-color: white;
+            font-weight: 600;
+        }
+
+        /* 모바일 토글 버튼 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1050;
+            padding: 0.5rem 0.75rem;
+            background: var(--sedai-gradient);
+            border: none;
+            border-radius: 0.375rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 모바일 Offcanvas 사이드바 */
+        .offcanvas-sidebar {
+            background: var(--sedai-gradient);
+            color: white;
+            width: var(--sidebar-width);
+        }
+
+        .offcanvas-sidebar .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .offcanvas-sidebar .sidebar-brand {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        .page-header {
+            background: var(--sedai-gradient);
+            color: white;
+            padding: 4rem 0 3rem;
+        }
+
+        .phase-number {
+            width: 70px;
+            height: 70px;
+            background: var(--sedai-gradient);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.75rem;
+            font-weight: bold;
+        }
+
+        .workflow-connector {
+            border-left: 3px solid #6366F1;
+            margin-left: 35px;
+            height: 40px;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">SEDAI</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="what-is-sed.html">What is SED?</a></li>
-                    <li class="nav-item"><a class="nav-link" href="principles.html">Principles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="getting-started.html">Getting Started</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="workflow.html">Workflow</a></li>
-                    <li class="nav-item"><a class="nav-link" href="philosophy.html">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="examples.html">Examples</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+    <!-- 모바일 토글 버튼 -->
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+
+    <!-- 데스크톱 사이드바 -->
+    <aside class="sidebar d-none d-lg-block">
+        <a href="index.html" class="sidebar-brand">SEDAI</a>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="workflow.html">Workflow</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 모바일 Offcanvas 사이드바 -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="sidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="workflow.html">Workflow</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
                 </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <header class="page-header text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">SED Development Workflow</h1>
+                <p class="lead fs-5">A systematic approach from specification to production</p>
             </div>
-        </div>
-    </nav>
+        </header>
 
-    <header class="page-header text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3">SED Development Workflow</h1>
-            <p class="lead fs-5">A systematic approach from specification to production</p>
-        </div>
-    </header>
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
 
-    <section class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
+                        <div class="text-center mb-5">
+                            <p class="lead">
+                                SED follows a structured workflow with distinct phases, each with clear objectives and deliverables.
+                                This ensures consistency, quality, and predictability throughout the development lifecycle.
+                            </p>
+                        </div>
 
-                    <div class="text-center mb-5">
-                        <p class="lead">
-                            SED follows a structured workflow with distinct phases, each with clear objectives and deliverables.
-                            This ensures consistency, quality, and predictability throughout the development lifecycle.
-                        </p>
-                    </div>
+                        <!-- Phase 1: Preparation -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="phase-number me-4">1</div>
+                                <div class="flex-grow-1">
+                                    <h2 class="h3 text-primary mb-3">Preparation Phase</h2>
+                                    <p class="lead">Craft complete, detailed specifications before development begins.</p>
 
-                    <!-- Phase 1: Preparation -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="phase-number me-4">1</div>
-                            <div class="flex-grow-1">
-                                <h2 class="h3 text-primary mb-3">Preparation Phase</h2>
-                                <p class="lead">Craft complete, detailed specifications before development begins.</p>
+                                    <h3 class="h5 mt-4 mb-3">Key Activities:</h3>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">
+                                            <strong>Write Specification Storylines:</strong> Draft an overall storyline describing the complete product flow and detailed storylines for each feature (at least 100 items each)
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Create Detailed Specifications:</strong> Convert every storyline item into blueprint-level detail, including:
+                                            <ul class="mt-2">
+                                                <li>Database design (tables, fields, indexes, foreign keys)</li>
+                                                <li>API endpoints and routing specifications</li>
+                                                <li>Function names, parameters, and return values</li>
+                                                <li>UI/UX requirements with exact measurements and colors</li>
+                                                <li>Complete testing specifications</li>
+                                            </ul>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Validate Specifications:</strong> AI analyzes and scores specifications from 0-100
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Achieve Minimum Score:</strong> Specifications must score <strong>90 or higher</strong> before development can proceed
+                                        </li>
+                                    </ul>
 
-                                <h3 class="h5 mt-4 mb-3">Key Activities:</h3>
-                                <ul class="list-group list-group-flush mb-3">
-                                    <li class="list-group-item">
-                                        <strong>Write Specification Storylines:</strong> Draft an overall storyline describing the complete product flow and detailed storylines for each feature (at least 100 items each)
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Create Detailed Specifications:</strong> Convert every storyline item into blueprint-level detail, including:
-                                        <ul class="mt-2">
-                                            <li>Database design (tables, fields, indexes, foreign keys)</li>
-                                            <li>API endpoints and routing specifications</li>
-                                            <li>Function names, parameters, and return values</li>
-                                            <li>UI/UX requirements with exact measurements and colors</li>
-                                            <li>Complete testing specifications</li>
-                                        </ul>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Validate Specifications:</strong> AI analyzes and scores specifications from 0-100
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Achieve Minimum Score:</strong> Specifications must score <strong>90 or higher</strong> before development can proceed
-                                    </li>
-                                </ul>
-
-                                <div class="alert alert-warning" role="alert">
-                                    <strong>Critical Requirement:</strong> If the specification score is below 90, development cannot proceed. Identify deficient sections and revise specifications until the score reaches the required threshold.
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Critical Requirement:</strong> If the specification score is below 90, development cannot proceed. Identify deficient sections and revise specifications until the score reaches the required threshold.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="workflow-connector"></div>
+                        <div class="workflow-connector"></div>
 
-                    <!-- Phase 2: Validation -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="phase-number me-4">2</div>
-                            <div class="flex-grow-1">
-                                <h2 class="h3 text-primary mb-3">Validation Phase</h2>
-                                <p class="lead">Ensure specifications are complete, consistent, and ready for implementation.</p>
+                        <!-- Phase 2: Validation -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="phase-number me-4">2</div>
+                                <div class="flex-grow-1">
+                                    <h2 class="h3 text-primary mb-3">Validation Phase</h2>
+                                    <p class="lead">Ensure specifications are complete, consistent, and ready for implementation.</p>
 
-                                <h3 class="h5 mt-4 mb-3">Validation Criteria:</h3>
-                                <ul class="list-group list-group-flush mb-3">
-                                    <li class="list-group-item">
-                                        <strong>Database Design:</strong> All tables, relationships, and constraints are fully specified
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Business Logic:</strong> Every function, parameter, and workflow is documented
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>UI/UX Requirements:</strong> Complete design specifications with all visual details
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Testing Plan:</strong> Unit tests, integration tests, and E2E test scenarios are defined
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Deployment Environment:</strong> Infrastructure, hosting, and operational requirements are specified
-                                    </li>
-                                </ul>
+                                    <h3 class="h5 mt-4 mb-3">Validation Criteria:</h3>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">
+                                            <strong>Database Design:</strong> All tables, relationships, and constraints are fully specified
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Business Logic:</strong> Every function, parameter, and workflow is documented
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>UI/UX Requirements:</strong> Complete design specifications with all visual details
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Testing Plan:</strong> Unit tests, integration tests, and E2E test scenarios are defined
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Deployment Environment:</strong> Infrastructure, hosting, and operational requirements are specified
+                                        </li>
+                                    </ul>
 
-                                <div class="card bg-light border-primary">
-                                    <div class="card-body">
-                                        <h4 class="h6 text-primary mb-2">Spec Completeness Score Example</h4>
-                                        <p class="mb-2 small">When specifications are insufficient, AI returns a Spec Error:</p>
-                                        <pre class="bg-white p-3 border rounded mb-0"><code>SpecError: Insufficient specification to execute.
+                                    <div class="card bg-light border-primary">
+                                        <div class="card-body">
+                                            <h4 class="h6 text-primary mb-2">Spec Completeness Score Example</h4>
+                                            <p class="mb-2 small">When specifications are insufficient, AI returns a Spec Error:</p>
+                                            <pre class="bg-white p-3 border rounded mb-0"><code>SpecError: Insufficient specification to execute.
 Reason: Database schema, authentication flow, or encryption detail missing.
 Required Spec Score: ≥90
 Current Score: 42</code></pre>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="workflow-connector"></div>
+                        <div class="workflow-connector"></div>
 
-                    <!-- Phase 3: Execution -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="phase-number me-4">3</div>
-                            <div class="flex-grow-1">
-                                <h2 class="h3 text-primary mb-3">Execution Phase</h2>
-                                <p class="lead">AI implements precisely what the specification dictates—nothing more, nothing less.</p>
+                        <!-- Phase 3: Execution -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="phase-number me-4">3</div>
+                                <div class="flex-grow-1">
+                                    <h2 class="h3 text-primary mb-3">Execution Phase</h2>
+                                    <p class="lead">AI implements precisely what the specification dictates—nothing more, nothing less.</p>
 
-                                <h3 class="h5 mt-4 mb-3">Implementation Rules:</h3>
-                                <ul class="list-group list-group-flush mb-3">
-                                    <li class="list-group-item">
-                                        <strong>Strict Compliance:</strong> AI executes exactly what is written in the specification
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>No Interpretation:</strong> AI does not infer intent or make assumptions
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>No Improvisation:</strong> Anything outside the specification is ignored
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Spec Synchronization:</strong> If humans intervene, those adjustments must be captured as updated specifications
-                                    </li>
-                                </ul>
+                                    <h3 class="h5 mt-4 mb-3">Implementation Rules:</h3>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">
+                                            <strong>Strict Compliance:</strong> AI executes exactly what is written in the specification
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>No Interpretation:</strong> AI does not infer intent or make assumptions
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>No Improvisation:</strong> Anything outside the specification is ignored
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Spec Synchronization:</strong> If humans intervene, those adjustments must be captured as updated specifications
+                                        </li>
+                                    </ul>
 
-                                <div class="alert alert-info" role="alert">
-                                    <strong>Key Principle:</strong> In SED, "code changes" and "spec updates" are inseparable. Every modification begins with updating the specification.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="workflow-connector"></div>
-
-                    <!-- Phase 4: Verification -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="phase-number me-4">4</div>
-                            <div class="flex-grow-1">
-                                <h2 class="h3 text-primary mb-3">Verification Phase</h2>
-                                <p class="lead">Automated testing validates implementation against specifications.</p>
-
-                                <h3 class="h5 mt-4 mb-3">Verification Process:</h3>
-                                <ul class="list-group list-group-flush mb-3">
-                                    <li class="list-group-item">
-                                        <strong>Test Case Derivation:</strong> Test cases and expected outcomes are derived directly from the specification
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Automated Testing:</strong> Unit tests, integration tests, and E2E tests run automatically
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Spec Matching:</strong> Every feature is evaluated by the question: "Does it match the specification?"
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Error Reporting:</strong> If verification fails, AI reports discrepancies and returns to the execution phase
-                                    </li>
-                                </ul>
-
-                                <div class="card border-success">
-                                    <div class="card-body">
-                                        <h4 class="h6 text-success mb-2">Coverage Requirements</h4>
-                                        <p class="mb-0 small">Minimum 80% code coverage across statement, branch, function, and line metrics. Tests must cover success paths, failure paths, edge cases, and error scenarios.</p>
+                                    <div class="alert alert-info" role="alert">
+                                        <strong>Key Principle:</strong> In SED, "code changes" and "spec updates" are inseparable. Every modification begins with updating the specification.
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="workflow-connector"></div>
+                        <div class="workflow-connector"></div>
 
-                    <!-- Phase 5: Deployment -->
-                    <div class="mb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="phase-number me-4">5</div>
-                            <div class="flex-grow-1">
-                                <h2 class="h3 text-primary mb-3">Deployment Phase</h2>
-                                <p class="lead">Human-supervised deployment ensures safe transition to production.</p>
+                        <!-- Phase 4: Verification -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="phase-number me-4">4</div>
+                                <div class="flex-grow-1">
+                                    <h2 class="h3 text-primary mb-3">Verification Phase</h2>
+                                    <p class="lead">Automated testing validates implementation against specifications.</p>
 
-                                <h3 class="h5 mt-4 mb-3">Deployment Process:</h3>
-                                <ul class="list-group list-group-flush mb-3">
-                                    <li class="list-group-item">
-                                        <strong>Human Involvement Required:</strong> AI can generate deployment scripts and configs, but humans must review and execute
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Script Generation:</strong> AI creates deployment scripts, environment configurations, and CI/CD procedures based on specifications
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Review Process:</strong> Humans review all deployment artifacts before execution
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Staged Rollout:</strong> Deploy to staging first, validate, then proceed to production
-                                    </li>
-                                </ul>
+                                    <h3 class="h5 mt-4 mb-3">Verification Process:</h3>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">
+                                            <strong>Test Case Derivation:</strong> Test cases and expected outcomes are derived directly from the specification
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Automated Testing:</strong> Unit tests, integration tests, and E2E tests run automatically
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Spec Matching:</strong> Every feature is evaluated by the question: "Does it match the specification?"
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Error Reporting:</strong> If verification fails, AI reports discrepancies and returns to the execution phase
+                                        </li>
+                                    </ul>
 
-                                <div class="alert alert-warning" role="alert">
-                                    <strong>Safety First:</strong> Human oversight during deployment prevents potential issues and ensures accountability for production changes.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="workflow-connector"></div>
-
-                    <!-- Phase 6: Operation -->
-                    <div class="mb-5 pb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="phase-number me-4">6</div>
-                            <div class="flex-grow-1">
-                                <h2 class="h3 text-primary mb-3">Operation Phase</h2>
-                                <p class="lead">Continuous monitoring, maintenance, and iterative improvements.</p>
-
-                                <h3 class="h5 mt-4 mb-3">Operational Activities:</h3>
-                                <ul class="list-group list-group-flush mb-3">
-                                    <li class="list-group-item">
-                                        <strong>Automated Monitoring:</strong> AI monitors system health, logs, and metrics according to operational specifications
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Error Reporting:</strong> AI reports issues and recommends automated fixes based on specifications
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Performance Tracking:</strong> Continuous monitoring of response times, resource usage, and user experience metrics
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Iterative Updates:</strong> When new requirements appear, follow the loop: <strong>update spec → re-evaluate score → redevelop</strong>
-                                    </li>
-                                </ul>
-
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h4 class="h6 text-primary mb-2">Continuous Improvement Loop</h4>
-                                        <p class="mb-0 small">
-                                            <span class="badge bg-primary me-2">1</span> Identify new requirement or issue →
-                                            <span class="badge bg-primary me-2">2</span> Update specification →
-                                            <span class="badge bg-primary me-2">3</span> Re-evaluate spec score →
-                                            <span class="badge bg-primary me-2">4</span> Redevelop if score ≥90 →
-                                            <span class="badge bg-primary me-2">5</span> Test and deploy
-                                        </p>
+                                    <div class="card border-success">
+                                        <div class="card-body">
+                                            <h4 class="h6 text-success mb-2">Coverage Requirements</h4>
+                                            <p class="mb-0 small">Minimum 80% code coverage across statement, branch, function, and line metrics. Tests must cover success paths, failure paths, edge cases, and error scenarios.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Summary -->
-                    <div class="card border-primary mb-5">
-                        <div class="card-header bg-primary text-white">
-                            <h3 class="h5 mb-0">Workflow Summary</h3>
+                        <div class="workflow-connector"></div>
+
+                        <!-- Phase 5: Deployment -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="phase-number me-4">5</div>
+                                <div class="flex-grow-1">
+                                    <h2 class="h3 text-primary mb-3">Deployment Phase</h2>
+                                    <p class="lead">Human-supervised deployment ensures safe transition to production.</p>
+
+                                    <h3 class="h5 mt-4 mb-3">Deployment Process:</h3>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">
+                                            <strong>Human Involvement Required:</strong> AI can generate deployment scripts and configs, but humans must review and execute
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Script Generation:</strong> AI creates deployment scripts, environment configurations, and CI/CD procedures based on specifications
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Review Process:</strong> Humans review all deployment artifacts before execution
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Staged Rollout:</strong> Deploy to staging first, validate, then proceed to production
+                                        </li>
+                                    </ul>
+
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Safety First:</strong> Human oversight during deployment prevents potential issues and ensures accountability for production changes.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <p class="mb-3">The SED workflow is designed to ensure that every step of development is traceable to specifications:</p>
-                            <ol class="mb-0">
-                                <li><strong>Preparation:</strong> Create complete specifications (score ≥90)</li>
-                                <li><strong>Validation:</strong> Verify specifications meet all criteria</li>
-                                <li><strong>Execution:</strong> AI implements exactly as specified</li>
-                                <li><strong>Verification:</strong> Automated tests validate implementation</li>
-                                <li><strong>Deployment:</strong> Human-supervised rollout to production</li>
-                                <li><strong>Operation:</strong> Monitor, maintain, and iterate with spec updates</li>
-                            </ol>
+
+                        <div class="workflow-connector"></div>
+
+                        <!-- Phase 6: Operation -->
+                        <div class="mb-5 pb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="phase-number me-4">6</div>
+                                <div class="flex-grow-1">
+                                    <h2 class="h3 text-primary mb-3">Operation Phase</h2>
+                                    <p class="lead">Continuous monitoring, maintenance, and iterative improvements.</p>
+
+                                    <h3 class="h5 mt-4 mb-3">Operational Activities:</h3>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item">
+                                            <strong>Automated Monitoring:</strong> AI monitors system health, logs, and metrics according to operational specifications
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Error Reporting:</strong> AI reports issues and recommends automated fixes based on specifications
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Performance Tracking:</strong> Continuous monitoring of response times, resource usage, and user experience metrics
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Iterative Updates:</strong> When new requirements appear, follow the loop: <strong>update spec → re-evaluate score → redevelop</strong>
+                                        </li>
+                                    </ul>
+
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h4 class="h6 text-primary mb-2">Continuous Improvement Loop</h4>
+                                            <p class="mb-0 small">
+                                                <span class="badge bg-primary me-2">1</span> Identify new requirement or issue →
+                                                <span class="badge bg-primary me-2">2</span> Update specification →
+                                                <span class="badge bg-primary me-2">3</span> Re-evaluate spec score →
+                                                <span class="badge bg-primary me-2">4</span> Redevelop if score ≥90 →
+                                                <span class="badge bg-primary me-2">5</span> Test and deploy
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="card border-primary mb-5">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">Workflow Summary</h3>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3">The SED workflow is designed to ensure that every step of development is traceable to specifications:</p>
+                                <ol class="mb-0">
+                                    <li><strong>Preparation:</strong> Create complete specifications (score ≥90)</li>
+                                    <li><strong>Validation:</strong> Verify specifications meet all criteria</li>
+                                    <li><strong>Execution:</strong> AI implements exactly as specified</li>
+                                    <li><strong>Verification:</strong> Automated tests validate implementation</li>
+                                    <li><strong>Deployment:</strong> Human-supervised rollout to production</li>
+                                    <li><strong>Operation:</strong> Monitor, maintain, and iterate with spec updates</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="getting-started.html" class="btn btn-outline-secondary">← Previous: Getting Started</a>
+                            <a href="philosophy.html" class="btn btn-primary">Next: Philosophy →</a>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="d-flex justify-content-between mt-5">
-                        <a href="getting-started.html" class="btn btn-outline-secondary">← Previous: Getting Started</a>
-                        <a href="philosophy.html" class="btn btn-primary">Next: Philosophy →</a>
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">SEDAI</h5>
+                        <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Learn</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                            <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                            <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                            <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Resources</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                            <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
-        <div class="container">
-            <div class="row g-4 mb-4">
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">SEDAI</h5>
-                    <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Learn</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
-                        <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
-                        <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
-                        <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Resources</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
-                        <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Contact</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
-                    </ul>
+                <hr class="border-secondary">
+                <div class="text-center py-3">
+                    <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
                 </div>
             </div>
-            <hr class="border-secondary">
-            <div class="text-center py-3">
-                <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>

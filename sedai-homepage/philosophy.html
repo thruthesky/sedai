@@ -11,374 +11,537 @@
             --bs-primary: #6366F1;
             --bs-secondary: #8B5CF6;
             --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            --sidebar-width: 280px;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; }
-        .navbar { background: var(--sedai-gradient) !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; }
-        .page-header { background: var(--sedai-gradient); color: white; padding: 4rem 0 3rem; }
-        .slogan-box { background: var(--sedai-gradient); color: white; padding: 2.5rem;
-                      border-radius: 0.75rem; margin: 2rem 0; text-align: center; }
-        .philosophy-table { font-size: 0.95rem; }
-        .philosophy-table th { background: #f8f9fa; font-weight: 600; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--sedai-gradient);
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-brand {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-brand:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav-item {
+            margin: 0;
+        }
+
+        .sidebar-nav-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left-color: white;
+            font-weight: 600;
+        }
+
+        /* 모바일 토글 버튼 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1050;
+            padding: 0.5rem 0.75rem;
+            background: var(--sedai-gradient);
+            border: none;
+            border-radius: 0.375rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 모바일 Offcanvas 사이드바 */
+        .offcanvas-sidebar {
+            background: var(--sedai-gradient);
+            color: white;
+            width: var(--sidebar-width);
+        }
+
+        .offcanvas-sidebar .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .offcanvas-sidebar .sidebar-brand {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        .page-header {
+            background: var(--sedai-gradient);
+            color: white;
+            padding: 4rem 0 3rem;
+        }
+
+        .slogan-box {
+            background: var(--sedai-gradient);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .philosophy-table {
+            font-size: 0.95rem;
+        }
+
+        .philosophy-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">SEDAI</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="what-is-sed.html">What is SED?</a></li>
-                    <li class="nav-item"><a class="nav-link" href="principles.html">Principles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="getting-started.html">Getting Started</a></li>
-                    <li class="nav-item"><a class="nav-link" href="workflow.html">Workflow</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="philosophy.html">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="examples.html">Examples</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+    <!-- 모바일 토글 버튼 -->
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+
+    <!-- 데스크톱 사이드바 -->
+    <aside class="sidebar d-none d-lg-block">
+        <a href="index.html" class="sidebar-brand">SEDAI</a>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="philosophy.html">Philosophy</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 모바일 Offcanvas 사이드바 -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="sidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="philosophy.html">Philosophy</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
                 </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <header class="page-header text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">Philosophy of SED</h1>
+                <p class="lead fs-5">The foundational principles that drive specification-exact development</p>
             </div>
-        </div>
-    </nav>
+        </header>
 
-    <header class="page-header text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3">Philosophy of SED</h1>
-            <p class="lead fs-5">The foundational principles that drive specification-exact development</p>
-        </div>
-    </header>
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
 
-    <section class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
+                        <!-- Core Slogans -->
+                        <div class="mb-5">
+                            <h2 class="h3 text-primary text-center mb-4">Core Slogans</h2>
 
-                    <!-- Core Slogans -->
-                    <div class="mb-5">
-                        <h2 class="h3 text-primary text-center mb-4">Core Slogans</h2>
+                            <div class="slogan-box">
+                                <p class="display-6 fw-bold mb-0">"AI does not imagine. It executes."</p>
+                            </div>
 
-                        <div class="slogan-box">
-                            <p class="display-6 fw-bold mb-0">"AI does not imagine. It executes."</p>
+                            <div class="slogan-box">
+                                <p class="display-6 fw-bold mb-0">"Spec is the contract. Spec is the code."</p>
+                            </div>
+
+                            <div class="slogan-box">
+                                <p class="display-6 fw-bold mb-0">"No assumption. No improvisation. Only implementation."</p>
+                            </div>
                         </div>
 
-                        <div class="slogan-box">
-                            <p class="display-6 fw-bold mb-0">"Spec is the contract. Spec is the code."</p>
+                        <!-- Philosophy Summary Table -->
+                        <div class="mb-5 pb-4 border-bottom">
+                            <h2 class="h3 text-primary mb-4">Philosophy Summary</h2>
+                            <p class="lead mb-4">
+                                SED redefines the relationship between developers, AI, and specifications.
+                                Here's how each aspect contributes to the methodology:
+                            </p>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered philosophy-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 25%;">Category</th>
+                                            <th>Content</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Philosophy</strong></td>
+                                            <td>Spec is the truth. Development simply executes that truth.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>AI's Role</strong></td>
+                                            <td>Makes no judgments—executes the specification without interpretation.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Developer's Role</strong></td>
+                                            <td>Devote energy to crafting complete, unambiguous specifications.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Quality Assurance</strong></td>
+                                            <td>Testing and verification are fully automated from the specification.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Deliverable Traits</strong></td>
+                                            <td>Consistent, verifiable, maintainable, and predictably high-quality.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="slogan-box">
-                            <p class="display-6 fw-bold mb-0">"No assumption. No improvisation. Only implementation."</p>
+                        <!-- Key Philosophical Principles -->
+                        <div class="mb-5 pb-4 border-bottom">
+                            <h2 class="h3 text-primary mb-4">Key Philosophical Principles</h2>
+
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-body">
+                                            <h3 class="h5 text-primary mb-3">Specification as Source of Truth</h3>
+                                            <p class="mb-3">
+                                                In SED, the specification is not mere documentation—it is the definitive blueprint
+                                                from which all development flows. The specification is both contract and code.
+                                            </p>
+                                            <ul class="mb-0">
+                                                <li>Specifications define exact implementation</li>
+                                                <li>Code is a direct manifestation of specs</li>
+                                                <li>Changes begin with spec updates</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-body">
+                                            <h3 class="h5 text-primary mb-3">Elimination of Ambiguity</h3>
+                                            <p class="mb-3">
+                                                SED eliminates all room for interpretation. Every aspect of implementation
+                                                must be explicitly defined, leaving nothing to AI inference.
+                                            </p>
+                                            <ul class="mb-0">
+                                                <li>No assumptions or guessing allowed</li>
+                                                <li>All details explicitly documented</li>
+                                                <li>Ambiguous requirements are rejected</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-body">
+                                            <h3 class="h5 text-primary mb-3">Predictable Outcomes</h3>
+                                            <p class="mb-3">
+                                                Given the same specification, AI will produce identical results every time.
+                                                This predictability is fundamental to SED's reliability.
+                                            </p>
+                                            <ul class="mb-0">
+                                                <li>Reproducible implementations</li>
+                                                <li>Consistent results across runs</li>
+                                                <li>Verifiable against specifications</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="card h-100 border-primary">
+                                        <div class="card-body">
+                                            <h3 class="h5 text-primary mb-3">Human-AI Collaboration</h3>
+                                            <p class="mb-3">
+                                                SED establishes clear boundaries: humans create specifications and make decisions,
+                                                while AI executes implementations precisely.
+                                            </p>
+                                            <ul class="mb-0">
+                                                <li>Humans provide creative direction</li>
+                                                <li>AI provides execution precision</li>
+                                                <li>Clear separation of responsibilities</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Intellectual Property -->
+                        <div class="mb-5 pb-4 border-bottom">
+                            <h2 class="h3 text-primary mb-4">Intellectual Property and Copyright</h2>
+                            <p>
+                                When development is conducted using publicly available SED specifications with AI assistance:
+                            </p>
+
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h3 class="h5 text-primary mb-2">Copyright Ownership</h3>
+                                    <p class="mb-0">
+                                        The copyright of the resulting code belongs to the <strong>specification author</strong>, not to the AI.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h3 class="h5 text-primary mb-2">Rationale</h3>
+                                    <p class="mb-0">
+                                        Since the AI strictly follows the specification without making creative decisions,
+                                        the intellectual property derives from the specification itself.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h3 class="h5 text-primary mb-2">Author Rights</h3>
+                                    <p class="mb-0">
+                                        The person who writes the specification is the creator of the work,
+                                        regardless of who or what implements it.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="mt-3 text-muted small">
+                                This principle recognizes that in SED, the specification is the true creative work,
+                                and the implementation is merely its mechanical execution.
+                            </p>
+                        </div>
+
+                        <!-- Best Practices -->
+                        <div class="mb-5 pb-4">
+                            <h2 class="h3 text-primary mb-4">Best Practices</h2>
+
+                            <div class="accordion" id="bestPracticesAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#practice1">
+                                            Start with Storylines Before Detailed Specs
+                                        </button>
+                                    </h2>
+                                    <div id="practice1" class="accordion-collapse collapse show" data-bs-parent="#bestPracticesAccordion">
+                                        <div class="accordion-body">
+                                            <p>Begin with high-level storylines that describe user journeys and feature flows. These storylines provide context and help identify what needs to be specified in detail.</p>
+                                            <p class="mb-0"><strong>Recommendation:</strong> Write at least 100 storyline items before diving into detailed specifications.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice2">
+                                            Maintain Specification-Code Synchronization
+                                        </button>
+                                    </h2>
+                                    <div id="practice2" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
+                                        <div class="accordion-body">
+                                            <p>Every code change must be reflected in specifications, and every specification update should trigger re-implementation. This synchronization ensures specifications remain the single source of truth.</p>
+                                            <p class="mb-0"><strong>Recommendation:</strong> Use version control for both code and specifications, and link commits to show traceability.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice3">
+                                            Aim for Specification Score ≥90
+                                        </button>
+                                    </h2>
+                                    <div id="practice3" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
+                                        <div class="accordion-body">
+                                            <p>Don't begin development until specifications achieve a completeness score of 90 or higher. This threshold ensures sufficient detail for precise AI implementation.</p>
+                                            <p class="mb-0"><strong>Recommendation:</strong> Use <code>spec score</code> command regularly to track specification completeness.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice4">
+                                            Document Everything That Appears in the Final Product
+                                        </button>
+                                    </h2>
+                                    <div id="practice4" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
+                                        <div class="accordion-body">
+                                            <p>Specifications must include not just code structure, but also comments, styling, user-facing text, and translations. Every pixel, word, and comment should be part of the specification.</p>
+                                            <p class="mb-0"><strong>Recommendation:</strong> Create separate specification files for code, design, text, and internationalization.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice5">
+                                            Test Specifications Are as Important as Code Specifications
+                                        </button>
+                                    </h2>
+                                    <div id="practice5" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
+                                        <div class="accordion-body">
+                                            <p>Testing specifications should be the most detailed section. Define unit tests, integration tests, E2E tests, performance criteria, and security requirements with precision.</p>
+                                            <p class="mb-0"><strong>Recommendation:</strong> Aim for minimum 80% code coverage and document all test scenarios in specifications.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice6">
+                                            Use Modular Specifications for Token Efficiency
+                                        </button>
+                                    </h2>
+                                    <div id="practice6" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
+                                        <div class="accordion-body">
+                                            <p>Break large specifications into logical modules. Provide AI with only the relevant specification fragment for each development stage to manage token budgets effectively.</p>
+                                            <p class="mb-0"><strong>Recommendation:</strong> Use the dependencies field in YAML headers to link related specifications.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-primary" role="alert">
+                            <h4 class="alert-heading">Core Message</h4>
+                            <p class="mb-0">
+                                <strong>SED transforms AI from an unpredictable interpreter into a precise implementation tool.</strong>
+                                By eliminating all ambiguity through complete, detailed specifications, we achieve consistent,
+                                reproducible, and maintainable software development.
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="workflow.html" class="btn btn-outline-secondary">← Previous: Workflow</a>
+                            <a href="examples.html" class="btn btn-primary">Next: Examples →</a>
                         </div>
                     </div>
-
-                    <!-- Philosophy Summary Table -->
-                    <div class="mb-5 pb-4 border-bottom">
-                        <h2 class="h3 text-primary mb-4">Philosophy Summary</h2>
-                        <p class="lead mb-4">
-                            SED redefines the relationship between developers, AI, and specifications.
-                            Here's how each aspect contributes to the methodology:
-                        </p>
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered philosophy-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 25%;">Category</th>
-                                        <th>Content</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Philosophy</strong></td>
-                                        <td>Spec is the truth. Development simply executes that truth.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>AI's Role</strong></td>
-                                        <td>Makes no judgments—executes the specification without interpretation.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Developer's Role</strong></td>
-                                        <td>Devote energy to crafting complete, unambiguous specifications.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Quality Assurance</strong></td>
-                                        <td>Testing and verification are fully automated from the specification.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Deliverable Traits</strong></td>
-                                        <td>Consistent, verifiable, maintainable, and predictably high-quality.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Key Philosophical Principles -->
-                    <div class="mb-5 pb-4 border-bottom">
-                        <h2 class="h3 text-primary mb-4">Key Philosophical Principles</h2>
-
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <div class="card h-100 border-primary">
-                                    <div class="card-body">
-                                        <h3 class="h5 text-primary mb-3">Specification as Source of Truth</h3>
-                                        <p class="mb-3">
-                                            In SED, the specification is not mere documentation—it is the definitive blueprint
-                                            from which all development flows. The specification is both contract and code.
-                                        </p>
-                                        <ul class="mb-0">
-                                            <li>Specifications define exact implementation</li>
-                                            <li>Code is a direct manifestation of specs</li>
-                                            <li>Changes begin with spec updates</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card h-100 border-primary">
-                                    <div class="card-body">
-                                        <h3 class="h5 text-primary mb-3">Elimination of Ambiguity</h3>
-                                        <p class="mb-3">
-                                            SED eliminates all room for interpretation. Every aspect of implementation
-                                            must be explicitly defined, leaving nothing to AI inference.
-                                        </p>
-                                        <ul class="mb-0">
-                                            <li>No assumptions or guessing allowed</li>
-                                            <li>All details explicitly documented</li>
-                                            <li>Ambiguous requirements are rejected</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card h-100 border-primary">
-                                    <div class="card-body">
-                                        <h3 class="h5 text-primary mb-3">Predictable Outcomes</h3>
-                                        <p class="mb-3">
-                                            Given the same specification, AI will produce identical results every time.
-                                            This predictability is fundamental to SED's reliability.
-                                        </p>
-                                        <ul class="mb-0">
-                                            <li>Reproducible implementations</li>
-                                            <li>Consistent results across runs</li>
-                                            <li>Verifiable against specifications</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card h-100 border-primary">
-                                    <div class="card-body">
-                                        <h3 class="h5 text-primary mb-3">Human-AI Collaboration</h3>
-                                        <p class="mb-3">
-                                            SED establishes clear boundaries: humans create specifications and make decisions,
-                                            while AI executes implementations precisely.
-                                        </p>
-                                        <ul class="mb-0">
-                                            <li>Humans provide creative direction</li>
-                                            <li>AI provides execution precision</li>
-                                            <li>Clear separation of responsibilities</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Intellectual Property -->
-                    <div class="mb-5 pb-4 border-bottom">
-                        <h2 class="h3 text-primary mb-4">Intellectual Property and Copyright</h2>
-                        <p>
-                            When development is conducted using publicly available SED specifications with AI assistance:
-                        </p>
-
-                        <div class="card bg-light mb-3">
-                            <div class="card-body">
-                                <h3 class="h5 text-primary mb-2">Copyright Ownership</h3>
-                                <p class="mb-0">
-                                    The copyright of the resulting code belongs to the <strong>specification author</strong>, not to the AI.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card bg-light mb-3">
-                            <div class="card-body">
-                                <h3 class="h5 text-primary mb-2">Rationale</h3>
-                                <p class="mb-0">
-                                    Since the AI strictly follows the specification without making creative decisions,
-                                    the intellectual property derives from the specification itself.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <h3 class="h5 text-primary mb-2">Author Rights</h3>
-                                <p class="mb-0">
-                                    The person who writes the specification is the creator of the work,
-                                    regardless of who or what implements it.
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="mt-3 text-muted small">
-                            This principle recognizes that in SED, the specification is the true creative work,
-                            and the implementation is merely its mechanical execution.
-                        </p>
-                    </div>
-
-                    <!-- Best Practices -->
-                    <div class="mb-5 pb-4">
-                        <h2 class="h3 text-primary mb-4">Best Practices</h2>
-
-                        <div class="accordion" id="bestPracticesAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#practice1">
-                                        Start with Storylines Before Detailed Specs
-                                    </button>
-                                </h2>
-                                <div id="practice1" class="accordion-collapse collapse show" data-bs-parent="#bestPracticesAccordion">
-                                    <div class="accordion-body">
-                                        <p>Begin with high-level storylines that describe user journeys and feature flows. These storylines provide context and help identify what needs to be specified in detail.</p>
-                                        <p class="mb-0"><strong>Recommendation:</strong> Write at least 100 storyline items before diving into detailed specifications.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice2">
-                                        Maintain Specification-Code Synchronization
-                                    </button>
-                                </h2>
-                                <div id="practice2" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
-                                    <div class="accordion-body">
-                                        <p>Every code change must be reflected in specifications, and every specification update should trigger re-implementation. This synchronization ensures specifications remain the single source of truth.</p>
-                                        <p class="mb-0"><strong>Recommendation:</strong> Use version control for both code and specifications, and link commits to show traceability.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice3">
-                                        Aim for Specification Score ≥90
-                                    </button>
-                                </h2>
-                                <div id="practice3" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
-                                    <div class="accordion-body">
-                                        <p>Don't begin development until specifications achieve a completeness score of 90 or higher. This threshold ensures sufficient detail for precise AI implementation.</p>
-                                        <p class="mb-0"><strong>Recommendation:</strong> Use <code>spec score</code> command regularly to track specification completeness.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice4">
-                                        Document Everything That Appears in the Final Product
-                                    </button>
-                                </h2>
-                                <div id="practice4" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
-                                    <div class="accordion-body">
-                                        <p>Specifications must include not just code structure, but also comments, styling, user-facing text, and translations. Every pixel, word, and comment should be part of the specification.</p>
-                                        <p class="mb-0"><strong>Recommendation:</strong> Create separate specification files for code, design, text, and internationalization.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice5">
-                                        Test Specifications Are as Important as Code Specifications
-                                    </button>
-                                </h2>
-                                <div id="practice5" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
-                                    <div class="accordion-body">
-                                        <p>Testing specifications should be the most detailed section. Define unit tests, integration tests, E2E tests, performance criteria, and security requirements with precision.</p>
-                                        <p class="mb-0"><strong>Recommendation:</strong> Aim for minimum 80% code coverage and document all test scenarios in specifications.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice6">
-                                        Use Modular Specifications for Token Efficiency
-                                    </button>
-                                </h2>
-                                <div id="practice6" class="accordion-collapse collapse" data-bs-parent="#bestPracticesAccordion">
-                                    <div class="accordion-body">
-                                        <p>Break large specifications into logical modules. Provide AI with only the relevant specification fragment for each development stage to manage token budgets effectively.</p>
-                                        <p class="mb-0"><strong>Recommendation:</strong> Use the dependencies field in YAML headers to link related specifications.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-primary" role="alert">
-                        <h4 class="alert-heading">Core Message</h4>
-                        <p class="mb-0">
-                            <strong>SED transforms AI from an unpredictable interpreter into a precise implementation tool.</strong>
-                            By eliminating all ambiguity through complete, detailed specifications, we achieve consistent,
-                            reproducible, and maintainable software development.
-                        </p>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-5">
-                        <a href="workflow.html" class="btn btn-outline-secondary">← Previous: Workflow</a>
-                        <a href="examples.html" class="btn btn-primary">Next: Examples →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
-        <div class="container">
-            <div class="row g-4 mb-4">
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">SEDAI</h5>
-                    <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Learn</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
-                        <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
-                        <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
-                        <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Resources</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
-                        <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Contact</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
-                    </ul>
                 </div>
             </div>
-            <hr class="border-secondary">
-            <div class="text-center py-3">
-                <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
+        </section>
+
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">SEDAI</h5>
+                        <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Learn</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                            <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                            <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                            <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Resources</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                            <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr class="border-secondary">
+                <div class="text-center py-3">
+                    <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>

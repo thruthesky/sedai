@@ -11,224 +11,283 @@
             --bs-primary: #6366F1;
             --bs-secondary: #8B5CF6;
             --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            --sidebar-width: 280px;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; }
-        .navbar { background: var(--sedai-gradient) !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; overflow-x: hidden; }
+
+        /* 사이드바 스타일 */
+        .sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: var(--sedai-gradient); color: white; padding: 2rem 0; overflow-y: auto; z-index: 1000; box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); }
+        .sidebar-brand { font-size: 1.75rem; font-weight: 700; color: white; text-decoration: none; padding: 0 1.5rem; display: block; margin-bottom: 2rem; }
+        .sidebar-brand:hover { color: white; opacity: 0.9; }
+        .sidebar-nav { list-style: none; padding: 0; margin: 0; }
+        .sidebar-nav-item { margin-bottom: 0.25rem; }
+        .sidebar-nav-link { display: block; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-weight: 500; transition: all 0.2s ease; border-left: 3px solid transparent; }
+        .sidebar-nav-link:hover { background: rgba(255, 255, 255, 0.1); color: white; border-left-color: white; }
+        .sidebar-nav-link.active { background: rgba(255, 255, 255, 0.15); color: white; border-left-color: white; font-weight: 600; }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content { margin-left: var(--sidebar-width); min-height: 100vh; width: calc(100% - var(--sidebar-width)); }
+
+        /* 모바일 토글 버튼 */
+        .sidebar-toggle { position: fixed; top: 1rem; left: 1rem; z-index: 1050; background: var(--sedai-gradient); border: none; padding: 0.5rem 0.75rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+        .sidebar-toggle:hover { opacity: 0.9; }
+
+        @media (max-width: 991.98px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; width: 100%; }
+            .sidebar-toggle { display: block; }
+        }
+        @media (min-width: 992px) {
+            .sidebar-toggle { display: none; }
+        }
+
+        /* Offcanvas 사이드바 스타일 */
+        .offcanvas-sidebar { background: var(--sedai-gradient); color: white; }
+        .offcanvas-sidebar .btn-close { filter: invert(1); }
+
         .page-header { background: var(--sedai-gradient); color: white; padding: 4rem 0 3rem; }
         .highlight-box { background: var(--sedai-gradient); color: white; padding: 2rem; border-radius: 0.75rem; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">SEDAI</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="what-is-sed.html">What is SED?</a></li>
-                    <li class="nav-item"><a class="nav-link" href="principles.html">Principles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="getting-started.html">Getting Started</a></li>
-                    <li class="nav-item"><a class="nav-link" href="workflow.html">Workflow</a></li>
-                    <li class="nav-item"><a class="nav-link" href="philosophy.html">Philosophy</a></li>
-                    <li class="nav-item"><a class="nav-link" href="examples.html">Examples</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+    <!-- 모바일 토글 버튼 -->
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+
+    <!-- 데스크톱 사이드바 -->
+    <aside class="sidebar d-none d-lg-block">
+        <a href="index.html" class="sidebar-brand">SEDAI</a>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="what-is-sed.html">What is SED?</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 모바일 Offcanvas 사이드바 -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="sidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
                 </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <header class="page-header text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">What is Spec-Exact Development?</h1>
+                <p class="lead fs-5">Understanding the concept, background, and solution</p>
             </div>
-        </div>
-    </nav>
+        </header>
 
-    <header class="page-header text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3">What is Spec-Exact Development?</h1>
-            <p class="lead fs-5">Understanding the concept, background, and solution</p>
-        </div>
-    </header>
-
-    <section class="py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <h2 class="h3 mb-4">Definition</h2>
-                    <p class="lead">
-                        <strong>Spec-Exact Development (SED)</strong> is an AI-driven development paradigm in which
-                        the AI never deviates by even a single line from the specification.
-                    </p>
-
-                    <div class="highlight-box text-center my-5">
-                        <p class="display-6 fst-italic mb-0">
-                            "If the spec is wrong, the product is wrong - by design."
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h2 class="h3 mb-4">Definition</h2>
+                        <p class="lead">
+                            <strong>Spec-Exact Development (SED)</strong> is an AI-driven development paradigm in which
+                            the AI never deviates by even a single line from the specification.
                         </p>
-                    </div>
 
-                    <ul class="list-group list-group-flush mb-5">
-                        <li class="list-group-item">The specification is the absolute standard</li>
-                        <li class="list-group-item">AI neither interprets nor infers intent - it executes exactly what is written</li>
-                        <li class="list-group-item">Specifications must be meticulously precise and complete</li>
-                        <li class="list-group-item">The AI is given a complete architectural blueprint and reproduces it without deviation</li>
-                    </ul>
+                        <div class="highlight-box text-center my-5">
+                            <p class="display-6 fst-italic mb-0">
+                                "If the spec is wrong, the product is wrong - by design."
+                            </p>
+                        </div>
 
-                    <h2 class="h3 mb-4">Background</h2>
-                    <p>
-                        Created by <strong>Song Jaeho</strong> on <strong>November 4, 2025</strong> to overcome
-                        the limitations of "vibe coding" and ensure consistent, predictable AI-driven development.
-                    </p>
+                        <ul class="list-group list-group-flush mb-5">
+                            <li class="list-group-item">The specification is the absolute standard</li>
+                            <li class="list-group-item">AI neither interprets nor infers intent - it executes exactly what is written</li>
+                            <li class="list-group-item">Specifications must be meticulously precise and complete</li>
+                            <li class="list-group-item">The AI is given a complete architectural blueprint and reproduces it without deviation</li>
+                        </ul>
 
-                    <div class="alert alert-info my-4" role="alert">
-                        <strong>Vibe Coding:</strong> A development approach where AI freely interprets vague requirements,
-                        leading to unpredictable and inconsistent results across different implementations.
-                    </div>
-
-                    <h2 class="h3 mb-4 mt-5">Problems with Prior Approaches</h2>
-                    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-                        <div class="col">
-                            <div class="card h-100 border-primary">
-                                <div class="card-body">
-                                    <h3 class="h5 text-primary mb-3">Vague Specifications</h3>
-                                    <p class="text-muted">
-                                        Specifications, context, and required skills are often described vaguely,
-                                        leaving too much room for interpretation.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100 border-primary">
-                                <div class="card-body">
-                                    <h3 class="h5 text-primary mb-3">Fragmented Information</h3>
-                                    <p class="text-muted">
-                                        MCPs (Model Context Protocols) provide only fragmented pieces of information,
-                                        making it difficult to maintain consistency.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100 border-primary">
-                                <div class="card-body">
-                                    <h3 class="h5 text-primary mb-3">Free Interpretation</h3>
-                                    <p class="text-muted">
-                                        AI freely interprets requirements, creating unpredictable outcomes
-                                        that vary between implementations.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h2 class="h3 mb-4">SED's Solution</h2>
-                    <div class="row g-4 mb-5">
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body">
-                                    <div class="text-center mb-3">
-                                        <div class="bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center"
-                                             style="width: 60px; height: 60px; background: var(--sedai-gradient);">
-                                            <span class="text-white fw-bold fs-4">1</span>
-                                        </div>
-                                    </div>
-                                    <h3 class="h5 text-center text-primary mb-3">Complete Blueprints</h3>
-                                    <p class="text-muted">
-                                        Provide AI with complete blueprints that cover every aspect of implementation.
-                                        No room for guessing or assumption.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body">
-                                    <div class="text-center mb-3">
-                                        <div class="bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center"
-                                             style="width: 60px; height: 60px; background: var(--sedai-gradient);">
-                                            <span class="text-white fw-bold fs-4">2</span>
-                                        </div>
-                                    </div>
-                                    <h3 class="h5 text-center text-primary mb-3">Precise Execution</h3>
-                                    <p class="text-muted">
-                                        AI follows the blueprints precisely without making inferences.
-                                        Executes exactly what is specified, nothing more, nothing less.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body">
-                                    <div class="text-center mb-3">
-                                        <div class="bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center"
-                                             style="width: 60px; height: 60px; background: var(--sedai-gradient);">
-                                            <span class="text-white fw-bold fs-4">3</span>
-                                        </div>
-                                    </div>
-                                    <h3 class="h5 text-center text-primary mb-3">Guaranteed Consistency</h3>
-                                    <p class="text-muted">
-                                        Specifications become the absolute standard that guarantees consistency
-                                        across all implementations.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-success my-5" role="alert">
-                        <h4 class="alert-heading">Key Takeaway</h4>
-                        <p class="mb-0">
-                            SED transforms AI from an unpredictable interpreter into a precise implementation tool
-                            by eliminating all ambiguity through complete, detailed specifications.
+                        <h2 class="h3 mb-4">Background</h2>
+                        <p>
+                            Created by <strong>Song Jaeho</strong> on <strong>November 4, 2025</strong> to overcome
+                            the limitations of "vibe coding" and ensure consistent, predictable AI-driven development.
                         </p>
-                    </div>
 
-                    <div class="d-flex justify-content-between mt-5">
-                        <a href="index.html" class="btn btn-outline-secondary">← Back to Home</a>
-                        <a href="principles.html" class="btn btn-primary">Next: Core Principles →</a>
+                        <div class="alert alert-info my-4" role="alert">
+                            <strong>Vibe Coding:</strong> A development approach where AI freely interprets vague requirements,
+                            leading to unpredictable and inconsistent results across different implementations.
+                        </div>
+
+                        <h2 class="h3 mb-4 mt-5">Problems with Prior Approaches</h2>
+                        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+                            <div class="col">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">Vague Specifications</h3>
+                                        <p class="text-muted">
+                                            Specifications, context, and required skills are often described vaguely,
+                                            leaving too much room for interpretation.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">Fragmented Information</h3>
+                                        <p class="text-muted">
+                                            MCPs (Model Context Protocols) provide only fragmented pieces of information,
+                                            making it difficult to maintain consistency.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">Free Interpretation</h3>
+                                        <p class="text-muted">
+                                            AI freely interprets requirements, creating unpredictable outcomes
+                                            that vary between implementations.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 class="h3 mb-4">SED's Solution</h2>
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="text-center mb-3">
+                                            <div class="bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center"
+                                                 style="width: 60px; height: 60px; background: var(--sedai-gradient);">
+                                                <span class="text-white fw-bold fs-4">1</span>
+                                            </div>
+                                        </div>
+                                        <h3 class="h5 text-center text-primary mb-3">Complete Blueprints</h3>
+                                        <p class="text-muted">
+                                            Provide AI with complete blueprints that cover every aspect of implementation.
+                                            No room for guessing or assumption.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="text-center mb-3">
+                                            <div class="bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center"
+                                                 style="width: 60px; height: 60px; background: var(--sedai-gradient);">
+                                                <span class="text-white fw-bold fs-4">2</span>
+                                            </div>
+                                        </div>
+                                        <h3 class="h5 text-center text-primary mb-3">Precise Execution</h3>
+                                        <p class="text-muted">
+                                            AI follows the blueprints precisely without making inferences.
+                                            Executes exactly what is specified, nothing more, nothing less.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="text-center mb-3">
+                                            <div class="bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center"
+                                                 style="width: 60px; height: 60px; background: var(--sedai-gradient);">
+                                                <span class="text-white fw-bold fs-4">3</span>
+                                            </div>
+                                        </div>
+                                        <h3 class="h5 text-center text-primary mb-3">Guaranteed Consistency</h3>
+                                        <p class="text-muted">
+                                            Specifications become the absolute standard that guarantees consistency
+                                            across all implementations.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success my-5" role="alert">
+                            <h4 class="alert-heading">Key Takeaway</h4>
+                            <p class="mb-0">
+                                SED transforms AI from an unpredictable interpreter into a precise implementation tool
+                                by eliminating all ambiguity through complete, detailed specifications.
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="index.html" class="btn btn-outline-secondary">← Back to Home</a>
+                            <a href="principles.html" class="btn btn-primary">Next: Core Principles →</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
-        <div class="container">
-            <div class="row g-4 mb-4">
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">SEDAI</h5>
-                    <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">SEDAI</h5>
+                        <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Learn</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                            <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                            <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                            <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Resources</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                            <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Learn</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
-                        <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
-                        <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
-                        <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Resources</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
-                        <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="text-primary mb-3">Contact</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
-                        <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
-                    </ul>
+                <hr class="border-secondary">
+                <div class="text-center py-3">
+                    <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
                 </div>
             </div>
-            <hr class="border-secondary">
-            <div class="text-center py-3">
-                <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
+    <!-- 메인 콘텐츠 영역 끝 -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
