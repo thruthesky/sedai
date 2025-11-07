@@ -36,7 +36,7 @@
   ],
   "author": "송재호 <thruthesky@gmail.com>",
   "license": "GPL-3.0",
-  "homepage": "https://github.com/thruthesky/sedai",
+  "homepage": "https://sedai.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thruthesky/sedai.git"

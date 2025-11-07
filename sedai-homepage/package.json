@@ -1,0 +1,23 @@
+{
+  "name": "sedai-homepage",
+  "version": "1.0.0",
+  "description": "SEDAI Web Application - Spec-Exact Development with AI",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "node server.js",
+    "start": "npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["sedai", "spec-driven", "development", "ai"],
+  "author": "Song Jaeho <thruthesky@gmail.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "chokidar": "^4.0.3",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}

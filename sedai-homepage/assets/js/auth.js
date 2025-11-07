@@ -10,6 +10,7 @@
 
 // Firebase SDK imports (ES Module)
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app-check.js';
 import {
     getAuth,
     RecaptchaVerifier,
@@ -29,8 +30,33 @@ const firebaseConfig = {
     appId: "1:275784781126:web:91b75808d32ec3fa28a947"
 };
 
+// 개발 환경 감지 및 디버그 모드 설정
+const isDevelopment = window.location.hostname === 'localhost' ||
+                      window.location.hostname === '127.0.0.1';
+
+if (isDevelopment) {
+    // 디버그 모드 활성화 (브라우저 콘솔에 디버그 토큰 표시)
+    self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    console.log('[App Check] Debug mode enabled - Check console for debug token');
+}
+
 // Firebase 초기화
 const app = initializeApp(firebaseConfig);
+
+// App Check 초기화 (반드시 다른 Firebase 서비스보다 먼저 초기화)
+let appCheck;
+try {
+    appCheck = initializeAppCheck(app, {
+        provider: new ReCaptchaEnterpriseProvider('6LcuKwUsAAAAAEczBhW_kNwvLOlLpSZqtv4UzPmP'),
+        isTokenAutoRefreshEnabled: true // 토큰 자동 갱신 활성화
+    });
+    console.log('[App Check] Initialized successfully');
+} catch (error) {
+    console.error('[App Check] Initialization failed:', error);
+    // App Check 실패해도 앱 실행은 계속 (개발 중에는 디버그 토큰 등록 필요)
+}
+
+// 다른 Firebase 서비스 초기화
 const auth = getAuth(app);
 
 // 전역 변수
