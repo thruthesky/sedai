@@ -28,9 +28,10 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
+            line-height: 1.8;
             color: var(--text-dark);
             background-color: var(--bg-white);
+            font-size: 17px;
         }
 
         .container {
@@ -87,30 +88,33 @@
         }
 
         .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .hero .tagline {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
             font-style: italic;
             opacity: 0.95;
+            line-height: 1.6;
         }
 
         .hero .description {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             max-width: 800px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 2.5rem;
             opacity: 0.9;
+            line-height: 1.7;
         }
 
         .hero .badges {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             flex-wrap: wrap;
         }
 
@@ -120,14 +124,14 @@
 
         .cta-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             border-radius: 8px;
             text-decoration: none;
@@ -158,7 +162,7 @@
 
         /* Section */
         section {
-            padding: 4rem 0;
+            padding: 5rem 0;
         }
 
         section:nth-child(even) {
@@ -166,20 +170,35 @@
         }
 
         section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2.75rem;
+            margin-bottom: 1.5rem;
             text-align: center;
             color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        section h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        section p {
+            line-height: 1.9;
+            margin-bottom: 1.2rem;
         }
 
         section .section-subtitle {
             text-align: center;
             color: var(--text-light);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
+            font-size: 1.2rem;
+            margin-bottom: 3.5rem;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.7;
         }
 
         /* What is SED */
@@ -191,13 +210,13 @@
         .what-is-sed .highlight-box {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 12px;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            font-style: italic;
+            line-height: 1.6;
         }
 
         .what-is-sed ul {
@@ -206,34 +225,35 @@
         }
 
         .what-is-sed li {
-            padding: 0.75rem 0;
-            padding-left: 2rem;
+            padding: 0.9rem 0;
+            padding-left: 2.5rem;
             position: relative;
+            line-height: 1.8;
         }
 
         .what-is-sed li:before {
-            content: "";
+            content: "âœ”";
             position: absolute;
             left: 0;
             color: var(--success-color);
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         /* Core Principles */
         .principles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3.5rem;
         }
 
         .principle-card {
             background: white;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .principle-card:hover {
@@ -243,13 +263,13 @@
 
         .principle-card h3 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
         }
 
         .principle-card p {
             color: var(--text-light);
-            line-height: 1.8;
+            line-height: 1.9;
         }
 
         /* Quick Start */
@@ -258,92 +278,112 @@
         }
 
         .code-block {
-            background: var(--text-dark);
-            color: #A9B7C6;
-            padding: 1.5rem;
+            background: #2B2B2B;
+            color: #E8E8E8;
+            padding: 2rem;
             border-radius: 8px;
             overflow-x: auto;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
+            margin: 1.5rem 0;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
 
         .code-block .comment {
-            color: #808080;
+            color: #7A7A7A;
         }
 
         .code-block .command {
-            color: #6A8759;
+            color: #6A9955;
         }
 
         /* Features */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3.5rem;
         }
 
         .feature-card {
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
         }
 
         .feature-card h3 {
             color: var(--primary-color);
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
         }
 
         .feature-card p {
             color: var(--text-light);
+            line-height: 1.8;
         }
 
         /* Workflow */
         .workflow-steps {
-            max-width: 800px;
-            margin: 3rem auto;
+            max-width: 900px;
+            margin: 3.5rem auto;
         }
 
         .workflow-step {
             display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
             align-items: start;
         }
 
         .step-number {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             flex-shrink: 0;
         }
 
         .step-content h3 {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: var(--text-dark);
+            font-size: 1.5rem;
         }
 
         .step-content p {
             color: var(--text-light);
-            line-height: 1.8;
+            line-height: 1.9;
         }
 
         /* Philosophy */
         .philosophy-table {
-            max-width: 900px;
-            margin: 2rem auto;
+            max-width: 1000px;
+            margin: 3rem auto;
             background: white;
             border-radius: 12px;
             overflow: hidden;
@@ -358,14 +398,16 @@
         .philosophy-table th {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: left;
             font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .philosophy-table td {
-            padding: 1rem;
+            padding: 1.5rem;
             border-bottom: 1px solid var(--border-color);
+            line-height: 1.8;
         }
 
         .philosophy-table tr:last-child td {
@@ -375,43 +417,64 @@
         .philosophy-table td:first-child {
             font-weight: 600;
             color: var(--primary-color);
+            width: 200px;
         }
 
         /* Slogans */
         .slogans {
-            text-align: center;
-            max-width: 800px;
-            margin: 2rem auto;
+            max-width: 900px;
+            margin: 3rem auto;
         }
 
         .slogan {
             font-size: 1.5rem;
-            margin: 1.5rem 0;
-            padding: 1.5rem;
+            margin: 2rem 0;
+            padding: 2rem 2.5rem;
             background: white;
-            border-left: 4px solid var(--primary-color);
+            border-left: 6px solid var(--primary-color);
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .slogan-icon {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            color: white;
+            font-weight: bold;
+            margin-right: 1rem;
+            vertical-align: middle;
         }
 
         /* Footer */
         footer {
             background: var(--text-dark);
             color: white;
-            padding: 3rem 0 1rem;
+            padding: 4rem 0 1.5rem;
             margin-top: 4rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
         .footer-section h3 {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .footer-section p {
+            line-height: 1.8;
         }
 
         .footer-section ul {
@@ -422,7 +485,7 @@
             color: #D1D5DB;
             text-decoration: none;
             display: block;
-            padding: 0.25rem 0;
+            padding: 0.4rem 0;
             transition: color 0.2s;
         }
 
@@ -432,23 +495,28 @@
 
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
+            padding-top: 2.5rem;
             border-top: 1px solid #374151;
             color: #9CA3AF;
+            line-height: 1.8;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
             .hero h2 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
             .hero .tagline {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .hero .description {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
             nav ul {
@@ -457,11 +525,20 @@
             }
 
             section h2 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+
+            section {
+                padding: 3.5rem 0;
             }
 
             .workflow-step {
                 flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .slogan {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -487,7 +564,7 @@
     <section class="hero">
         <div class="container">
             <h2>SEDAI</h2>
-            <p class="tagline">"AI develops exactly as the spec defines  no interpretation, no assumption."</p>
+            <p class="tagline">"AI develops exactly as the spec defines - no interpretation, no assumption."</p>
             <p class="description">
                 A development methodology and toolset where artificial intelligence implements solutions
                 strictly according to specifications without deviation.
@@ -517,7 +594,7 @@
                 </p>
 
                 <div class="highlight-box">
-                    "If the spec is wrong, the product is wrong  by design."
+                    "If the spec is wrong, the product is wrong - by design."
                 </div>
 
                 <h3>Background</h3>
@@ -564,7 +641,7 @@
                     <h3>2. Spec Completeness Scoring</h3>
                     <p>
                         Before development begins, the AI evaluates the specification and assigns a score
-                        from 0100. Development may start only when the score is 90 or higher.
+                        from 0-100. Development may start only when the score is 90 or higher.
                     </p>
                 </div>
 
@@ -668,7 +745,7 @@ spec score &lt;file&gt;
 
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">=Ë</div>
+                    <div class="feature-icon">S</div>
                     <h3>Complete Specifications</h3>
                     <p>
                         Create comprehensive specifications that cover every aspect of your project,
@@ -677,7 +754,7 @@ spec score &lt;file&gt;
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">></div>
+                    <div class="feature-icon">A</div>
                     <h3>AI-Driven Development</h3>
                     <p>
                         Let AI implement your specifications exactly as written, without interpretation
@@ -686,16 +763,16 @@ spec score &lt;file&gt;
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">V</div>
                     <h3>Spec Validation</h3>
                     <p>
                         Automatically score specifications from 0-100 to ensure completeness before
-                        development begins (score e90 required).
+                        development begins (score >= 90 required).
                     </p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">=</div>
+                    <div class="feature-icon">R</div>
                     <h3>Reproducible Builds</h3>
                     <p>
                         Generate the exact same implementation every time from the same specification,
@@ -704,7 +781,7 @@ spec score &lt;file&gt;
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">=</div>
+                    <div class="feature-icon">C</div>
                     <h3>Copyright Protection</h3>
                     <p>
                         Specification authors retain full copyright of the resulting code, as AI
@@ -713,7 +790,7 @@ spec score &lt;file&gt;
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">=æ</div>
+                    <div class="feature-icon">M</div>
                     <h3>Spec Reusability</h3>
                     <p>
                         Share and reuse specifications across projects with dependency management
@@ -762,7 +839,7 @@ spec score &lt;file&gt;
                     <div class="step-content">
                         <h3>Execution Phase</h3>
                         <p>
-                            AI implements precisely what the specification dictatesnothing more, nothing
+                            AI implements precisely what the specification dictates - nothing more, nothing
                             less. Anything outside the specification is ignored. Code changes and spec
                             updates are inseparable.
                         </p>
@@ -799,8 +876,8 @@ spec score &lt;file&gt;
                         <h3>Operation Phase</h3>
                         <p>
                             AI monitors, reports, and recommends automated fixes based on operational specs.
-                            When new requirements appear, follow the loop: update spec ’ re-evaluate score
-                            ’ redevelop.
+                            When new requirements appear, follow the loop: update spec > re-evaluate score
+                            > redevelop.
                         </p>
                     </div>
                 </div>
@@ -831,7 +908,7 @@ spec score &lt;file&gt;
                         </tr>
                         <tr>
                             <td>AI's Role</td>
-                            <td>Makes no judgmentsexecutes the specification without interpretation.</td>
+                            <td>Makes no judgments - executes the specification without interpretation.</td>
                         </tr>
                         <tr>
                             <td>Developer's Role</td>
@@ -851,13 +928,13 @@ spec score &lt;file&gt;
 
             <div class="slogans">
                 <div class="slogan">
-                    >à "AI does not imagine. It executes."
+                    <span class="slogan-icon">AI</span> "AI does not imagine. It executes."
                 </div>
                 <div class="slogan">
-                    =Ü "Spec is the contract. Spec is the code."
+                    <span class="slogan-icon">S</span> "Spec is the contract. Spec is the code."
                 </div>
                 <div class="slogan">
-                    ™ "No assumption. No improvisation. Only implementation."
+                    <span class="slogan-icon">E</span> "No assumption. No improvisation. Only implementation."
                 </div>
             </div>
         </div>
@@ -907,7 +984,7 @@ spec score &lt;file&gt;
             <div class="footer-bottom">
                 <p>
                     &copy; 2025 Song Jaeho. All rights reserved.<br>
-                    "In SED, the specification is not just documentationit is the source of truth that directly drives development."
+                    "In SED, the specification is not just documentation - it is the source of truth that directly drives development."
                 </p>
             </div>
         </div>
