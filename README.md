@@ -24,7 +24,7 @@ When I first started with Vibe Coding, I'd give AI a single prompt: "Build me a 
 
 ### Where Everything Falls Apart
 
-The real problem begins with the **second prompt**. When you request modifications to parts you don't like, the developer's intent starts diverging from the AI's original plan. The AI begins making errors in the code and logic it previously generated. You find yourself trapped in an endless cycle of corrections, constantly trying to fix issues. Eventually, even the smallest modification request consumes enormous amounts of time, often without reaching a proper solution.
+The real problem begins with the **second prompt**. When you request modifications to parts you don't like, your intent starts diverging from the AI's original plan. The AI begins making errors in the code and logic it previously generated. You find yourself trapped in an endless cycle of corrections, constantly trying to fix issues. Eventually, even the smallest modification request consumes enormous amounts of time, often without reaching a proper solution.
 
 This is the **"hamster wheel"** problem—running endlessly without making real progress.
 
