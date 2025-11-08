@@ -10,58 +10,6 @@ A development methodology and toolset where artificial intelligence implements s
 
 ---
 
-## Installation
-
-```bash
-# Global installation
-npm install -g sedai
-
-# Or use with npx (both commands work)
-npx sedai --help
-npx spec --help
-```
-
-## Quick Start
-
-```bash
-# Initialize a new SED project (interactive mode)
-npx spec init
-
-# Or with all options (non-interactive)
-npx spec init -n "my-project" -s "My awesome project" -a "Your Name" -e "your@email.com"
-
-# Validate your specifications (coming soon)
-npx spec doctor
-
-# Validate a single spec file (coming soon)
-npx spec validate specs/my-spec.md
-
-# Calculate specification score (coming soon)
-npx spec score specs/my-spec.md
-```
-
-## CLI Commands
-
-Both `sedai` and `spec` commands are available:
-
-```bash
-# Initialize new project (fully implemented)
-spec init [options]
-  -n, --name <name>        Project name
-  -s, --summary <summary>  Project summary/description
-  -a, --author <author>    Author name
-  -e, --email <email>      Author email
-
-# Validate specifications (coming soon)
-spec doctor [options]
-
-# Validate single file (coming soon)
-spec validate <file>
-
-# Calculate specification score (coming soon)
-spec score <file>
-```
-
 ## Community & Sharing
 
 **Homepage:** [https://sedai.dev](https://sedai.dev)
@@ -1257,6 +1205,70 @@ npm install bcrypt jsonwebtoken passport
 ## Details
 ...
 ```
+
+---
+
+## SEDAI Utilities (Optional)
+
+**Note:** The tools and utilities described in this section are **optional convenience features**. The core of SED is the methodology described in [Getting Started with SED](#getting-started-with-sed). You can practice SED by manually creating specification files following the SED principles—no tools required.
+
+These utilities simply help automate some repetitive tasks, but understanding and following the SED methodology is what truly matters.
+
+---
+
+### Installation
+
+```bash
+# Global installation
+npm install -g sedai
+
+# Or use with npx (both commands work)
+npx sedai --help
+npx spec --help
+```
+
+### CLI Commands
+
+Both `sedai` and `spec` commands are available:
+
+```bash
+# Initialize new project (fully implemented)
+spec init [options]
+  -n, --name <name>        Project name
+  -s, --summary <summary>  Project summary/description
+  -a, --author <author>    Author name
+  -e, --email <email>      Author email
+
+# Validate specifications (coming soon)
+spec doctor [options]
+
+# Validate single file (coming soon)
+spec validate <file>
+
+# Calculate specification score (coming soon)
+spec score <file>
+```
+
+### Quick Start with CLI
+
+```bash
+# Initialize a new SED project (interactive mode)
+npx spec init
+
+# Or with all options (non-interactive)
+npx spec init -n "my-project" -s "My awesome project" -a "Your Name" -e "your@email.com"
+
+# Validate your specifications (coming soon)
+npx spec doctor
+
+# Validate a single spec file (coming soon)
+npx spec validate specs/my-spec.md
+
+# Calculate specification score (coming soon)
+npx spec score specs/my-spec.md
+```
+
+**Remember:** These utilities are helpers, not requirements. Focus on understanding and applying SED principles as described in the [Getting Started with SED](#getting-started-with-sed) section.
 
 ---
 
