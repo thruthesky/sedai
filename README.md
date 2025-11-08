@@ -79,6 +79,115 @@ Your contributions help the entire SED community by providing proven, reusable s
 
 ---
 
+## Getting Started with SED
+
+While SEDAI provides a CLI tool for project initialization, we recommend manually creating your specification structure to gain a deeper understanding of SED principles:
+
+### Quick Setup (6 Steps)
+
+1. **Create the specs directory**
+   ```bash
+   mkdir specs
+   ```
+
+2. **Write index.md (Detailed Table of Contents)**
+   - Create `specs/index.md` with YAML header
+   - Include summaries and table of contents for all spec files
+   - This serves as the navigation map for AI and developers
+
+3. **Write instructions.md (AI Workflow Guide)**
+   - Create `specs/instructions.md` with SED methodology guidelines
+   - Define how AI should work with specifications
+   - Specify development rules and principles
+   - You can copy `sed-instructions.md` template as a starting point
+
+4. **Write individual specification files**
+   - Create detailed spec files with YAML headers
+   - Follow the naming convention: `<project>-<module>-<feature>.md`
+   - Include all required sections: Overview, Requirements, Workflow, Details
+   - Specify everything: database schemas, functions, UI/UX, testing, etc.
+
+5. **Request AI evaluation**
+   - Before starting development, ask AI to score your specifications
+   - Use this prompt:
+   ```
+   Please evaluate the specifications in the ./specs directory and assign a score (0-100) for each file.
+   The score should assess completeness, clarity, and adherence to SED principles.
+   Provide an overall project score and recommendations for improvement.
+   ```
+
+6. **Begin development (only if score ≥ 95)**
+   - If the overall project score is 95 or higher, proceed with development
+   - If below 95, improve specifications based on AI recommendations
+   - Re-evaluate until achieving the minimum score threshold
+
+**Note:** The CLI tool (`npx spec init`) can help scaffold the initial structure, but understanding the manual process ensures you grasp SED fundamentals and can create high-quality specifications.
+
+---
+
+## Specification Scoring Criteria
+
+Before development begins, AI evaluates specifications using a comprehensive scoring system. Understanding these criteria helps you write complete, high-quality specs.
+
+### Evaluation Process
+
+AI assesses each specification file on six key dimensions:
+
+#### 1. YAML Header Completeness
+- All required fields present: name, version, description, author, email
+- Optional fields used appropriately: license, dependencies, step, screenshot
+- Correct format and valid values
+- Globally unique name identifier
+
+#### 2. Required Sections Present
+- **Overview**: Clear summary of the specification's purpose
+- **Requirements**: Complete list of prerequisites (libraries, tools, environment)
+- **Workflow**: Step-by-step process AI must follow
+- **Details**: Exhaustive implementation specifications
+
+#### 3. Detail Completeness
+- **Database**: Exact versions, schemas, indexes, foreign keys, transaction isolation
+- **Functions**: Names, parameters, return types, locations, call sites, error handling
+- **UI/UX**: Colors, spacing, typography, breakpoints, animations, accessibility
+- **Testing**: Tools, versions, coverage targets, test cases, CI/CD pipeline
+- **Code Comments**: JSDoc annotations, inline explanations, file headers
+- **User-Facing Text**: Button labels, messages, tooltips, placeholder text
+- **Internationalization**: Complete translation dictionaries for all supported languages
+- **Everything else**: No ambiguity, no room for interpretation
+
+#### 4. Individual File Scores (0-100)
+Each specification file receives a score based on:
+- Clarity and precision of language
+- Absence of ambiguous statements
+- Completeness of technical specifications
+- Alignment with SED principles (no interpretation required)
+
+#### 5. Overall Project Score
+- Average of all individual file scores
+- Weighted by importance and dependencies
+- **Minimum passing score: 95**
+- Below 95 = specifications need improvement before development
+
+#### 6. AI Recommendations
+When scores are below 95, AI provides:
+- Specific sections that need more detail
+- Examples of missing information
+- Suggestions for improving clarity
+- Guidance on achieving SED compliance
+
+### Scoring Thresholds
+
+| Score Range | Status | Action Required |
+|-------------|--------|-----------------|
+| 95-100 | Excellent | Proceed with development |
+| 90-94 | Good | Minor improvements recommended |
+| 80-89 | Needs Work | Significant gaps to address |
+| 0-79 | Insufficient | Major revisions required |
+
+**Key Principle:** Development may begin **only** when the overall project score is **95 or higher**. This ensures AI can execute specifications without interpretation, assumption, or guesswork.
+
+---
+
 ## Spec-Exact Development (SED) Manifesto
 
 ### Spec-Exact Development at a Glance
@@ -770,15 +879,37 @@ Organize specifications so AI can locate information quickly and reuse documents
   - The index file also begins with the YAML header above.
   - **DTOC Format:** The index contains summaries/storylines alongside a table of contents for each specification file, enabling AI to quickly understand the project structure and navigate to relevant specs.
 
-- **AI Integration Guide:**
+- **AI System Prompt Requirements:**
 
-  **For Developers:** To ensure AI assistants follow SED methodology correctly, add the following directive to your AI-specific instruction files:
+  **⚠️ CRITICAL: System Prompt Configuration is MANDATORY for SED Development**
 
-  - **Claude Code**: Add to `.claude/CLAUDE.md`
-  - **GitHub Copilot**: Add to `.github/copilot-instructions.md`
-  - **Other AI Agents**: Add to their respective instruction files (e.g., `AGENTS.md`, `CODEX.md`)
+  To work with SED specifications, you **must** configure your AI assistant's system prompt. Without this configuration, AI will not follow SED principles and will interpret specifications freely, defeating the entire purpose of Spec-Exact Development.
 
-  **Required Directive (copy this to your AI instruction files):**
+  **Configuration File Locations (choose based on your AI tool):**
+
+  - **Claude Code**: `.claude/CLAUDE.md`
+  - **Claude Agents**: `AGENTS.md`
+  - **GitHub Copilot**: `.github/copilot-instructions.md`
+  - **Cursor IDE**: `.cursorrules`
+  - **Other AI Tools**: Check your tool's documentation for system prompt file location
+
+  **Why This Matters:**
+
+  Without proper system prompt configuration, AI will:
+  - Interpret specifications based on assumptions ❌
+  - Make design decisions not in the spec ❌
+  - Implement features using its own judgment ❌
+  - Create the "hamster wheel" of endless corrections ❌
+
+  With proper configuration, AI will:
+  - Execute specifications exactly as written ✅
+  - Request clarification when specs are incomplete ✅
+  - Report critical errors instead of guessing ✅
+  - Produce consistent, predictable results ✅
+
+  ---
+
+  **Required Directive (MUST be added to your AI system prompt files):**
 
   ```markdown
   ## SEDAI Workflow - MANDATORY
@@ -801,32 +932,70 @@ Organize specifications so AI can locate information quickly and reuse documents
      - Understand the concepts, requirements, and workflows defined in each spec
      - Follow the workflows exactly as specified
 
-  4. **Execute the task**
-     - Implement strictly according to the specification
-     - Do not interpret, assume, or improvise
-     - Follow the spec exactly, even if it seems incorrect
-     - If critical issues exist, report them and request clarification
+  4. **Execute the task according to these STRICT rules:**
+
+     **Rule 1: Absolute Specification Compliance**
+     - Follow the specification exactly as written, word for word
+     - The specification is the absolute rule that overrides all other considerations
+     - Even if the specification appears incorrect, you MUST follow it precisely
+     - Never deviate from the spec based on your own judgment or "best practices"
+
+     **Rule 2: Zero Interpretation and Assumption**
+     - Never interpret or assume anything beyond what is explicitly stated
+     - Do not perform any task that is not explicitly defined in the specification
+     - Do not infer intent, fill in gaps, or "improve" the spec with your ideas
+     - If something is not in the spec, it should NOT be implemented
+
+     **Rule 3: Critical Error Reporting**
+     - If you discover severe errors or critical issues in the specification, STOP immediately
+     - Report the issue clearly: explain what is wrong and why it prevents execution
+     - Provide specific details about the problematic section
+     - Wait for developer confirmation or specification update before proceeding
+     - NEVER perform tasks not in the spec, even when reporting errors
+
+     **Rule 4: Request Clarification for Ambiguity**
+     - When specifications are ambiguous, incomplete, or unclear, STOP and ask
+     - Request clarification from the developer rather than making assumptions
+     - Provide specific examples of what information is missing
+     - Do not proceed until you receive clear guidance
 
   **Key Points:**
   - `specs/instructions.md`: Contains SED methodology and how to use spec files
   - `specs/index.md`: Contains DTOC (summaries + table of contents) for navigation
   - Never skip reading these files before starting work
   - Always follow the specification without deviation
+  - When in doubt, ask—never assume
   ```
+
+  ---
 
   **Implementation Example:**
 
-  For a project with SEDAI specifications, your `.claude/CLAUDE.md` might include:
+  For a project using SEDAI specifications, your `.claude/CLAUDE.md` should include:
 
   ```markdown
   # Project Development Instructions
 
   ## SEDAI Workflow - MANDATORY
-  [Copy the directive above]
+
+  [Copy the entire directive above, including all 4 rules]
 
   ## Project-Specific Guidelines
+
   - Additional project-specific rules...
+  - Team conventions...
+  - Environment-specific instructions...
   ```
+
+  **Verification:**
+
+  After configuring your system prompt, verify AI behavior by:
+  1. Asking AI to describe its workflow when given a task
+  2. Confirming it mentions reading `specs/instructions.md` and `specs/index.md` first
+  3. Testing with an incomplete spec to ensure it requests clarification instead of assuming
+  4. Checking that it refuses to implement features not in the specification
+
+  **Remember:** The system prompt is not optional—it is the foundation that enables SED to work as designed.
 
 - **Spec Content Structure:** Each specification file follows this outline:
   1. **YAML Header** — includes dependency declarations.
