@@ -10,6 +10,39 @@ A development methodology and toolset where artificial intelligence implements s
 
 ---
 
+## The Origin of SED
+
+### The Skepticism Behind SED's Birth
+
+When new Vibe Coding concepts, methodologies, tools, and agents emerged, I remained deeply skeptical. All of these approaches, regardless of their packaging, boiled down to the same fundamental question: **How can we effectively inject context into AI?**
+
+Whether humans communicate with AI through text, voice, or video, it's ultimately just a prompt. This fundamental nature will never change. All the fancy tools—Context, SpecKit, Skills, MCP—are merely different vehicles for context injection.
+
+### The Reality of Vibe Coding
+
+When I first started with Vibe Coding, I'd give AI a single prompt: "Build me a website I'll love." The AI would autonomously create elaborate specifications and generate impressive-looking code. But here's the problem: **I don't even know exactly what I want**, yet the AI produces something grand that looks beautiful but proves utterly impractical in real-world use.
+
+### Where Everything Falls Apart
+
+The real problem begins with the **second prompt**. When you request modifications to parts you don't like, the developer's intent starts diverging from the AI's original plan. The AI begins making errors in the code and logic it previously generated. You find yourself trapped in an endless cycle of corrections, constantly trying to fix issues. Eventually, even the smallest modification request consumes enormous amounts of time, often without reaching a proper solution.
+
+This is the **"hamster wheel"** problem—running endlessly without making real progress.
+
+### SED's Radical Solution
+
+SED takes a radically different approach: **Provide complete specifications to the AI and demand absolute obedience**. Even if the spec is wrong, follow the spec exactly.
+
+Of course, AI does have two authorities:
+
+1. **Authority to halt**: If the specification contains critical errors that would cause severe problems, AI has the authority to stop work
+2. **Authority to request improvements**: AI can point out errors in the specification and request humans to improve them
+
+However, **AI does not have the authority to modify specifications on its own**.
+
+This is the core essence of SED—complete specifications plus absolute AI obedience, with limited but crucial AI authority to protect against critical errors.
+
+---
+
 ## Community & Sharing
 
 **Homepage:** [https://sedai.dev](https://sedai.dev)
