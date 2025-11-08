@@ -20,10 +20,10 @@ This document provides a comprehensive guide to SED (Spec-Exact Development) spe
 SED specifications are Markdown files with YAML front matter that define complete, unambiguous implementation blueprints. Every specification file follows a standardized structure to ensure AI can parse, understand, and execute them without interpretation.
 
 **Key Principles:**
-- **Spec is the absolute standard**  AI executes exactly what is written
-- **Zero ambiguity**  Everything must be explicitly defined
-- **Complete specifications**  No room for assumptions or interpretation
-- **Structured format**  Consistent organization enables systematic processing
+- **Spec is the absolute standard** — AI executes exactly what is written
+- **Zero ambiguity** — Everything must be explicitly defined
+- **Complete specifications** — No room for assumptions or interpretation
+- **Structured format** — Consistent organization enables systematic processing
 
 ---
 
@@ -63,9 +63,9 @@ All specification files **must** include these fields:
 ---
 name: project-module-feature           # Unique identifier
 version: 1.0.0                         # Semantic versioning
-description: Brief description         # d4096 characters
-author: Your Name                      # d64 characters
-email: your@email.com                  # d64 characters
+description: Brief description         # ≤4096 characters
+author: Your Name                      # ≤64 characters
+email: your@email.com                  # ≤64 characters
 ---
 ```
 
@@ -89,7 +89,7 @@ dependencies: account/repo/specs       # External spec dependencies
 #### `name` (Required)
 - **Purpose:** Unique identifier for the specification
 - **Format:** English letters, numbers, hyphens only
-- **Length:** d255 characters
+- **Length:** ≤255 characters
 - **Convention:** `<project>-<module>-<feature>` (e.g., `my-app-auth-login`)
 - **Important:** All spec files in the same `./specs` directory must share the same `name` value
 
@@ -100,16 +100,16 @@ dependencies: account/repo/specs       # External spec dependencies
 
 #### `description` (Required)
 - **Purpose:** Brief summary of the specification
-- **Length:** d4096 characters
+- **Length:** ≤4096 characters
 - **Content:** Clear, concise explanation of what this spec defines
 
 #### `author` (Required)
 - **Purpose:** Specification author's name
-- **Length:** d64 characters
+- **Length:** ≤64 characters
 
 #### `email` (Required)
 - **Purpose:** Author's contact email
-- **Length:** d64 characters
+- **Length:** ≤64 characters
 - **Format:** Valid email address
 
 #### `homepage` (Optional)
@@ -182,10 +182,10 @@ Complete list of prerequisites:
 ## Requirements
 
 ### Libraries
-- bcrypt ^5.1.0  Password hashing
-- jsonwebtoken ^9.0.0  JWT token generation
-- passport ^0.6.0  Authentication middleware
-- @google-oauth/client ^2.0.0  Google OAuth integration
+- bcrypt ^5.1.0 — Password hashing
+- jsonwebtoken ^9.0.0 — JWT token generation
+- passport ^0.6.0 — Authentication middleware
+- @google-oauth/client ^2.0.0 — Google OAuth integration
 
 ### Environment
 - Node.js 20.10.0 LTS
@@ -231,8 +231,8 @@ Exhaustive implementation specifications. This is the most critical section wher
 **Location:** `/src/services/auth.service.ts`
 
 **Parameters:**
-- `email: string` (required)  User's email address
-- `password: string` (required)  Plain text password (minimum 8 characters)
+- `email: string` (required) — User's email address
+- `password: string` (required) — Plain text password (minimum 8 characters)
 
 **Return Type:** `Promise<AuthResult>`
 ```typescript
@@ -305,16 +305,16 @@ export async function authenticateUser(
 ```
 
 **Error Handling:**
-- `ValidationError`: Invalid email format � `400 Bad Request`
-- `AuthError`: Invalid credentials � `401 Unauthorized`
-- `DatabaseError`: Database connection failure � `500 Internal Server Error`
+- `ValidationError`: Invalid email format → `400 Bad Request`
+- `AuthError`: Invalid credentials → `401 Unauthorized`
+- `DatabaseError`: Database connection failure → `500 Internal Server Error`
 
 **Test Cases:**
-1. Valid credentials � Returns token and user profile
-2. Invalid email format � Returns validation error
-3. Non-existent user � Returns authentication error
-4. Incorrect password � Returns authentication error
-5. Database unavailable � Returns server error
+1. Valid credentials → Returns token and user profile
+2. Invalid email format → Returns validation error
+3. Non-existent user → Returns authentication error
+4. Incorrect password → Returns authentication error
+5. Database unavailable → Returns server error
 ```
 
 ---
@@ -413,16 +413,16 @@ All project specifications **must** be stored in the `./specs` directory:
 
 ```
 project-root/
-   specs/                    # All spec files go here
-      index.md              # DTOC (Detailed Table of Contents)
-      instructions.md       # AI workflow guidelines (MANDATORY)
-      preview.png           # Spec repository preview image (1024�1024)
-      project-setup.md
-      project-database.md
-      project-auth-login.md
-      project-auth-signup.md
-   src/                      # Implementation code
-   README.md
+├── specs/                    # All spec files go here
+│   ├── index.md              # DTOC (Detailed Table of Contents)
+│   ├── instructions.md       # AI workflow guidelines (MANDATORY)
+│   ├── preview.png           # Spec repository preview image (1024×1024)
+│   ├── project-setup.md
+│   ├── project-database.md
+│   ├── project-auth-login.md
+│   └── project-auth-signup.md
+├── src/                      # Implementation code
+└── README.md
 ```
 
 ### File Naming Convention
@@ -436,7 +436,7 @@ project-root/
 - `forum-posts-create.md`
 
 **Benefits:**
-- Clear hierarchy (project � module � feature)
+- Clear hierarchy (project → module → feature)
 - Easy to locate specific functionality
 - Systematic organization for large projects
 
@@ -444,67 +444,172 @@ project-root/
 
 #### `index.md` (REQUIRED)
 
-**Purpose:** Detailed Table of Contents (DTOC) with summaries
+**Purpose:** Detailed Table of Contents (DTOC) serving as the navigation hub for AI and developers
 
-**Content:**
-- YAML header (same `name` as all other specs in the directory)
-- Summaries of each specification file
-- Navigation map for AI and developers
-- Project overview and structure
+**What is DTOC?**
+
+DTOC (Detailed Table of Contents) is not just a simple list of files—it's a comprehensive navigation map that answers the **5W1H questions** (Who, What, When, Where, Why, How) for each specification file in your project.
+
+**Why DTOC is Critical for SED:**
+
+When AI starts working on a task, it first reads `index.md` to understand:
+- **What** each spec file contains (summary and purpose)
+- **When** each spec should be used (triggering conditions, workflow order)
+- **Where** the spec fits in the project architecture
+- **Why** the spec exists (problems it solves, requirements it fulfills)
+- **How** the spec relates to other specs (dependencies, execution order)
+- **Who** created and maintains the spec (authorship, ownership)
+
+This allows AI to make intelligent decisions about which specifications to load and in what order to execute them, following the **5W1H principle** to determine relevance to the current task.
+
+**Content Requirements:**
+- **YAML header** with the same `name` as all other specs in the directory
+- **Project overview** — High-level description of the entire project
+- **Summaries of each specification file** — Brief description of purpose and scope
+- **Contextual information** — When to use each spec (5W1H guidance)
+- **Navigation map** — Logical organization showing relationships between specs
+- **Execution guidance** — Step values and dependency chains
 
 **Example:**
 ```markdown
 ---
 name: my-app
 version: 1.0.0
-description: My App - Index
+description: My App - Detailed Table of Contents (DTOC)
 author: Your Name
 email: your@email.com
 ---
 
-# My App - Specification Index
+# My App - Specification Index (DTOC)
 
 ## Project Overview
 
-My App is a full-stack web application...
+My App is a full-stack web application built with TypeScript, React, and PostgreSQL, providing user authentication, content management, and real-time collaboration features.
+
+## How to Use This Index
+
+This DTOC follows the **5W1H principle** to help AI and developers understand:
+- **What**: Purpose and content of each specification
+- **When**: Conditions triggering the use of each spec
+- **Where**: Location in project architecture
+- **Why**: Problems solved and requirements fulfilled
+- **How**: Implementation approach and dependencies
+- **Who**: Authorship and maintenance responsibility
 
 ## Specification Files
 
-### Setup & Configuration
+### Setup & Configuration (Execute First - Step 10)
 
 **my-app-setup-database.md**
-- Database schema definitions for PostgreSQL 15.4
-- User, post, comment, and session tables
-- Indexes, foreign keys, and constraints
+- **What**: Complete database schema definitions for PostgreSQL 15.4
+- **When**: Use during initial project setup and database migrations
+- **Where**: Database layer — tables, indexes, foreign keys, constraints
+- **Why**: Establishes data structure foundation for the entire application
+- **How**: SQL scripts with CREATE TABLE, INDEX, and CONSTRAINT statements
+- **Who**: Database architect, backend developers
+- **Dependencies**: None (foundation spec)
+- **Execution Step**: 10 (runs first)
 
 **my-app-setup-backend.md**
-- Node.js/Express backend configuration
-- API routes and middleware setup
-- Environment variables and deployment
+- **What**: Node.js/Express backend configuration and API structure
+- **When**: Use after database setup, before implementing features
+- **Where**: Backend layer — server, middleware, routes, environment
+- **Why**: Provides runtime environment and API framework
+- **How**: Express.js configuration with middleware chain and route definitions
+- **Who**: Backend developers
+- **Dependencies**: my-app-setup-database.md
+- **Execution Step**: 20
 
-### Authentication
+### Authentication (Step 30)
 
 **my-app-auth-login.md**
-- Email/password authentication flow
-- JWT token generation and validation
-- Session management
+- **What**: Email/password authentication flow with JWT tokens
+- **When**: Use when implementing user login functionality
+- **Where**: Auth module — login endpoint, token generation, session management
+- **Why**: Enables secure user authentication and session handling
+- **How**: bcrypt password hashing + JWT token generation + session validation
+- **Who**: Auth developers, security team
+- **Dependencies**: my-app-setup-database.md[users-schema], my-app-setup-backend.md
+- **Execution Step**: 30
 
 **my-app-auth-signup.md**
-- User registration with email verification
-- Password hashing with bcrypt
-- Input validation and error handling
+- **What**: User registration with email verification
+- **When**: Use when implementing new user account creation
+- **Where**: Auth module — signup endpoint, email verification, validation
+- **Why**: Allows new users to create accounts with verified emails
+- **How**: Input validation + password hashing + email verification workflow
+- **Who**: Auth developers
+- **Dependencies**: my-app-setup-database.md[users-schema], my-app-auth-login.md
+- **Execution Step**: 30
+
+### Content Management (Step 40)
+
+**my-app-posts-create.md**
+- **What**: Post creation with rich text editor and media upload
+- **When**: Use when authenticated users create new content
+- **Where**: Content module — post creation endpoint, media storage, validation
+- **Why**: Enables users to publish content with text and multimedia
+- **How**: Multipart form handling + S3 upload + database insertion
+- **Who**: Content developers
+- **Dependencies**: my-app-auth-login.md (requires authentication)
+- **Execution Step**: 40
+
+## Execution Order
+
 ```
+Step 10: Database Setup
+    ↓
+Step 20: Backend Configuration
+    ↓
+Step 30: Authentication (login + signup in parallel)
+    ↓
+Step 40: Content Management
+```
+
+## Development Workflow
+
+1. **Initial Setup**: Start with Step 10 specs (database, backend)
+2. **Authentication**: Implement Step 30 specs (login, signup)
+3. **Feature Development**: Build Step 40+ specs based on requirements
+4. **Always check**: Use 5W1H principle to determine which specs are relevant to your current task
+```
+
+**Key Points:**
+- **DTOC is a decision-making tool** for AI to determine which specs to load
+- **5W1H guidance** helps AI understand context and relevance
+- **Summaries are not just descriptions** — they include when, why, and how information
+- **Relationships and dependencies** are explicitly documented
+- **Execution order is clear** through step values and dependency chains
 
 #### `instructions.md` (MANDATORY)
 
-**Purpose:** Contains instructions that AI must follow when working with the specifications
+**Purpose:** AI Development Directive — The mandatory guideline document that AI must strictly follow when working with specifications
 
-**Content:**
-- Code style guidelines
-- Testing requirements
-- Naming conventions
-- Development workflow rules
-- Project-specific directives
+**What is instructions.md?**
+
+`instructions.md` is **not just documentation**—it is a **directive file** that defines the rules, conventions, and workflows that AI must obey when executing specifications. This file serves as the **AI's operational manual** for the project.
+
+**Why instructions.md is Critical for SED:**
+
+According to SED principles, AI must:
+1. **Read `specs/instructions.md` FIRST** before starting any task
+2. **Follow the instructions EXACTLY** as written, without interpretation
+3. **Apply these rules consistently** throughout development
+4. **Report violations** if instructions conflict with specifications
+
+This file transforms AI from a passive code generator into a **compliant development agent** that follows project-specific rules with absolute fidelity.
+
+**Content Requirements:**
+
+**Mandatory Sections:**
+
+1. **SED Compliance Rules** — How to follow Spec-Exact Development principles
+2. **Code Style Guidelines** — Formatting, naming, structure requirements
+3. **Testing Requirements** — Coverage targets, test types, assertion patterns
+4. **Error Handling Standards** — How to handle and report errors
+5. **Development Workflow** — Step-by-step process for implementing specs
+6. **Quality Checks** — Pre-commit validation, review criteria
+7. **Communication Protocol** — How AI should request clarification
 
 **Template:** You can copy `sed-instructions.md` as a starting point
 
@@ -512,21 +617,282 @@ My App is a full-stack web application...
 ```markdown
 # AI Development Instructions
 
-## Code Style
-- Use TypeScript strict mode
-- Follow functional programming principles
-- Add comprehensive JSDoc comments
+## CRITICAL: Read This First
+
+**Before starting ANY task, you MUST:**
+
+1. Read this entire `instructions.md` file
+2. Read `specs/index.md` to understand the project structure (DTOC)
+3. Use 5W1H principle to identify relevant specification files
+4. Execute specifications with ABSOLUTE OBEDIENCE
+
+## SED Compliance Rules
+
+### Rule 1: Absolute Specification Compliance
+
+- Follow specifications EXACTLY as written, word for word
+- The specification is the absolute rule that overrides all other considerations
+- Even if the specification appears incorrect, you MUST follow it precisely
+- Never deviate from the spec based on your own judgment or "best practices"
+
+### Rule 2: Zero Interpretation and Assumption
+
+- Never interpret or assume anything beyond what is explicitly stated
+- Do not perform any task that is not explicitly defined in the specification
+- Do not infer intent, fill in gaps, or "improve" the spec with your ideas
+- If something is not in the spec, it should NOT be implemented
+
+### Rule 3: Critical Error Reporting
+
+- If you discover severe errors or critical issues in the specification, STOP immediately
+- Report the issue clearly: explain what is wrong and why it prevents execution
+- Provide specific details about the problematic section
+- Wait for developer confirmation or specification update before proceeding
+- NEVER perform tasks not in the spec, even when reporting errors
+
+### Rule 4: Request Clarification for Ambiguity
+
+- When specifications are ambiguous, incomplete, or unclear, STOP and ask
+- Request clarification from the developer rather than making assumptions
+- Provide specific examples of what information is missing
+- Do not proceed until you receive clear guidance
+
+## Code Style Guidelines
+
+### TypeScript Requirements
+
+- **Strict Mode**: Always enable TypeScript strict mode
+- **No `any` Type**: Avoid using `any` type unless explicitly specified in spec
+- **Explicit Return Types**: All functions must have explicit return type annotations
+- **Interface Over Type**: Prefer `interface` for object shapes, `type` for unions/intersections
+
+### Naming Conventions
+
+- **camelCase**: Variables, functions, properties
+  ```typescript
+  const userName = 'John';
+  function getUserProfile() { }
+  ```
+
+- **PascalCase**: Classes, interfaces, types, enums
+  ```typescript
+  interface UserProfile { }
+  class AuthService { }
+  type ApiResponse = { };
+  ```
+
+- **UPPER_SNAKE_CASE**: Constants, environment variables
+  ```typescript
+  const MAX_LOGIN_ATTEMPTS = 5;
+  const API_BASE_URL = process.env.API_BASE_URL;
+  ```
+
+### File Organization
+
+- One component/service per file
+- File name matches export name (e.g., `UserProfile.tsx` exports `UserProfile`)
+- Group related files in feature folders
 
 ## Testing Requirements
-- Minimum 80% code coverage
-- Write tests before implementation (TDD)
-- Include edge cases and error scenarios
 
-## Naming Conventions
-- Use camelCase for variables and functions
-- Use PascalCase for classes and types
-- Use UPPER_SNAKE_CASE for constants
+### Coverage Targets
+
+- **Minimum**: 80% coverage (statement, branch, function, line)
+- **Target**: 90%+ coverage for critical business logic
+- **100% Coverage Required**: Authentication, payment, data validation modules
+
+### Test Structure
+
+```typescript
+describe('ComponentName', () => {
+  // Setup
+  beforeEach(() => {
+    // Initialize test environment
+  });
+
+  // Test cases
+  it('should handle success case', () => {
+    // Arrange, Act, Assert
+  });
+
+  it('should handle error case', () => {
+    // Test error scenarios
+  });
+
+  // Cleanup
+  afterEach(() => {
+    // Clean up resources
+  });
+});
 ```
+
+### Required Test Types
+
+1. **Unit Tests**: Test individual functions in isolation
+2. **Integration Tests**: Test interaction between modules
+3. **E2E Tests**: Test complete user workflows
+4. **Edge Cases**: Test boundary conditions, null/undefined, empty arrays
+5. **Error Cases**: Test error handling and recovery
+
+## Error Handling Standards
+
+### Error Hierarchy
+
+```typescript
+// Custom error classes
+class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+class AuthenticationError extends Error { }
+class DatabaseError extends Error { }
+```
+
+### Error Response Format
+
+```typescript
+interface ErrorResponse {
+  success: false;
+  error: string;           // User-friendly message
+  code: string;            // Error code (e.g., 'INVALID_EMAIL')
+  statusCode: number;      // HTTP status code
+  details?: any;           // Additional context (dev only)
+}
+```
+
+### Error Logging
+
+- **Development**: Log full error stack traces
+- **Production**: Log error codes and sanitized messages
+- **Never Log**: Passwords, tokens, personal data
+
+## Development Workflow
+
+### 1. Preparation
+
+- [ ] Read `specs/instructions.md` (this file)
+- [ ] Read `specs/index.md` (DTOC)
+- [ ] Identify relevant specs using 5W1H principle
+- [ ] Verify spec score is ≥95
+
+### 2. Implementation
+
+- [ ] Create feature branch: `feature/spec-name`
+- [ ] Implement EXACTLY as specified
+- [ ] Add comprehensive JSDoc comments
+- [ ] Follow code style guidelines
+
+### 3. Testing
+
+- [ ] Write unit tests first (TDD approach)
+- [ ] Achieve minimum 80% coverage
+- [ ] Test all edge cases and error scenarios
+- [ ] Run full test suite: `npm test`
+
+### 4. Quality Checks
+
+- [ ] Run linter: `npm run lint`
+- [ ] Format code: `npm run format`
+- [ ] Build without errors: `npm run build`
+- [ ] Check for TypeScript errors: `npm run type-check`
+
+### 5. Commit and Review
+
+- [ ] Stage changes: `git add .`
+- [ ] Commit with descriptive message
+- [ ] Push to remote: `git push`
+- [ ] Create pull request if required
+
+## Communication Protocol
+
+### When to Ask for Clarification
+
+Ask when you encounter:
+- Ambiguous or contradictory specifications
+- Missing information required for implementation
+- Unclear dependencies or execution order
+- Potential security or performance issues
+
+### How to Request Clarification
+
+Use this format:
+```
+CLARIFICATION NEEDED
+
+Section: [Spec file name and section]
+Issue: [Describe the ambiguity or missing information]
+Impact: [Explain why this prevents implementation]
+Question: [Specific question to resolve the issue]
+```
+
+### When to Report Errors
+
+Report when you find:
+- Critical security vulnerabilities
+- Logic errors that would cause system failure
+- Contradictions between specifications
+- Impossible requirements (e.g., performance targets that exceed physical limits)
+
+### How to Report Errors
+
+Use this format:
+```
+CRITICAL ERROR DETECTED
+
+Spec: [File name]
+Section: [Specific section]
+Error: [Describe the problem]
+Impact: [Potential consequences]
+Recommendation: [Suggested fix or alternative]
+Status: HALTED - Awaiting developer confirmation
+```
+
+## Prohibited Practices
+
+### ❌ NEVER Do These:
+
+1. **Modify specs autonomously** — AI cannot change specifications
+2. **Implement features not in spec** — No "nice to have" additions
+3. **Use deprecated patterns** — Follow modern best practices only if specified
+4. **Skip tests** — Testing is mandatory for all code
+5. **Ignore errors** — All errors must be handled explicitly
+6. **Guess intent** — Ask for clarification instead
+
+### ✅ ALWAYS Do These:
+
+1. **Follow spec exactly** — Zero deviation from specifications
+2. **Write tests first** — TDD approach ensures compliance
+3. **Document thoroughly** — JSDoc comments for all public APIs
+4. **Handle errors properly** — Never let errors propagate silently
+5. **Ask when unclear** — Request clarification for ambiguities
+6. **Report critical issues** — Stop and report severe problems
+
+## Final Checklist
+
+Before marking any task as complete:
+
+- [ ] Code matches specification 100%
+- [ ] All tests pass (≥80% coverage)
+- [ ] No linting errors
+- [ ] TypeScript compiles without errors
+- [ ] JSDoc comments added for public APIs
+- [ ] Error handling implemented
+- [ ] Edge cases tested
+- [ ] Code formatted consistently
+- [ ] Git commit message is descriptive
+- [ ] No console.log or debug code remaining
+```
+
+**Key Points:**
+- **Instructions are directives, not suggestions** — AI must obey them absolutely
+- **Read first, every time** — AI must read instructions before starting any task
+- **Project-specific rules** — Each project can define its own workflow and standards
+- **SED compliance enforcement** — Instructions reinforce Spec-Exact Development principles
+- **Error reporting protocol** — Defines how AI should communicate issues
+- **Quality gates** — Establishes clear criteria for acceptable implementation
 
 #### `preview.png` (RECOMMENDED)
 
@@ -534,7 +900,7 @@ My App is a full-stack web application...
 
 **Format:**
 - Square image (width equals height)
-- Size: 1024px � 1024px
+- Size: 1024px × 1024px
 - Location: `./specs/preview.png`
 
 **Usage:** Spec browsers, catalogs, and repository viewers display this image to help users quickly identify specifications.
@@ -566,10 +932,10 @@ Includes session management, password reset, and account lockout after failed at
 ## Requirements
 
 ### Libraries
-- bcrypt ^5.1.0  Password hashing with salt rounds
-- jsonwebtoken ^9.0.0  JWT token generation and verification
-- passport ^0.6.0  Authentication middleware
-- passport-google-oauth20 ^2.0.0  Google OAuth 2.0 strategy
+- bcrypt ^5.1.0 — Password hashing with salt rounds
+- jsonwebtoken ^9.0.0 — JWT token generation and verification
+- passport ^0.6.0 — Authentication middleware
+- passport-google-oauth20 ^2.0.0 — Google OAuth 2.0 strategy
 
 ### Environment Variables
 ```bash
@@ -630,8 +996,8 @@ npm install bcrypt jsonwebtoken passport passport-google-oauth20
 **Purpose:** Authenticate user credentials and generate session token
 
 **Parameters:**
-- `email: string` (required)  User's email address
-- `password: string` (required)  Plain text password (minimum 8 characters)
+- `email: string` (required) — User's email address
+- `password: string` (required) — Plain text password (minimum 8 characters)
 
 **Return Type:** `Promise<AuthResult>`
 
@@ -856,7 +1222,7 @@ describe('authenticateUser', () => {
 });
 ```
 
-**Coverage Target:** e80% (statement, branch, function, line)
+**Coverage Target:** ≥80% (statement, branch, function, line)
 
 ### Database Schema
 
@@ -961,7 +1327,7 @@ CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 1. Create database: `forum_db`
 2. Enable required extensions
-3. Create tables in order: users � categories � posts � comments
+3. Create tables in order: users → categories → posts → comments
 4. Create indexes for performance optimization
 5. Add foreign key constraints
 6. Create triggers for updated_at timestamps
@@ -1193,8 +1559,8 @@ description: Complete user authentication system with email/password login, OAut
 **Good Example:**
 ```markdown
 ### Libraries
-- bcrypt ^5.1.0  Password hashing with configurable salt rounds
-- jsonwebtoken ^9.0.0  JWT token generation and verification
+- bcrypt ^5.1.0 — Password hashing with configurable salt rounds
+- jsonwebtoken ^9.0.0 — JWT token generation and verification
 ```
 
 ### 3. Complete Code Examples
@@ -1249,14 +1615,14 @@ Write tests for the authentication function
 ```markdown
 ### Test Cases
 
-1. **Valid credentials** � Returns token and user profile (200)
-2. **Invalid email format** � Returns validation error (400)
-3. **Non-existent user** � Returns authentication error (401)
-4. **Incorrect password** � Returns authentication error (401)
-5. **5 failed attempts** � Locks account for 15 minutes (423)
-6. **Database unavailable** � Returns server error (500)
+1. **Valid credentials** → Returns token and user profile (200)
+2. **Invalid email format** → Returns validation error (400)
+3. **Non-existent user** → Returns authentication error (401)
+4. **Incorrect password** → Returns authentication error (401)
+5. **5 failed attempts** → Locks account for 15 minutes (423)
+6. **Database unavailable** → Returns server error (500)
 
-**Coverage Target:** e80% (statement, branch, function, line)
+**Coverage Target:** ≥80% (statement, branch, function, line)
 ```
 
 ### 6. User-Facing Text
@@ -1313,15 +1679,15 @@ Style the button nicely
 
 SED specification files are complete implementation blueprints that enable AI to execute exactly as defined without interpretation. Every spec must include:
 
- **Complete YAML header** with all required fields
- **Standard structure** (Overview, Requirements, Workflow, Details)
- **Exhaustive details**  function names, parameters, return types, implementations
- **Explicit error handling**  every error case documented
- **Complete test cases**  coverage targets and specific scenarios
- **User-facing elements**  exact text, styling, and visual specifications
- **Dependencies**  clearly defined external spec references
+✅ **Complete YAML header** with all required fields
+✅ **Standard structure** (Overview, Requirements, Workflow, Details)
+✅ **Exhaustive details** — function names, parameters, return types, implementations
+✅ **Explicit error handling** — every error case documented
+✅ **Complete test cases** — coverage targets and specific scenarios
+✅ **User-facing elements** — exact text, styling, and visual specifications
+✅ **Dependencies** — clearly defined external spec references
 
-**Remember:** In SED, the specification is not documentationit is the source of truth that AI executes with absolute fidelity. Every pixel, every word, every function is part of the specification. Nothing is left to interpretation or assumption.
+**Remember:** In SED, the specification is not documentation—it is the source of truth that AI executes with absolute fidelity. Every pixel, every word, every function is part of the specification. Nothing is left to interpretation or assumption.
 
 ---
 
