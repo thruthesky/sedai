@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login to SEDAI using phone authentication to register and manage your specification repositories.">
+    <meta name="description" content="Login to SEDAI using email and password to register and manage your specification repositories.">
     <title>Login - SEDAI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>        :root {
@@ -172,30 +172,8 @@
             border-radius: 0.75rem;
         }
 
-        .form-step {
-            display: none;
-        }
-
-        .form-step.active {
-            display: block;
-        }
-
-        #recaptcha-container {
-            margin: 1rem 0;
-        }
-
         .alert {
             margin-top: 1rem;
-        }
-
-        .phone-input-group {
-            position: relative;
-        }
-
-        .phone-format-hint {
-            font-size: 0.875rem;
-            color: #6c757d;
-            margin-top: 0.25rem;
         }
 
         .loading-spinner {
@@ -303,7 +281,7 @@
         <header class="page-header text-center">
             <div class="container">
                 <h1 class="display-4 fw-bold mb-3">Login to SEDAI</h1>
-                <p class="lead fs-5">Sign in with your phone number to register and manage specification repositories</p>
+                <p class="lead fs-5">Sign in with your email and password to manage specification repositories</p>
             </div>
         </header>
 
@@ -312,78 +290,46 @@
                 <div class="login-container">
                     <div class="card login-card">
                         <div class="card-body p-4">
-                            <h2 class="h4 text-center mb-4">Phone Authentication</h2>
+                            <h2 class="h4 text-center mb-4">Email/Password Login</h2>
 
                             <!-- 알림 메시지 영역 -->
                             <div id="alert-container"></div>
 
-                            <!-- Step 1: 전화번호 입력 -->
-                            <div id="phone-step" class="form-step active">
+                            <!-- 이메일/비밀번호 입력 폼 -->
+                            <div id="login-form">
                                 <div class="mb-3">
-                                    <label for="phone-number" class="form-label">Phone Number</label>
-                                    <div class="phone-input-group">
-                                        <input
-                                            type="tel"
-                                            class="form-control"
-                                            id="phone-number"
-                                            placeholder="+821012345678"
-                                            required
-                                        >
-                                        <div class="phone-format-hint">
-                                            Enter in E.164 format (e.g., +821012345678 for South Korea)
-                                        </div>
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        placeholder="your@email.com"
+                                        required
+                                        autocomplete="email"
+                                    >
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="password"
+                                        placeholder="••••••••"
+                                        required
+                                        autocomplete="current-password"
+                                    >
+                                    <div class="form-text">
+                                        Password must be at least 6 characters long
                                     </div>
                                 </div>
 
-                                <!-- reCAPTCHA 컨테이너 (Visible 모드) -->
-                                <div id="recaptcha-container"></div>
-
-                                <!-- Send SMS 버튼 (Invisible reCAPTCHA 모드에서 사용) -->
                                 <button
-                                    id="send-sms-button"
+                                    id="login-button"
                                     class="btn btn-primary w-100"
                                     type="button"
                                 >
-                                    Send SMS Code
-                                </button>
-                            </div>
-
-                            <!-- Step 2: SMS 코드 입력 -->
-                            <div id="code-step" class="form-step">
-                                <p class="text-muted mb-3">
-                                    We've sent a verification code to your phone. Please enter it below.
-                                </p>
-
-                                <div class="mb-3">
-                                    <label for="verification-code" class="form-label">Verification Code</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="verification-code"
-                                        placeholder="000000"
-                                        maxlength="6"
-                                        pattern="\d{6}"
-                                        required
-                                    >
-                                    <div class="phone-format-hint">
-                                        Enter the 6-digit code you received via SMS
-                                    </div>
-                                </div>
-
-                                <button
-                                    id="verify-code-button"
-                                    class="btn btn-primary w-100 mb-2"
-                                    type="button"
-                                >
-                                    Verify Code
-                                </button>
-
-                                <button
-                                    id="resend-code-button"
-                                    class="btn btn-outline-secondary w-100"
-                                    type="button"
-                                >
-                                    Resend Code
+                                    Login
                                 </button>
                             </div>
 
@@ -401,8 +347,7 @@
                     <div class="text-center mt-4">
                         <p class="text-muted">
                             <small>
-                                By logging in, you agree to receive SMS messages for authentication purposes.
-                                Standard message and data rates may apply.
+                                <strong>Note:</strong> If you don't have an account, one will be automatically created when you login with a new email.
                             </small>
                         </p>
                     </div>

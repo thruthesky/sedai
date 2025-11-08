@@ -1,9 +1,9 @@
 /**
- * Firebase Phone Authentication Module
+ * Firebase Email/Password Authentication Module
  *
- * Firebase Phone Authentication을 사용하여 전화번호 인증을 구현합니다.
- * - RecaptchaVerifier (Invisible 모드)
- * - SMS 코드 전송 및 검증
+ * Firebase Email/Password Authentication을 사용하여 로그인을 구현합니다.
+ * - 이메일/비밀번호 로그인
+ * - 자동 회원가입 (계정이 없을 경우)
  * - 인증 상태 관리
  * - 로그아웃 기능
  */
@@ -13,8 +13,8 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebas
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app-check.js';
 import {
     getAuth,
-    RecaptchaVerifier,
-    signInWithPhoneNumber,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
     onAuthStateChanged,
     signOut
 } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
@@ -78,26 +78,22 @@ try {
 // 다른 Firebase 서비스 초기화
 const auth = getAuth(app);
 
-// 전역 변수
-let recaptchaVerifier = null;
-let confirmationResult = null;
-
 /**
  * 에러 코드별 메시지 매핑
  */
 const AuthErrorMessages = {
-    'auth/invalid-phone-number': 'Invalid phone number format. Please use E.164 format (e.g., +821012345678)',
-    'auth/too-many-requests': 'Too many SMS requests. Please try again later.',
-    'auth/quota-exceeded': 'SMS quota exceeded. Please contact support.',
-    'auth/invalid-verification-code': 'Invalid verification code. Please check and try again.',
-    'auth/code-expired': 'Verification code has expired. Please request a new code.',
-    'auth/missing-phone-number': 'Phone number is required.',
-    'auth/missing-verification-code': 'Verification code is required.',
-    'auth/invalid-app-credential': 'reCAPTCHA verification failed. Please try again.',
-    'auth/captcha-check-failed': 'reCAPTCHA verification failed. Please try again.',
-    'auth/network-request-failed': 'Network error. Please check your internet connection.',
+    'auth/invalid-email': 'Invalid email address format.',
     'auth/user-disabled': 'This account has been disabled.',
-    'auth/operation-not-allowed': 'Phone authentication is not enabled. Please contact support.'
+    'auth/user-not-found': 'No account found with this email. Creating new account...',
+    'auth/wrong-password': 'Incorrect password. Please try again.',
+    'auth/email-already-in-use': 'An account with this email already exists.',
+    'auth/weak-password': 'Password should be at least 6 characters long.',
+    'auth/network-request-failed': 'Network error. Please check your internet connection.',
+    'auth/too-many-requests': 'Too many login attempts. Please try again later.',
+    'auth/operation-not-allowed': 'Email/password authentication is not enabled.',
+    'auth/invalid-credential': 'Invalid email or password. Creating new account...',
+    'auth/missing-email': 'Email address is required.',
+    'auth/missing-password': 'Password is required.'
 };
 
 /**
@@ -110,65 +106,44 @@ function getErrorMessage(errorCode) {
 }
 
 /**
- * 전화번호 형식 검증 (E.164)
- * @param {string} phoneNumber - 검증할 전화번호
+ * 이메일 형식 검증
+ * @param {string} email - 검증할 이메일
  * @returns {boolean} 유효성 여부
  */
-function validatePhoneNumber(phoneNumber) {
-    // E.164 형식: +[국가코드][전화번호]
-    // 예: +821012345678 (한국), +14155552671 (미국)
-    const e164Regex = /^\+[1-9]\d{1,14}$/;
-    return e164Regex.test(phoneNumber);
+function validateEmail(email) {
+    // 기본 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
 }
 
 /**
- * SMS 코드 형식 검증 (6자리 숫자)
- * @param {string} code - 검증할 코드
+ * 비밀번호 형식 검증
+ * @param {string} password - 검증할 비밀번호
  * @returns {boolean} 유효성 여부
  */
-function validateSmsCode(code) {
-    const codeRegex = /^\d{6}$/;
-    return codeRegex.test(code);
+function validatePassword(password) {
+    // Firebase 최소 요구사항: 6자 이상
+    return password && password.length >= 6;
 }
 
 /**
- * RecaptchaVerifier 초기화 (Invisible 모드)
- * - send-sms-button에 연결된 Invisible reCAPTCHA 생성
- * - 사용자가 버튼을 클릭하면 자동으로 reCAPTCHA 검증 실행
- */
-function initRecaptchaVerifier() {
-    if (recaptchaVerifier) {
-        return; // 이미 초기화됨
-    }
-
-    try {
-        recaptchaVerifier = new RecaptchaVerifier(auth, 'send-sms-button', {
-            'size': 'invisible',
-            'callback': (response) => {
-                console.log('reCAPTCHA verified successfully');
-            },
-            'expired-callback': () => {
-                console.warn('reCAPTCHA expired. Please try again.');
-                showError('reCAPTCHA expired. Please refresh the page and try again.');
-            }
-        });
-
-        console.log('RecaptchaVerifier initialized successfully');
-    } catch (error) {
-        console.error('RecaptchaVerifier initialization failed:', error);
-        showError('Failed to initialize reCAPTCHA. Please refresh the page.');
-    }
-}
-
-/**
- * SMS 코드 전송
- * @param {string} phoneNumber - E.164 형식의 전화번호
+ * 이메일/비밀번호로 로그인 또는 회원가입
+ * - 먼저 로그인 시도
+ * - 계정이 없으면 자동으로 회원가입 후 로그인
+ * @param {string} email - 이메일 주소
+ * @param {string} password - 비밀번호
  * @returns {Promise<void>}
  */
-async function sendSmsCode(phoneNumber) {
-    // 전화번호 검증
-    if (!validatePhoneNumber(phoneNumber)) {
-        showError('Please enter a valid phone number in E.164 format (e.g., +821012345678)');
+async function signInOrRegister(email, password) {
+    // 이메일 검증
+    if (!validateEmail(email)) {
+        showError('Please enter a valid email address.');
+        return;
+    }
+
+    // 비밀번호 검증
+    if (!validatePassword(password)) {
+        showError('Password must be at least 6 characters long.');
         return;
     }
 
@@ -178,64 +153,12 @@ async function sendSmsCode(phoneNumber) {
     hideSuccess();
 
     try {
-        // SMS 전송
-        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
-
-        console.log('SMS sent successfully to', phoneNumber);
-
-        // 성공 시 UI 업데이트
-        showLoading(false);
-        showSuccess('Verification code sent! Please check your phone.');
-        switchToCodeStep();
-
-    } catch (error) {
-        console.error('SMS send failed:', error);
-        showLoading(false);
-        showError(getErrorMessage(error.code));
-
-        // reCAPTCHA 리셋 (재시도를 위해)
-        if (recaptchaVerifier) {
-            try {
-                recaptchaVerifier.clear();
-                recaptchaVerifier = null;
-                initRecaptchaVerifier(); // 재초기화
-            } catch (resetError) {
-                console.error('Failed to reset reCAPTCHA:', resetError);
-            }
-        }
-    }
-}
-
-/**
- * SMS 코드 검증
- * @param {string} code - 6자리 SMS 코드
- * @returns {Promise<void>}
- */
-async function verifySmsCode(code) {
-    // confirmationResult 확인
-    if (!confirmationResult) {
-        showError('No verification in progress. Please send SMS code first.');
-        return;
-    }
-
-    // 코드 형식 검증
-    if (!validateSmsCode(code)) {
-        showError('Verification code must be 6 digits.');
-        return;
-    }
-
-    // 로딩 표시
-    showLoading(true);
-    hideError();
-    hideSuccess();
-
-    try {
-        // 코드 검증
-        const result = await confirmationResult.confirm(code);
+        // 먼저 로그인 시도
+        const result = await signInWithEmailAndPassword(auth, email, password);
         const user = result.user;
 
         console.log('User signed in successfully:', user.uid);
-        console.log('Phone number:', user.phoneNumber);
+        console.log('Email:', user.email);
 
         // 성공 메시지
         showLoading(false);
@@ -249,9 +172,45 @@ async function verifySmsCode(code) {
         }, 1500);
 
     } catch (error) {
-        console.error('Code verification failed:', error);
-        showLoading(false);
-        showError(getErrorMessage(error.code));
+        console.log('Login failed:', error.code);
+
+        // 계정이 없거나 잘못된 인증 정보인 경우 자동으로 회원가입 시도
+        if (error.code === 'auth/user-not-found' ||
+            error.code === 'auth/invalid-credential' ||
+            error.code === 'auth/invalid-login-credentials') {
+
+            console.log('Account not found. Attempting to create new account...');
+            showSuccess('Creating new account...');
+
+            try {
+                // 회원가입
+                const registerResult = await createUserWithEmailAndPassword(auth, email, password);
+                const newUser = registerResult.user;
+
+                console.log('Account created successfully:', newUser.uid);
+                console.log('Email:', newUser.email);
+
+                // 성공 메시지
+                showLoading(false);
+                showSuccess('Account created! Redirecting...');
+
+                // 리다이렉트
+                setTimeout(() => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirectUrl = urlParams.get('redirect') || 'spec-repositories.html';
+                    window.location.href = redirectUrl;
+                }, 1500);
+
+            } catch (registerError) {
+                console.error('Account creation failed:', registerError);
+                showLoading(false);
+                showError(getErrorMessage(registerError.code));
+            }
+        } else {
+            // 다른 에러 (예: 비밀번호 틀림)
+            showLoading(false);
+            showError(getErrorMessage(error.code));
+        }
     }
 }
 
@@ -290,7 +249,6 @@ function setupAuthStateListener() {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             console.log('User is signed in:', user.uid);
-            console.log('Phone number:', user.phoneNumber);
             console.log('Email:', user.email);
 
             // 로그인 페이지에 있고 이미 로그인된 경우 리다이렉트
@@ -374,103 +332,48 @@ function showLoading(show) {
     }
 }
 
-/**
- * 전화번호 입력 단계에서 코드 입력 단계로 전환
- */
-function switchToCodeStep() {
-    const phoneStep = document.getElementById('phone-step');
-    const codeStep = document.getElementById('code-step');
-
-    if (phoneStep) phoneStep.classList.remove('active');
-    if (codeStep) codeStep.classList.add('active');
-}
-
-/**
- * 코드 입력 단계에서 전화번호 입력 단계로 전환
- */
-function switchToPhoneStep() {
-    const phoneStep = document.getElementById('phone-step');
-    const codeStep = document.getElementById('code-step');
-
-    if (phoneStep) phoneStep.classList.add('active');
-    if (codeStep) codeStep.classList.remove('active');
-
-    // 입력 필드 초기화
-    const verificationCodeInput = document.getElementById('verification-code');
-    if (verificationCodeInput) {
-        verificationCodeInput.value = '';
-    }
-}
-
 // =====================
 // 이벤트 리스너 설정
 // =====================
 
 /**
  * 인증 모듈 초기화
- * - RecaptchaVerifier 초기화
  * - 이벤트 리스너 설정
  * - 인증 상태 리스너 설정
  */
 export function initAuth() {
     console.log('Initializing auth module...');
 
-    // RecaptchaVerifier 초기화
-    initRecaptchaVerifier();
-
     // 인증 상태 리스너 설정
     setupAuthStateListener();
 
-    // Send SMS 버튼 이벤트
-    const sendSmsButton = document.getElementById('send-sms-button');
-    if (sendSmsButton) {
-        sendSmsButton.addEventListener('click', async () => {
-            const phoneNumber = document.getElementById('phone-number').value.trim();
-            await sendSmsCode(phoneNumber);
-        });
-    }
-
-    // Verify Code 버튼 이벤트
-    const verifyCodeButton = document.getElementById('verify-code-button');
-    if (verifyCodeButton) {
-        verifyCodeButton.addEventListener('click', async () => {
-            const code = document.getElementById('verification-code').value.trim();
-            await verifySmsCode(code);
-        });
-    }
-
-    // Resend Code 버튼 이벤트
-    const resendCodeButton = document.getElementById('resend-code-button');
-    if (resendCodeButton) {
-        resendCodeButton.addEventListener('click', () => {
-            switchToPhoneStep();
-            hideError();
-            hideSuccess();
-            showSuccess('Please enter your phone number again to receive a new code.');
+    // Login 버튼 이벤트
+    const loginButton = document.getElementById('login-button');
+    if (loginButton) {
+        loginButton.addEventListener('click', async () => {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            await signInOrRegister(email, password);
         });
     }
 
     // Enter 키로 폼 제출
-    const phoneInput = document.getElementById('phone-number');
-    if (phoneInput) {
-        phoneInput.addEventListener('keypress', (e) => {
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    if (emailInput) {
+        emailInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                sendSmsButton?.click();
+                passwordInput?.focus();
             }
         });
     }
 
-    const codeInput = document.getElementById('verification-code');
-    if (codeInput) {
-        codeInput.addEventListener('keypress', (e) => {
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                verifyCodeButton?.click();
+                loginButton?.click();
             }
-        });
-
-        // 숫자만 입력 가능하도록 제한
-        codeInput.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[^0-9]/g, '');
         });
     }
 
@@ -482,8 +385,7 @@ export function initAuth() {
 // =====================
 
 export {
-    sendSmsCode,
-    verifySmsCode,
+    signInOrRegister,
     signOutUser,
     getCurrentUser,
     getAuth as getFirebaseAuth
