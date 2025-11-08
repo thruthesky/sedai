@@ -398,7 +398,8 @@
     <!-- Firebase SDK (ES Module) -->
     <script type="module">
         // Firebase 초기화는 auth.js에서 처리됩니다
-        import { initAuth } from './assets/js/auth.js';
+        // 캐시 무효화를 위한 버전 파라미터 추가
+        import { initAuth } from './assets/js/auth.js?v=2.0';
 
         // 페이지 로드 시 인증 초기화
         document.addEventListener('DOMContentLoaded', () => {

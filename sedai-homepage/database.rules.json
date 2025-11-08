@@ -1,0 +1,81 @@
+{
+  "rules": {
+    "repository": {
+      "entries": {
+        "$repositoryId": {
+          // 읽기 규칙: 모든 사용자가 읽기 가능
+          ".read": true,
+
+          // 쓰기 규칙:
+          // 1. 새로운 entry 생성: 인증된 사용자만 가능
+          // 2. 기존 entry 업데이트: 소유자 또는 관리자만 가능
+          // 3. 삭제: 관리자만 가능
+          ".write": "(
+            // 새로운 entry 생성 (인증된 사용자)
+            (!data.exists() && newData.exists() && auth != null) ||
+
+            // 기존 entry 업데이트 (소유자 또는 관리자)
+            (data.exists() && newData.exists() && auth != null && (data.child('uid').val() === auth.uid || auth.uid === 'htHr7rgyIqaiH3I8lzfDln8r4h33')) ||
+
+            // 삭제 (관리자만)
+            (data.exists() && !newData.exists() && auth != null && auth.uid === 'htHr7rgyIqaiH3I8lzfDln8r4h33')
+          )",
+
+          // 필수 필드 검증
+          ".validate": "newData.hasChildren(['repositoryId', 'name', 'description', 'specsUrl', 'author', 'email', 'license', 'status', 'createdAt', 'updatedAt', 'uid'])"
+        }
+      },
+
+      "index": {
+        "email": {
+          "$emailHash": {
+            "$repositoryId": {
+              ".read": true,
+              ".write": "auth != null"
+            }
+          }
+        },
+
+        "specsUrl": {
+          "$urlHash": {
+            "$repositoryId": {
+              ".read": true,
+              ".write": "auth != null"
+            }
+          }
+        },
+
+        "license": {
+          "$licenseSlug": {
+            "$repositoryId": {
+              ".read": true,
+              ".write": "auth != null"
+            }
+          }
+        }
+      },
+
+      "stats": {
+        "totals": {
+          ".read": true,
+          ".write": "auth != null"
+        }
+      },
+
+      "audit": {
+        "$repositoryId": {
+          "$auditId": {
+            // 감사 로그는 관리자만 읽기 가능
+            ".read": "auth != null && auth.uid === 'htHr7rgyIqaiH3I8lzfDln8r4h33'",
+
+            // 인증된 사용자가 쓰기 가능 (로그 생성)
+            ".write": "auth != null",
+
+            // 필수 필드 검증
+            ".validate": "newData.hasChildren(['auditId', 'action', 'performedBy', 'at'])"
+          }
+        }
+      }
+    }
+  }
+}

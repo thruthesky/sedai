@@ -11,7 +11,6 @@
 
 // Firebase SDK imports (ES Module)
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-app-check.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js';
 import {
     getDatabase,
@@ -20,6 +19,7 @@ import {
     get,
     push,
     update,
+    remove,
     onValue,
     query,
     orderByChild,
@@ -39,54 +39,15 @@ const firebaseConfig = {
     appId: "1:275784781126:web:91b75808d32ec3fa28a947"
 };
 
-// 개발 환경 감지 및 디버그 모드 설정
-const isDevelopment = window.location.hostname === 'localhost' ||
-                      window.location.hostname === '127.0.0.1';
-
-if (isDevelopment) {
-    // 디버그 모드 활성화 (브라우저 콘솔에 디버그 토큰 표시)
-    self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    console.log('[App Check] 🔧 Debug mode enabled - Check console for debug token');
-} else {
-    // 프로덕션 환경
-    console.log(`[App Check] 🌐 Production mode - Domain: ${window.location.hostname}`);
-}
-
 // Firebase 초기화
 const app = initializeApp(firebaseConfig);
 
-// App Check 초기화 (반드시 다른 Firebase 서비스보다 먼저 초기화)
-let appCheck;
-try {
-    console.log('[App Check] Initializing with reCAPTCHA Enterprise...');
-    appCheck = initializeAppCheck(app, {
-        provider: new ReCaptchaEnterpriseProvider('6Lc4HAUsAAAAABJ8FeyXPeprPHh0njp4PPcKtMfm'),
-        isTokenAutoRefreshEnabled: true // 토큰 자동 갱신 활성화
-    });
-
-    if (isDevelopment) {
-        console.log('[App Check] ✅ Initialized successfully (Debug mode)');
-    } else {
-        console.log('[App Check] ✅ Initialized successfully (Production mode)');
-        console.log('[App Check] reCAPTCHA Enterprise is active');
-    }
-} catch (error) {
-    console.error('[App Check] ❌ Initialization failed:', error);
-
-    if (!isDevelopment) {
-        // 프로덕션 환경에서 실패 시 도메인 설정 확인 안내
-        console.error('[App Check] 🚨 PRODUCTION ERROR: Please verify the following:');
-        console.error(`  1. Domain "${window.location.hostname}" is added to reCAPTCHA Enterprise key`);
-        console.error('  2. reCAPTCHA key: 6Lc4HAUsAAAAABJ8FeyXPeprPHh0njp4PPcKtMfm');
-        console.error('  3. Check Google Cloud Console: https://console.cloud.google.com/security/recaptcha');
-    } else {
-        console.error('[App Check] Register debug token in Firebase Console to continue');
-    }
-}
-
-// 다른 Firebase 서비스 초기화
+// Firebase 서비스 초기화
 const auth = getAuth(app);
 const db = getDatabase(app);
+
+// 관리자 UID
+const ADMIN_UID = 'htHr7rgyIqaiH3I8lzfDln8r4h33';
 
 // 허용된 라이선스 목록
 const ALLOWED_LICENSES = [
@@ -198,6 +159,15 @@ function loadLicenseFilterOptions(filterElement) {
  */
 async function checkUserAuthentication() {
     return auth.currentUser;
+}
+
+/**
+ * 현재 사용자가 관리자인지 확인
+ * @returns {boolean}
+ */
+function isAdmin() {
+    const user = auth.currentUser;
+    return user && user.uid === ADMIN_UID;
 }
 
 /**
@@ -446,6 +416,70 @@ async function executeRepositoryWrite(payload) {
 
     } catch (error) {
         console.error('[repository] Firebase write failed:', error);
+        throw new Error(RepositoryErrorCode.FIREBASE_WRITE_FAILED);
+    }
+}
+
+/**
+ * Repository 삭제 (관리자 전용)
+ * @param {string} repositoryId - Repository ID
+ * @returns {Promise<void>}
+ */
+async function executeRepositoryDelete(repositoryId) {
+    try {
+        // 관리자 권한 확인
+        if (!isAdmin()) {
+            throw new Error('Admin permission required');
+        }
+
+        // 기존 repository 가져오기
+        const existingRepo = allRepositories.find(repo => repo.repositoryId === repositoryId);
+
+        if (!existingRepo) {
+            throw new Error('Repository not found');
+        }
+
+        // 삭제할 경로들
+        const updates = {};
+        updates[`repository/entries/${repositoryId}`] = null;
+        updates[`repository/index/email/${existingRepo.metadata.emailHash}/${repositoryId}`] = null;
+        updates[`repository/index/specsUrl/${existingRepo.metadata.specsUrlHash}/${repositoryId}`] = null;
+        updates[`repository/index/license/${existingRepo.metadata.licenseSlug}/${repositoryId}`] = null;
+
+        await update(ref(db), updates);
+
+        // 통계 업데이트 (Transaction)
+        await runTransaction(ref(db, 'repository/stats/totals'), (current) => {
+            const next = current ?? { all: 0, pending: 0, approved: 0, rejected: 0 };
+            next.all = Math.max(0, (next.all || 0) - 1);
+            if (existingRepo.status === 'pending') {
+                next.pending = Math.max(0, (next.pending || 0) - 1);
+            } else if (existingRepo.status === 'approved') {
+                next.approved = Math.max(0, (next.approved || 0) - 1);
+            } else if (existingRepo.status === 'rejected') {
+                next.rejected = Math.max(0, (next.rejected || 0) - 1);
+            }
+            next.lastUpdated = Date.now();
+            return next;
+        });
+
+        // 감사 로그
+        const auditRef = push(ref(db, `repository/audit/${repositoryId}`));
+        await set(auditRef, {
+            auditId: auditRef.key,
+            action: 'delete',
+            performedBy: auth.currentUser.uid,
+            details: {
+                repositoryName: existingRepo.name,
+                deletedBy: 'admin'
+            },
+            at: Date.now()
+        });
+
+        console.log('[repository] Successfully deleted:', repositoryId);
+
+    } catch (error) {
+        console.error('[repository] Firebase delete failed:', error);
         throw new Error(RepositoryErrorCode.FIREBASE_WRITE_FAILED);
     }
 }
@@ -724,6 +758,11 @@ function renderRepositoryCard(entry) {
         ? `<a href="${entry.homepage}" class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener">Author Homepage</a>`
         : '<button class="btn btn-sm btn-outline-secondary" disabled>No Homepage</button>';
 
+    // 관리자인 경우 삭제 버튼 추가
+    const deleteButton = isAdmin()
+        ? `<button class="btn btn-sm btn-danger delete-repo-btn" data-repo-id="${entry.repositoryId}" data-repo-name="${escapeHtml(entry.name)}">Delete</button>`
+        : '';
+
     const createdDate = new Date(entry.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -753,6 +792,7 @@ function renderRepositoryCard(entry) {
                             View Specification
                         </a>
                         ${homepageButton}
+                        ${deleteButton}
                     </div>
                 </div>
             </div>
@@ -783,6 +823,11 @@ function renderMyRepositoryCard(entry) {
         'rejected': 'text-bg-danger'
     }[entry.status] || 'text-bg-secondary';
 
+    // 관리자인 경우 삭제 버튼 추가
+    const deleteButton = isAdmin()
+        ? `<button class="btn btn-sm btn-danger delete-repo-btn" data-repo-id="${entry.repositoryId}" data-repo-name="${escapeHtml(entry.name)}">Delete</button>`
+        : '';
+
     const createdDate = new Date(entry.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -812,6 +857,7 @@ function renderMyRepositoryCard(entry) {
                         <button class="btn btn-sm btn-outline-primary edit-repo-btn" data-repo-id="${entry.repositoryId}">
                             Edit
                         </button>
+                        ${deleteButton}
                     </div>
                 </div>
             </div>
@@ -855,6 +901,16 @@ function renderMyRepositoryList(entries) {
         button.addEventListener('click', (e) => {
             const repoId = e.target.dataset.repoId;
             handleEditButtonClick(repoId);
+        });
+    });
+
+    // Delete 버튼 이벤트 바인딩 (관리자 전용)
+    const deleteButtons = cachedElements.myList.querySelectorAll('.delete-repo-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const repoId = e.target.dataset.repoId;
+            const repoName = e.target.dataset.repoName;
+            handleDeleteButtonClick(repoId, repoName);
         });
     });
 }
@@ -909,6 +965,44 @@ function handleEditButtonClick(repositoryId) {
 }
 
 /**
+ * Delete 버튼 클릭 핸들러
+ * @param {string} repositoryId - Repository ID
+ * @param {string} repositoryName - Repository 이름
+ */
+async function handleDeleteButtonClick(repositoryId, repositoryName) {
+    // 관리자 권한 확인
+    if (!isAdmin()) {
+        showFeedback('danger', 'Admin permission required to delete repositories.');
+        return;
+    }
+
+    // 확인 대화상자
+    const confirmed = confirm(
+        `Are you sure you want to delete "${repositoryName}"?\n\n` +
+        `This action cannot be undone.`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        // 삭제 실행
+        await executeRepositoryDelete(repositoryId);
+
+        // 성공 메시지
+        showFeedback('success', `Repository "${repositoryName}" has been deleted successfully.`);
+
+        // 페이지 상단으로 스크롤
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (error) {
+        console.error('[repository] Delete failed:', error);
+        showFeedback('danger', 'Failed to delete repository. Please try again.');
+    }
+}
+
+/**
  * 폼에 기존 데이터 로드
  * @param {Object} repository - Repository 데이터
  */
@@ -938,6 +1032,16 @@ function renderRepositoryList(entries) {
     cachedElements.empty.classList.add('d-none');
     cachedElements.list.innerHTML = entries.map(entry => renderRepositoryCard(entry)).join('');
     cachedElements.list.setAttribute('aria-busy', 'false');
+
+    // Delete 버튼 이벤트 바인딩 (관리자 전용)
+    const deleteButtons = cachedElements.list.querySelectorAll('.delete-repo-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const repoId = e.target.dataset.repoId;
+            const repoName = e.target.dataset.repoName;
+            handleDeleteButtonClick(repoId, repoName);
+        });
+    });
 }
 
 /**
