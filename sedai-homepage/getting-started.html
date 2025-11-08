@@ -186,13 +186,30 @@
             text-align: center;
         }
 
-        /* Improved text colors */
+        /* Improved text colors with better contrast */
         .text-muted {
-            color: var(--sedai-gray-600) !important;
+            color: var(--sedai-gray-700) !important;
         }
 
         .text-primary {
             color: #000000 !important;
+        }
+
+        /* Ensure sufficient contrast for links */
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #004499;
+            text-decoration: underline;
+        }
+
+        /* Better contrast for small text */
+        .small.text-muted,
+        small.text-muted {
+            color: var(--sedai-gray-800) !important;
         }
 
         /* Fix contrast issue: light text on dark backgrounds */
@@ -489,7 +506,13 @@ Provide an overall project score and recommendations for improvement.</code></pr
 
                                     <h4 class="h6 mb-2">Mandatory Requirements to Include:</h4>
                                     <ol class="mb-3">
-                                        <li class="mb-2"><strong>Learn SED Methodology:</strong> Read and understand SED methodology from <a href="https://www.npmjs.com/package/sedai" target="_blank">https://www.npmjs.com/package/sedai</a></li>
+                                        <li class="mb-2"><strong>Learn SED Methodology:</strong> Read the following pages and understand SED methodology:
+                                            <ul class="mt-1">
+                                                <li><a href="https://sedai.dev" target="_blank">https://sedai.dev</a></li>
+                                                <li><a href="https://sedai.dev/principles" target="_blank">https://sedai.dev/principles</a></li>
+                                                <li><a href="https://sedai.dev/philosophy" target="_blank">https://sedai.dev/philosophy</a></li>
+                                            </ul>
+                                        </li>
                                         <li class="mb-2"><strong>Always Consult Specifications First:</strong> Before starting any development task, read <code>./specs/instructions.md</code> and <code>./specs/index.md</code></li>
                                         <li class="mb-2"><strong>Strict Specification Obedience:</strong>
                                             <ul class="mt-1">
@@ -499,12 +522,20 @@ Provide an overall project score and recommendations for improvement.</code></pr
                                                 <li>If specifications are unclear, ask for clarification rather than guessing</li>
                                             </ul>
                                         </li>
-                                        <li class="mb-0"><strong>Error Reporting Protocol:</strong> When critical errors are detected in specifications:
+                                        <li class="mb-2"><strong>Error Reporting Protocol:</strong> When critical errors are detected in specifications:
                                             <ul class="mt-1">
                                                 <li>Halt development immediately</li>
                                                 <li>Report the issue to developers with specific details</li>
                                                 <li>Recommend specification improvements</li>
                                                 <li>Wait for specification updates before continuing</li>
+                                            </ul>
+                                        </li>
+                                        <li class="mb-0"><strong>Ask for Clarification When Needed:</strong> When specifications are ambiguous or incomplete:
+                                            <ul class="mt-1">
+                                                <li>Request clarification from the developer instead of making assumptions</li>
+                                                <li>Ask for specific details about logic, source code, styles, or any other information needed</li>
+                                                <li>Never proceed with implementation based on guesswork or inference</li>
+                                                <li>Ensure all details are explicitly documented before continuing development</li>
                                             </ul>
                                         </li>
                                     </ol>
