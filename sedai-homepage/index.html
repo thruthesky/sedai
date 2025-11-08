@@ -13,15 +13,30 @@
 
     <style>
         :root {
+            /* Primary colors */
             --bs-primary: #000000;
             --bs-primary-rgb: 0, 0, 0;
             --bs-secondary: #6B7280;
             --bs-secondary-rgb: 107, 114, 128;
+
+            /* Gray palette - dark to light */
+            --sedai-gray-900: #111827;
+            --sedai-gray-800: #1f2937;
+            --sedai-gray-700: #374151;
+            --sedai-gray-600: #4b5563;
+            --sedai-gray-500: #6b7280;
+            --sedai-gray-400: #9ca3af;
+            --sedai-gray-300: #d1d5db;
+            --sedai-gray-200: #e5e7eb;
+            --sedai-gray-100: #f3f4f6;
+            --sedai-gray-50: #f9fafb;
+
+            /* Semantic colors */
             --sedai-bg-dark: #1a1a1a;
-            --sedai-bg-light: #f9fafb;
-            --sedai-text-dark: #1F2937;
-            --sedai-text-light: #6B7280;
-            --sedai-border: #e5e7eb;
+            --sedai-bg-light: var(--sedai-gray-50);
+            --sedai-text-dark: var(--sedai-gray-800);
+            --sedai-text-light: var(--sedai-gray-500);
+            --sedai-border: var(--sedai-gray-200);
             --sidebar-width: 280px;
         }
 
@@ -206,15 +221,29 @@
 
         .card {
             border-radius: 0.75rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid var(--sedai-border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            border: 1px solid var(--sedai-gray-200);
             background: white;
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
-            border-color: #000000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+            border-color: var(--sedai-gray-400);
+        }
+
+        /* Improved text muted color */
+        .text-muted {
+            color: var(--sedai-gray-600) !important;
+        }
+
+        /* Subtle background variations */
+        .bg-light {
+            background-color: var(--sedai-gray-50) !important;
+        }
+
+        section:nth-child(even) {
+            background-color: var(--sedai-gray-50);
         }
 
         .feature-icon {
@@ -229,6 +258,13 @@
 
         .text-primary {
             color: #000000 !important;
+        }
+
+        /* Fix contrast issue: light text on dark backgrounds */
+        footer .text-primary,
+        .bg-dark .text-primary,
+        .sidebar .text-primary {
+            color: var(--sedai-gray-300) !important;
         }
 
         footer a:hover {
@@ -411,6 +447,47 @@
                                 Developers maintain full control through specifications.
                                 AI becomes a precise implementation tool.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h2 class="display-5 mb-4">Community & Sharing</h2>
+                    <p class="lead text-muted mb-4">
+                        Join the growing SED community where developers share specifications,<br>
+                        collaborate on best practices, and build reusable implementation blueprints.
+                    </p>
+                    <div class="row g-4 text-start">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body p-4">
+                                    <h3 class="h5 mb-3">📚 Spec Repository Collection</h3>
+                                    <p class="text-muted mb-3">
+                                        Browse and contribute to the community's collection of specifications.
+                                        Find proven, reusable specs for common patterns and learn from others' implementations.
+                                    </p>
+                                    <a href="spec-repositories.html" class="btn btn-outline-primary">View Repositories →</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body p-4">
+                                    <h3 class="h5 mb-3">🤝 Share Your Specs</h3>
+                                    <p class="text-muted mb-3">
+                                        Publish your specifications in SED format and share them with the community.
+                                        Help others by providing well-documented, complete implementation blueprints.
+                                    </p>
+                                    <a href="getting-started.html#sharing" class="btn btn-outline-primary">Learn How →</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
