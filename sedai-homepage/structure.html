@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive guide to SED specification file structure, YAML headers, naming conventions, dependencies system, and complete examples.">
+    <title>SED Specification File Structure - SEDAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>        :root {
+            /* Primary colors */
+            --bs-primary: #000000;
+            --bs-primary-rgb: 0, 0, 0;
+            --bs-secondary: #6B7280;
+            --bs-secondary-rgb: 107, 114, 128;
+
+            /* Gray palette - dark to light */
+            --sedai-gray-900: #111827;
+            --sedai-gray-800: #1f2937;
+            --sedai-gray-700: #374151;
+            --sedai-gray-600: #4b5563;
+            --sedai-gray-500: #6b7280;
+            --sedai-gray-400: #9ca3af;
+            --sedai-gray-300: #d1d5db;
+            --sedai-gray-200: #e5e7eb;
+            --sedai-gray-100: #f3f4f6;
+            --sedai-gray-50: #f9fafb;
+
+            /* Semantic colors */
+            --sedai-bg-dark: #1a1a1a;
+            --sedai-bg-light: var(--sedai-gray-50);
+            --sedai-text-dark: var(--sedai-gray-800);
+            --sedai-text-light: var(--sedai-gray-500);
+            --sedai-border: var(--sedai-gray-200);
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: var(--sedai-text-dark);
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--sedai-bg-dark);
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-brand {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-brand:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav-item {
+            margin: 0;
+        }
+
+        .sidebar-nav-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left-color: white;
+            font-weight: 600;
+        }
+
+        /* 모바일 토글 버튼 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1050;
+            padding: 0.5rem 0.75rem;
+            background: var(--sedai-bg-dark);
+            border: none;
+            border-radius: 0.375rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 모바일 Offcanvas 사이드바 */
+        .offcanvas-sidebar {
+            background: var(--sedai-bg-dark);
+            color: white;
+            width: var(--sidebar-width);
+        }
+
+        .offcanvas-sidebar .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .offcanvas-sidebar .sidebar-brand {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        .page-header {
+            background: var(--sedai-bg-dark);
+            color: white;
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--sedai-border);
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--sedai-gray-100);
+            border: 1px solid var(--sedai-gray-200);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            background: var(--sedai-gray-100);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        /* Tables */
+        .table {
+            margin-bottom: 1.5rem;
+        }
+
+        .table-bordered {
+            border: 1px solid var(--sedai-gray-200);
+        }
+
+        .table-bordered thead {
+            background: var(--sedai-gray-100);
+        }
+
+        .table-bordered tbody tr:hover {
+            background: var(--sedai-gray-50);
+        }
+
+        /* Alert boxes */
+        .alert {
+            border-radius: 0.5rem;
+            border-left: 4px solid;
+        }
+
+        .alert-primary {
+            border-left-color: #000000;
+        }
+
+        /* Section spacing */
+        .content-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--sedai-gray-200);
+        }
+
+        .content-section:last-child {
+            border-bottom: none;
+        }
+
+        /* Heading anchors */
+        h2, h3, h4 {
+            scroll-margin-top: 2rem;
+        }
+
+        /* Fix contrast issue: light text on dark backgrounds */
+        footer .text-primary,
+        .bg-dark .text-primary,
+        .sidebar .text-primary {
+            color: var(--sedai-gray-300) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 모바일 토글 버튼 -->
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+
+    <!-- 데스크톱 사이드바 -->
+    <aside class="sidebar d-none d-lg-block">
+        <a href="index.html" class="sidebar-brand">SEDAI</a>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="structure.html">Structure</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 모바일 Offcanvas 사이드바 -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="sidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="structure.html">Structure</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <header class="page-header text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">SED Specification File Structure</h1>
+                <p class="lead fs-5">Comprehensive guide to specification file structure, YAML headers, naming conventions, dependencies system, and complete examples</p>
+            </div>
+        </header>
+
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+
+                        <!-- Introduction -->
+                        <div class="content-section" id="introduction">
+                            <h2 class="h2 text-primary mb-4">Introduction</h2>
+                            <p>SED specifications are Markdown files with YAML front matter that define complete, unambiguous implementation blueprints. Every specification file follows a standardized structure to ensure AI can parse, understand, and execute them without interpretation.</p>
+
+                            <h3 class="h4 mb-3">Key Principles</h3>
+                            <ul>
+                                <li><strong>Spec is the absolute standard</strong> — AI executes exactly what is written</li>
+                                <li><strong>Zero ambiguity</strong> — Everything must be explicitly defined</li>
+                                <li><strong>Complete specifications</strong> — No room for assumptions or interpretation</li>
+                                <li><strong>Structured format</strong> — Consistent organization enables systematic processing</li>
+                            </ul>
+                        </div>
+
+                        <!-- File Structure Overview -->
+                        <div class="content-section" id="file-structure-overview">
+                            <h2 class="h2 text-primary mb-4">File Structure Overview</h2>
+                            <p>Every SED specification file consists of three main parts:</p>
+
+                            <pre><code>---
+# 1. YAML Header (metadata)
+name: project-module-feature
+version: 1.0.0
+description: Brief description
+author: Your Name
+email: your@email.com
+---
+
+# 2. Document Sections
+## Overview
+## Requirements
+## Workflow
+## Details
+
+# 3. Implementation Specifications
+(Detailed specifications for every aspect)</code></pre>
+                        </div>
+
+                        <!-- YAML Header Specification -->
+                        <div class="content-section" id="yaml-header-specification">
+                            <h2 class="h2 text-primary mb-4">YAML Header Specification</h2>
+
+                            <h3 class="h3 mb-3">Required Fields</h3>
+                            <p>All specification files <strong>must</strong> include these fields:</p>
+
+                            <pre><code>---
+name: project-module-feature           # Unique identifier
+version: 1.0.0                         # Semantic versioning
+description: Brief description         # ≤4096 characters
+author: Your Name                      # ≤64 characters
+email: your@email.com                  # ≤64 characters
+---</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">Optional Fields</h3>
+                            <p>Additional fields enhance functionality:</p>
+
+                            <pre><code>---
+homepage: https://example.com          # Project website
+funding: https://example.com/donate    # Support/payment route
+license: MIT                           # License identifier
+step: 20                               # Execution order
+screenshot: https://example.com/img.png # Preview image URL
+dependencies: account/repo/specs       # External spec dependencies
+---</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">Field Descriptions</h3>
+
+                            <h4 class="h4 mb-2" id="field-name"><code>name</code> (Required)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Unique identifier for the specification</li>
+                                <li><strong>Format:</strong> English letters, numbers, hyphens only</li>
+                                <li><strong>Length:</strong> ≤255 characters</li>
+                                <li><strong>Convention:</strong> <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;</code> (e.g., <code>my-app-auth-login</code>)</li>
+                                <li><strong>Important:</strong> All spec files in the same <code>./specs</code> directory must share the same <code>name</code> value</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-version"><code>version</code> (Required)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Track specification version</li>
+                                <li><strong>Format:</strong> Semantic versioning (MAJOR.MINOR.PATCH)</li>
+                                <li><strong>Example:</strong> <code>1.0.0</code>, <code>2.3.1</code></li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-description"><code>description</code> (Required)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Brief summary of the specification</li>
+                                <li><strong>Length:</strong> ≤4096 characters</li>
+                                <li><strong>Content:</strong> Clear, concise explanation of what this spec defines</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-author"><code>author</code> (Required)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Specification author's name</li>
+                                <li><strong>Length:</strong> ≤64 characters</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-email"><code>email</code> (Required)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Author's contact email</li>
+                                <li><strong>Length:</strong> ≤64 characters</li>
+                                <li><strong>Format:</strong> Valid email address</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-homepage"><code>homepage</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Reference website or documentation</li>
+                                <li><strong>Format:</strong> Valid URL</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-funding"><code>funding</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Payment route for supporting the spec maintainer</li>
+                                <li><strong>Format:</strong> Valid URL (e.g., GitHub Sponsors, PayPal, custom page)</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-license"><code>license</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Specify copyright and usage terms</li>
+                                <li><strong>Values:</strong> <code>MIT</code>, <code>GPL</code>, <code>SED Specification License</code>, proprietary, etc.</li>
+                                <li><strong>Note:</strong> Each spec file can have a different license</li>
+                                <li><strong>Default:</strong> If omitted, copyright belongs to the author</li>
+                                <li><strong>SED License:</strong> View at <a href="https://github.com/thruthesky/sedai/blob/main/SED-LICENSE" target="_blank">SED-LICENSE</a></li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-step"><code>step</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Define execution order when AI processes multiple specs</li>
+                                <li><strong>Format:</strong> Integers (recommended: increments of 10)</li>
+                                <li><strong>Example:</strong> <code>step: 10</code>, <code>step: 20</code>, <code>step: 30</code></li>
+                                <li><strong>Execution Rule:</strong> Lower numbers execute first</li>
+                                <li><strong>Concurrent Execution:</strong> Files with the same step value run simultaneously</li>
+                                <li><strong>Usage:</strong>
+                                    <pre><code>step: 10   # Database setup (runs first)
+step: 20   # Backend API (runs second)
+step: 20   # Frontend setup (runs concurrently with backend)
+step: 30   # Integration tests (runs after both)</code></pre>
+                                </li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-screenshot"><code>screenshot</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Visual preview specific to this spec file</li>
+                                <li><strong>Format:</strong> Valid URL pointing to an image</li>
+                                <li><strong>Use Case:</strong> Documentation tools and spec viewers can display this image</li>
+                                <li><strong>Example:</strong> <code>screenshot: https://example.com/screenshots/auth-preview.png</code></li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-dependencies"><code>dependencies</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Reference or require other specifications for reuse</li>
+                                <li><strong>Format:</strong> Comma-separated list of spec repository paths</li>
+                                <li><strong>Details:</strong> See <a href="#dependencies-system">Dependencies System</a> section</li>
+                            </ul>
+                        </div>
+
+                        <!-- Spec Content Structure -->
+                        <div class="content-section" id="spec-content-structure">
+                            <h2 class="h2 text-primary mb-4">Spec Content Structure</h2>
+                            <p>Every specification file follows this standard structure:</p>
+
+                            <h3 class="h3 mb-3">1. Overview</h3>
+                            <p>Brief summary of the specification's purpose and scope.</p>
+                            <pre><code>## Overview
+
+User authentication system supporting email/password and OAuth 2.0 (Google, Facebook, Apple).
+Includes session management, password reset, and two-factor authentication (2FA).</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">2. Requirements</h3>
+                            <p>Complete list of prerequisites:</p>
+                            <ul>
+                                <li><strong>Libraries:</strong> Exact package names and versions</li>
+                                <li><strong>Tools:</strong> Required software and utilities</li>
+                                <li><strong>Environment:</strong> Operating system, runtime versions</li>
+                                <li><strong>Configuration:</strong> Environment variables, config files</li>
+                                <li><strong>Installation:</strong> Commands to set up dependencies</li>
+                            </ul>
+
+                            <pre><code>## Requirements
+
+### Libraries
+- bcrypt ^5.1.0 — Password hashing
+- jsonwebtoken ^9.0.0 — JWT token generation
+- passport ^0.6.0 — Authentication middleware
+- @google-oauth/client ^2.0.0 — Google OAuth integration
+
+### Environment
+- Node.js 20.10.0 LTS
+- TypeScript 5.3.3
+- PostgreSQL 15.4
+
+### Installation
+```bash
+npm install bcrypt jsonwebtoken passport @google-oauth/client
+```</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">3. Workflow</h3>
+                            <p>Step-by-step process AI must follow. Each step should be clear and actionable.</p>
+
+                            <pre><code>## Workflow
+
+1. User submits credentials (email + password) via `/auth/login` endpoint
+2. Validate input format:
+   - Email: RFC 5322 compliant
+   - Password: Minimum 8 characters
+3. Query database for user record matching email
+4. If user not found, return `401 Unauthorized`
+5. Compare submitted password with stored hash using bcrypt
+6. If password invalid, return `401 Unauthorized`
+7. Generate JWT token with 24-hour expiration
+8. Return token and user profile to client</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">4. Details</h3>
+                            <p>Exhaustive implementation specifications. This is the most critical section where <strong>every detail</strong> must be specified.</p>
+                            <p class="mb-3">All function specifications should include:</p>
+                            <ul>
+                                <li>Purpose and location</li>
+                                <li>Parameters with types</li>
+                                <li>Return types with interfaces</li>
+                                <li>Complete implementation code</li>
+                                <li>Error handling with specific messages</li>
+                                <li>Test cases with coverage targets</li>
+                            </ul>
+                        </div>
+
+                        <!-- Dependencies System -->
+                        <div class="content-section" id="dependencies-system">
+                            <h2 class="h2 text-primary mb-4">Dependencies System</h2>
+                            <p>The <code>dependencies</code> field enables spec reuse and composition.</p>
+
+                            <h3 class="h3 mb-3">Basic Format</h3>
+                            <pre><code>dependencies: account/repo/specs</code></pre>
+                            <p><strong>Important:</strong> All dependency paths <strong>must</strong> end with <code>/specs</code> (plural form required).</p>
+
+                            <h3 class="h3 mb-3 mt-4">GitHub Dependencies</h3>
+                            <p>GitHub repositories use the format: <code>[account]/[repository]/[path]/specs</code></p>
+                            <p>If the path does not start with <code>http://</code> or <code>https://</code>, it is interpreted as a GitHub path.</p>
+
+                            <pre><code># GitHub repository examples
+dependencies: thruthesky/forum/specs
+dependencies: withcenter/chat/firebase/specs</code></pre>
+
+                            <p><strong>Expands to:</strong></p>
+                            <ul>
+                                <li><code>github.com/thruthesky/forum/specs</code></li>
+                                <li><code>github.com/withcenter/chat/firebase/specs</code></li>
+                            </ul>
+
+                            <h3 class="h3 mb-3 mt-4">Non-GitHub Dependencies</h3>
+                            <p>For non-GitHub resources, include the full URL ending with <code>/specs</code>:</p>
+
+                            <pre><code>dependencies: https://abc.com/def/specs
+dependencies: https://cdn.example.com/shared/specs</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">Priority System</h3>
+                            <p>Use leading asterisks (<code>*</code>) to indicate priority when multiple specs contain similar content:</p>
+
+                            <ul>
+                                <li><strong>No asterisk:</strong> Normal priority (default)</li>
+                                <li><strong><code>*</code>:</strong> Priority level 1</li>
+                                <li><strong><code>**</code>:</strong> Priority level 2 (highest)</li>
+                                <li>More asterisks = higher priority when conflicts occur</li>
+                            </ul>
+
+                            <pre><code>dependencies: |
+  thruthesky/forum/specs,
+  *withcenter/chat/firebase/specs,
+  **https://example.com/high-priority/specs</code></pre>
+
+                            <p><strong>Resolution:</strong> If multiple specs define the same functionality, higher priority specs override lower priority ones.</p>
+
+                            <h3 class="h3 mb-3 mt-4">Specific File References</h3>
+                            <p>You can reference individual files or sections within a spec repository:</p>
+
+                            <p><strong>Option 1: Bracket Notation (path must end with /specs)</strong></p>
+                            <pre><code>dependencies: withcenter/chat/firebase/specs[chat-rooms-join.md]
+dependencies: withcenter/chat/firebase/specs[chat-rooms-join.md#overview]</code></pre>
+
+                            <p><strong>Option 2: Direct File Paths (must be under /specs directory)</strong></p>
+                            <pre><code>dependencies: thruthesky/forum/specs/authentication.md
+dependencies: *https://abc.com/def/specs/validation.md
+dependencies: **another/project/specs/main.md</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">Multiple Dependencies</h3>
+                            <p>Separate multiple dependencies with commas:</p>
+
+                            <pre><code>dependencies: |
+  my-app/database/specs[users-schema.md],
+  my-app/security/specs[encryption.md#password],
+  *external/package/specs,
+  **https://cdn.example.com/shared/specs[validation.md]</code></pre>
+                        </div>
+
+                        <!-- File Organization -->
+                        <div class="content-section" id="file-organization">
+                            <h2 class="h2 text-primary mb-4">File Organization</h2>
+
+                            <h3 class="h3 mb-3">Spec Repository Structure</h3>
+                            <p>All project specifications <strong>must</strong> be stored in the <code>./specs</code> directory:</p>
+
+                            <pre><code>project-root/
+├── specs/                    # All spec files go here
+│   ├── index.md              # DTOC (Detailed Table of Contents)
+│   ├── instructions.md       # AI workflow guidelines (MANDATORY)
+│   ├── preview.png           # Spec repository preview image (1024×1024)
+│   ├── project-setup.md
+│   ├── project-database.md
+│   ├── project-auth-login.md
+│   └── project-auth-signup.md
+├── src/                      # Implementation code
+└── README.md</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">File Naming Convention</h3>
+                            <p><strong>Pattern:</strong> <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;.md</code></p>
+
+                            <p><strong>Examples:</strong></p>
+                            <ul>
+                                <li><code>my-app-auth-login.md</code></li>
+                                <li><code>my-app-database-schema.md</code></li>
+                                <li><code>my-app-api-users.md</code></li>
+                                <li><code>forum-posts-create.md</code></li>
+                            </ul>
+
+                            <p><strong>Benefits:</strong></p>
+                            <ul>
+                                <li>Clear hierarchy (project → module → feature)</li>
+                                <li>Easy to locate specific functionality</li>
+                                <li>Systematic organization for large projects</li>
+                            </ul>
+
+                            <h3 class="h3 mb-3 mt-4">Mandatory Files</h3>
+
+                            <h4 class="h4 mb-2" id="file-index"><code>index.md</code> (REQUIRED)</h4>
+                            <p><strong>Purpose:</strong> Detailed Table of Contents (DTOC) serving as the navigation hub for AI and developers</p>
+
+                            <div class="alert alert-primary" role="alert">
+                                <h5 class="mb-2"><strong>What is DTOC?</strong></h5>
+                                <p class="mb-0">DTOC (Detailed Table of Contents) is not just a simple list of files—it's a comprehensive navigation map that answers the <strong>5W1H questions</strong> (Who, What, When, Where, Why, How) for each specification file in your project.</p>
+                            </div>
+
+                            <p><strong>Why DTOC is Critical for SED:</strong></p>
+                            <p>When AI starts working on a task, it first reads <code>index.md</code> to understand:</p>
+                            <ul>
+                                <li><strong>What</strong> each spec file contains (summary and purpose)</li>
+                                <li><strong>When</strong> each spec should be used (triggering conditions, workflow order)</li>
+                                <li><strong>Where</strong> the spec fits in the project architecture</li>
+                                <li><strong>Why</strong> the spec exists (problems it solves, requirements it fulfills)</li>
+                                <li><strong>How</strong> the spec relates to other specs (dependencies, execution order)</li>
+                                <li><strong>Who</strong> created and maintains the spec (authorship, ownership)</li>
+                            </ul>
+
+                            <p>This allows AI to make intelligent decisions about which specifications to load and in what order to execute them, following the <strong>5W1H principle</strong> to determine relevance to the current task.</p>
+
+                            <h4 class="h4 mb-2 mt-4" id="file-instructions"><code>instructions.md</code> (MANDATORY)</h4>
+                            <p><strong>Purpose:</strong> AI Development Directive — The mandatory guideline document that AI must strictly follow when working with specifications</p>
+
+                            <div class="alert alert-primary" role="alert">
+                                <h5 class="mb-2"><strong>What is instructions.md?</strong></h5>
+                                <p class="mb-0"><code>instructions.md</code> is <strong>not just documentation</strong>—it is a <strong>directive file</strong> that defines the rules, conventions, and workflows that AI must obey when executing specifications. This file serves as the <strong>AI's operational manual</strong> for the project.</p>
+                            </div>
+
+                            <p><strong>Why instructions.md is Critical for SED:</strong></p>
+                            <p>According to SED principles, AI must:</p>
+                            <ol>
+                                <li><strong>Read <code>specs/instructions.md</code> FIRST</strong> before starting any task</li>
+                                <li><strong>Follow the instructions EXACTLY</strong> as written, without interpretation</li>
+                                <li><strong>Apply these rules consistently</strong> throughout development</li>
+                                <li><strong>Report violations</strong> if instructions conflict with specifications</li>
+                            </ol>
+
+                            <p>This file transforms AI from a passive code generator into a <strong>compliant development agent</strong> that follows project-specific rules with absolute fidelity.</p>
+
+                            <p><strong>Mandatory Sections:</strong></p>
+                            <ol>
+                                <li><strong>SED Compliance Rules</strong> — How to follow Spec-Exact Development principles</li>
+                                <li><strong>Code Style Guidelines</strong> — Formatting, naming, structure requirements</li>
+                                <li><strong>Testing Requirements</strong> — Coverage targets, test types, assertion patterns</li>
+                                <li><strong>Error Handling Standards</strong> — How to handle and report errors</li>
+                                <li><strong>Development Workflow</strong> — Step-by-step process for implementing specs</li>
+                                <li><strong>Quality Checks</strong> — Pre-commit validation, review criteria</li>
+                                <li><strong>Communication Protocol</strong> — How AI should request clarification</li>
+                            </ol>
+
+                            <h4 class="h4 mb-2 mt-4" id="file-preview"><code>preview.png</code> (RECOMMENDED)</h4>
+                            <p><strong>Purpose:</strong> Visual identity for the specification repository</p>
+                            <p><strong>Format:</strong></p>
+                            <ul>
+                                <li>Square image (width equals height)</li>
+                                <li>Size: 1024px × 1024px</li>
+                                <li>Location: <code>./specs/preview.png</code></li>
+                            </ul>
+                            <p><strong>Usage:</strong> Spec browsers, catalogs, and repository viewers display this image to help users quickly identify specifications.</p>
+                        </div>
+
+                        <!-- Complete Examples -->
+                        <div class="content-section" id="complete-examples">
+                            <h2 class="h2 text-primary mb-4">Complete Examples</h2>
+
+                            <h3 class="h3 mb-3">Example 1: User Authentication Spec</h3>
+                            <p>This example demonstrates a complete authentication specification with all required sections, detailed implementations, error handling, and test cases.</p>
+
+                            <div class="alert alert-primary" role="alert">
+                                <p class="mb-0"><strong>Note:</strong> For the complete authentication spec example with full code implementations, error handling tables, and test cases, please refer to the <a href="https://github.com/thruthesky/sedai/blob/main/SED-STRUCTURE.md#example-1-user-authentication-spec" target="_blank" class="alert-link">SED-STRUCTURE.md file on GitHub</a>.</p>
+                            </div>
+
+                            <h3 class="h3 mb-3 mt-4">Example 2: Database Schema Spec</h3>
+                            <p>This example demonstrates a complete database schema specification with PostgreSQL tables, indexes, foreign keys, triggers, and sample data.</p>
+
+                            <div class="alert alert-primary" role="alert">
+                                <p class="mb-0"><strong>Note:</strong> For the complete database schema spec example with all table definitions, indexes, triggers, and sample data, please refer to the <a href="https://github.com/thruthesky/sedai/blob/main/SED-STRUCTURE.md#example-2-database-schema-spec" target="_blank" class="alert-link">SED-STRUCTURE.md file on GitHub</a>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Best Practices -->
+                        <div class="content-section" id="best-practices">
+                            <h2 class="h2 text-primary mb-4">Best Practices</h2>
+
+                            <h3 class="h3 mb-3">1. Completeness Over Brevity</h3>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>description: User auth</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <pre><code>description: Complete user authentication system with email/password login, OAuth 2.0 (Google, Facebook), session management, password reset, and account lockout after failed attempts</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">2. Explicit Version Numbers</h3>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>### Libraries
+- bcrypt
+- jsonwebtoken</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <pre><code>### Libraries
+- bcrypt ^5.1.0 — Password hashing with configurable salt rounds
+- jsonwebtoken ^9.0.0 — JWT token generation and verification</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">3. Complete Code Examples</h3>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>Create a function to authenticate users</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <pre><code>/**
+ * Authenticates a user with email and password
+ * @param email - User's email address
+ * @param password - Plain text password
+ * @returns Promise&lt;AuthResult&gt;
+ */
+export async function authenticateUser(
+  email: string,
+  password: string
+): Promise&lt;AuthResult&gt; {
+  // Complete implementation here...
+}</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">4. Detailed Error Handling</h3>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>Handle errors appropriately</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Error Type</th>
+                                            <th>HTTP Status</th>
+                                            <th>Message</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>ValidationError</td>
+                                            <td>400</td>
+                                            <td>"Invalid email format"</td>
+                                            <td>Return immediately</td>
+                                        </tr>
+                                        <tr>
+                                            <td>AuthError</td>
+                                            <td>401</td>
+                                            <td>"Invalid credentials"</td>
+                                            <td>Increment failed attempts</td>
+                                        </tr>
+                                        <tr>
+                                            <td>DatabaseError</td>
+                                            <td>500</td>
+                                            <td>"Internal server error"</td>
+                                            <td>Log error and notify admin</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 class="h3 mb-3 mt-4">5. Specific Test Cases</h3>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>Write tests for the authentication function</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <pre><code>### Test Cases
+
+1. **Valid credentials** → Returns token and user profile (200)
+2. **Invalid email format** → Returns validation error (400)
+3. **Non-existent user** → Returns authentication error (401)
+4. **Incorrect password** → Returns authentication error (401)
+5. **5 failed attempts** → Locks account for 15 minutes (423)
+6. **Database unavailable** → Returns server error (500)
+
+**Coverage Target:** ≥80% (statement, branch, function, line)</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">6. User-Facing Text</h3>
+                            <p>Specify exact text strings that users will see:</p>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>Show an error message</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <pre><code>### Error Messages
+
+- Invalid email: "Please enter a valid email address."
+- Wrong password: "Invalid credentials. Please try again."
+- Account locked: "Your account has been temporarily locked due to multiple failed login attempts. Please try again in 15 minutes."</code></pre>
+
+                            <h3 class="h3 mb-3 mt-4">7. CSS and Styling</h3>
+                            <p>Define exact visual specifications:</p>
+
+                            <p><strong>Bad Example:</strong></p>
+                            <pre><code>Style the button nicely</code></pre>
+
+                            <p><strong>Good Example:</strong></p>
+                            <pre><code>.button-primary {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}</code></pre>
+                        </div>
+
+                        <!-- Summary -->
+                        <div id="summary">
+                            <h2 class="h2 text-primary mb-4">Summary</h2>
+                            <p>SED specification files are complete implementation blueprints that enable AI to execute exactly as defined without interpretation. Every spec must include:</p>
+
+                            <ul>
+                                <li>✅ <strong>Complete YAML header</strong> with all required fields</li>
+                                <li>✅ <strong>Standard structure</strong> (Overview, Requirements, Workflow, Details)</li>
+                                <li>✅ <strong>Exhaustive details</strong> — function names, parameters, return types, implementations</li>
+                                <li>✅ <strong>Explicit error handling</strong> — every error case documented</li>
+                                <li>✅ <strong>Complete test cases</strong> — coverage targets and specific scenarios</li>
+                                <li>✅ <strong>User-facing elements</strong> — exact text, styling, and visual specifications</li>
+                                <li>✅ <strong>Dependencies</strong> — clearly defined external spec references</li>
+                            </ul>
+
+                            <div class="alert alert-primary mt-4" role="alert">
+                                <h5 class="mb-2"><strong>Remember</strong></h5>
+                                <p class="mb-0">In SED, the specification is not documentation—it is the source of truth that AI executes with absolute fidelity. Every pixel, every word, every function is part of the specification. Nothing is left to interpretation or assumption.</p>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="score.html" class="btn btn-outline-secondary">← Previous: Scoring Criteria</a>
+                            <a href="examples.html" class="btn btn-primary">Next: Examples →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">SEDAI</h5>
+                        <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Learn</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                            <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                            <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                            <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Resources</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                            <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr class="border-secondary">
+                <div class="text-center py-3">
+                    <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -62,62 +62,20 @@ Your contributions help the entire SED community by providing proven, reusable s
 
 ## Getting Started with SED
 
-While SEDAI provides a CLI tool for project initialization, we recommend manually creating your specification structure to gain a deeper understanding of SED principles:
+For a comprehensive step-by-step guide to getting started with SED, please refer to:
 
-### Quick Setup (7 Steps)
+**🚀 [Quick Start Guide](https://sedai.dev/quickstarts)**
 
-1. **Create the specs directory**
-   ```bash
-   mkdir specs
-   ```
+This guide provides:
+- 7-step setup process from scratch
+- Detailed instructions for creating specs directory, index.md, and instructions.md
+- Guidelines for writing individual specification files
+- AI evaluation prompt template for scoring your specifications
+- Development workflow (proceed only when score ≥ 95)
+- System prompt configuration examples for AI compliance
+- Best practices for creating high-quality specifications
 
-2. **Write index.md (Detailed Table of Contents)**
-   - Create `specs/index.md` with YAML header
-   - Include summaries and table of contents for all spec files
-   - This serves as the navigation map for AI and developers
-
-3. **Write instructions.md (AI Workflow Guide)**
-   - Create `specs/instructions.md` with SED methodology guidelines
-   - Define how AI should work with specifications
-   - Specify development rules and principles
-   - You can copy `sed-instructions.md` template as a starting point
-
-4. **Write individual specification files**
-   - Create detailed spec files with YAML headers
-   - Follow the naming convention: `<project>-<module>-<feature>.md`
-   - Include all required sections: Overview, Requirements, Workflow, Details
-   - Specify everything: database schemas, functions, UI/UX, testing, etc.
-
-5. **Request AI evaluation**
-   - Before starting development, ask AI to score your specifications
-   - Use this prompt:
-   ```
-   Please evaluate the specifications in the ./specs directory and assign a score (0-100) for each file based on the criteria outlined in https://www.npmjs.com/package/sedai
-   The score should assess completeness, clarity, and adherence to SED principles.
-   Provide an overall project score and recommendations for improvement.
-   ```
-
-6. **Begin development (only if score ≥ 95)**
-   - If the overall project score is 95 or higher, proceed with development
-   - If below 95, improve specifications based on AI recommendations
-   - Re-evaluate until achieving the minimum score threshold
-
-7. **Configure AI System Prompts for SED Compliance**
-   - Add SED compliance rules to your AI's system prompt files
-   - Common files: `CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md`, etc.
-   - Include these mandatory requirements:
-     1. Read and understand SED methodology from https://www.npmjs.com/package/sedai
-     2. Always consult `./specs/instructions.md` and `./specs/index.md` before starting any development task
-     3. Execute only what is explicitly defined in specifications:
-        - Follow specifications exactly, even if they appear incorrect
-        - Never implement features not defined in specifications
-        - Never modify specifications directly
-     4. When critical errors are detected in specifications:
-        - Halt development immediately
-        - Report the issue to developers with specific details
-        - Recommend specification improvements
-
-**Note:** The CLI tool (`npx spec init`) can help scaffold the initial structure, but understanding the manual process ensures you grasp SED fundamentals and can create high-quality specifications.
+**Note:** The CLI tool (`npx spec init`) can help scaffold the initial structure, but understanding the manual process ensures you grasp SED fundamentals.
 
 ---
 
@@ -675,7 +633,7 @@ By specifying comments, styles, text, and translations in advance:
 
 For detailed information about SED specification file structure, YAML headers, naming conventions, dependencies system, and complete examples, please refer to:
 
-**📘 [SED Spec Structure Documentation](SED-STRUCTURE.md)**
+**📘 [SED Spec Structure Documentation](https://sedai.dev/structure)**
 
 This comprehensive guide covers:
 - File naming conventions and organization
@@ -900,7 +858,7 @@ This approach preserves SED's philosophy while making it practical for real proj
 
 For complete specification file examples including YAML headers, detailed implementations, code samples, and database schemas, please refer to:
 
-**📘 [SED Spec Structure Documentation - Complete Examples](SED-STRUCTURE.md#complete-examples)**
+**📘 [SED Spec Structure Documentation - Complete Examples](https://sedai.dev/structure#complete-examples)**
 
 The documentation includes:
 - User authentication specification with complete implementation

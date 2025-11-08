@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn the 6 core principles of Spec-Exact Development that ensure specification integrity and implementation accuracy.">
-    <title>Core Principles - SEDAI</title>
+    <meta name="description" content="7-step guide to getting started with Spec-Exact Development (SED) methodology.">
+    <title>Quick Start Guide - SEDAI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <style>
-        :root {
+    <style>        :root {
             /* Primary colors */
             --bs-primary: #000000;
             --bs-primary-rgb: 0, 0, 0;
@@ -162,19 +161,6 @@
             border-bottom: 1px solid var(--sedai-border);
         }
 
-        .principle-number {
-            width: 60px;
-            height: 60px;
-            background: #000000;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
         /* Improved card styling */
         .card {
             border: 1px solid var(--sedai-gray-200);
@@ -185,6 +171,19 @@
             transform: translateY(-4px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
             border-color: var(--sedai-gray-400);
+        }
+
+        /* Badge styles */
+        .badge-step {
+            background: var(--sedai-gray-100);
+            color: var(--sedai-gray-800);
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            min-width: 2.5rem;
+            display: inline-block;
+            text-align: center;
         }
 
         /* Improved text colors */
@@ -206,6 +205,38 @@
         .bg-light {
             background-color: var(--sedai-gray-50) !important;
         }
+
+        /* Code blocks */
+        pre {
+            background: var(--sedai-gray-900);
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            color: #f8f8f2;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+
+        code {
+            background: var(--sedai-gray-100);
+            color: var(--sedai-gray-800);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        /* Step highlight */
+        .step-highlight {
+            background: var(--sedai-gray-50);
+            border-left: 4px solid var(--sedai-gray-800);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
     </style>
 </head>
 <body>
@@ -223,12 +254,12 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="principles.html">Principles</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="quickstarts.html">Quick Start</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="quickstarts.html">Quick Start</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
@@ -249,14 +280,15 @@
                 <ul class="sidebar-nav">
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
-                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="principles.html">Principles</a></li>
-                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
-                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="quickstarts.html">Quick Start</a></li>
-                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
-                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="quickstarts.html">Quick Start</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
                 </ul>
@@ -268,8 +300,8 @@
     <div class="main-content">
         <header class="page-header text-center">
             <div class="container">
-                <h1 class="display-4 fw-bold mb-3">Core Principles of SED</h1>
-                <p class="lead fs-5">Six fundamental principles that ensure specification integrity</p>
+                <h1 class="display-4 fw-bold mb-3">Quick Start Guide</h1>
+                <p class="lead fs-5">7 steps to get started with Spec-Exact Development</p>
             </div>
         </header>
 
@@ -278,140 +310,166 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
 
+                        <!-- Introduction -->
                         <div class="mb-5 pb-4 border-bottom">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="principle-number me-4">1</div>
-                                <div>
-                                    <h2 class="h3 text-primary mb-3">Spec-Exactness Principle</h2>
-                                    <p class="lead">Development implements only what the specification defines.</p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">AI executes only what is explicitly written in the specification</li>
-                                        <li class="list-group-item">If the specification is incomplete, AI must immediately return a <strong>Spec Error</strong> and stop development</li>
-                                        <li class="list-group-item">No assumptions, no guessing, no improvisation allowed</li>
+                            <p class="lead">While SEDAI provides a CLI tool for project initialization, we recommend manually creating your specification structure to gain a deeper understanding of SED principles.</p>
+                        </div>
+
+                        <!-- Step 1 -->
+                        <div id="step-1" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">1</span>
+                                        <h2 class="h3 mb-0">Create the specs directory</h2>
+                                    </div>
+                                    <p class="mb-3">Start by creating the main directory that will contain all your specifications.</p>
+                                    <pre><code>mkdir specs</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="step-2" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">2</span>
+                                        <h2 class="h3 mb-0">Write index.md (Detailed Table of Contents)</h2>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li>Create <code>specs/index.md</code> with YAML header</li>
+                                        <li>Include summaries and table of contents for all spec files</li>
+                                        <li>This serves as the navigation map for AI and developers</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-5 pb-4 border-bottom">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="principle-number me-4">2</div>
-                                <div>
-                                    <h2 class="h3 text-primary mb-3">Spec Completeness Scoring</h2>
-                                    <p class="lead">Specifications are scored before development begins.</p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">AI evaluates the specification and assigns a score from <strong>0-100</strong></li>
-                                        <li class="list-group-item">Development may start only when the score is <strong>90 or higher</strong></li>
-                                        <li class="list-group-item">Score evaluates: database design, business logic, UI/UX, testing plan, deployment environment</li>
+                        <!-- Step 3 -->
+                        <div id="step-3" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">3</span>
+                                        <h2 class="h3 mb-0">Write instructions.md (AI Workflow Guide)</h2>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li>Create <code>specs/instructions.md</code> with SED methodology guidelines</li>
+                                        <li>Define how AI should work with specifications</li>
+                                        <li>Specify development rules and principles</li>
+                                        <li>You can copy <code>sed-instructions.md</code> template as a starting point</li>
                                     </ul>
-                                    <div class="alert alert-warning mt-3" role="alert">
-                                        <strong>Example Error:</strong><br>
-                                        <code>SpecError: Insufficient specification to execute.<br>
-                                        Required Score: ≥90 | Current Score: 42</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div id="step-4" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">4</span>
+                                        <h2 class="h3 mb-0">Write individual specification files</h2>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li>Create detailed spec files with YAML headers</li>
+                                        <li>Follow the naming convention: <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;.md</code></li>
+                                        <li>Include all required sections: Overview, Requirements, Workflow, Details</li>
+                                        <li>Specify everything: database schemas, functions, UI/UX, testing, etc.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div id="step-5" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">5</span>
+                                        <h2 class="h3 mb-0">Request AI evaluation</h2>
+                                    </div>
+                                    <p class="mb-3">Before starting development, ask AI to score your specifications using this prompt:</p>
+                                    <div class="step-highlight">
+                                        <pre><code>Read the following documents first to understand the concept of SED:
+  - https://sedai.dev/
+  - https://sedai.dev/what-is-sed
+  - https://sedai.dev/principles
+  - https://sedai.dev/philosophy
+
+Then, please evaluate the specifications in the ./specs directory and assign a score (0-100) for each file based on the criteria outlined in https://sedai.dev/score
+The score should assess completeness, clarity, and adherence to SED principles.
+Provide an overall project score and recommendations for improvement.</code></pre>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-5 pb-4 border-bottom">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="principle-number me-4">3</div>
-                                <div>
-                                    <h2 class="h3 text-primary mb-3">Spec Is the Law</h2>
-                                    <p class="lead">AI never attempts to infer human intent.</p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Ambiguous sentences in the specification are ignored and not implemented</li>
-                                        <li class="list-group-item">Guessing is forbidden - only written instructions are executed</li>
-                                        <li class="list-group-item">Even if the specification is wrong, AI must follow it without inference</li>
-                                        <li class="list-group-item">AI may request confirmation or revisions from a developer when errors are suspected</li>
-                                        <li class="list-group-item">Ultimately, <strong>the AI must always follow the specification</strong></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-5 pb-4 border-bottom">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="principle-number me-4">4</div>
-                                <div>
-                                    <h2 class="h3 text-primary mb-3">AI's Role in Validation</h2>
-                                    <p class="lead">AI serves as executor and quality assurance advisor.</p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><strong>Logic Verification:</strong> Analyze specifications for inconsistencies and contradictions</li>
-                                        <li class="list-group-item"><strong>Testing and Validation:</strong> Execute tests based on specifications and report results</li>
-                                        <li class="list-group-item"><strong>Advisory Function:</strong> Recommend spec updates and suggest improvements</li>
-                                        <li class="list-group-item"><strong>Feedback Loop:</strong> Report findings to developers who update specifications accordingly</li>
-                                        <li class="list-group-item">While AI cannot modify specifications, it maintains spec quality through validation</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-5 pb-4 border-bottom">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="principle-number me-4">5</div>
-                                <div>
-                                    <h2 class="h3 text-primary mb-3">No Incremental Modifications</h2>
-                                    <p class="lead">Iterative adjustments through progressive prompting are prohibited.</p>
-                                    <div class="row g-3 mt-2 mb-3">
-                                        <div class="col-md-6">
-                                            <div class="card border-danger">
-                                                <div class="card-header bg-danger text-white">❌ Prohibited</div>
-                                                <div class="card-body">
-                                                    <pre class="mb-0"><small>Developer: "Make the button bigger"
-Developer: "Change color to blue"
-Developer: "Add shadow effect"
-Developer: "Move it to the right"</small></pre>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card border-success">
-                                                <div class="card-header bg-success text-white">✓ Correct</div>
-                                                <div class="card-body">
-                                                    <pre class="mb-0"><small>[Updates design spec]
-- Button: 48px height
-- Color: Black (#000000)
-- Shadow: 0 2px 8px
-- Position: Right-aligned
-
-"Re-implement per updated spec"</small></pre>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <!-- Step 6 -->
+                        <div id="step-6" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">6</span>
+                                        <h2 class="h3 mb-0">Begin development (only if score ≥ 95)</h2>
                                     </div>
-                                    <p class="mt-3">When AI output is unsatisfactory, <strong>update the specification first</strong>, then instruct AI to re-implement based on the updated spec.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-5 pb-4">
-                            <div class="d-flex align-items-start mb-3">
-                                <div class="principle-number me-4">6</div>
-                                <div>
-                                    <h2 class="h3 text-primary mb-3">Complete Specification</h2>
-                                    <p class="lead">Specifications must include everything needed for implementation.</p>
-                                    <div class="alert alert-info mb-3" role="alert">
-                                        <strong>Complete specification = everything a developer would need when implementing manually.</strong>
-                                    </div>
-                                    <p><strong>Must include:</strong></p>
-                                    <ul class="list-group list-group-flush mb-3">
-                                        <li class="list-group-item">Class names, function names, method names</li>
-                                        <li class="list-group-item">Implementation details: calculations, algorithms, business logic</li>
-                                        <li class="list-group-item">Data structures: variable names, types, data flow</li>
-                                        <li class="list-group-item">Control flow: conditional logic, loops, error handling</li>
-                                        <li class="list-group-item">Complete source code with comments and documentation</li>
-                                        <li class="list-group-item">CSS styling: colors, spacing, fonts, animations, responsive breakpoints</li>
-                                        <li class="list-group-item">User-facing text: labels, buttons, messages, tooltips</li>
-                                        <li class="list-group-item">Internationalization: translation dictionaries, locale-specific formats</li>
+                                    <ul class="mb-0">
+                                        <li>If the overall project score is 95 or higher, proceed with development</li>
+                                        <li>If below 95, improve specifications based on AI recommendations</li>
+                                        <li>Re-evaluate until achieving the minimum score threshold</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Step 7 -->
+                        <div id="step-7" class="mb-5 pb-4 border-bottom">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-step me-3">7</span>
+                                        <h2 class="h3 mb-0">Configure AI System Prompts for SED Compliance</h2>
+                                    </div>
+                                    <p class="mb-3">Add SED compliance rules to your AI's system prompt files:</p>
+                                    <ul class="mb-3">
+                                        <li>Common files: <code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>.github/copilot-instructions.md</code>, etc.</li>
+                                    </ul>
+                                    <p class="mb-2"><strong>Include these mandatory requirements:</strong></p>
+                                    <ol class="mb-0">
+                                        <li class="mb-2">Read and understand SED methodology from <a href="https://www.npmjs.com/package/sedai" target="_blank">https://www.npmjs.com/package/sedai</a></li>
+                                        <li class="mb-2">Always consult <code>./specs/instructions.md</code> and <code>./specs/index.md</code> before starting any development task</li>
+                                        <li class="mb-2">Execute only what is explicitly defined in specifications:
+                                            <ul>
+                                                <li>Follow specifications exactly, even if they appear incorrect</li>
+                                                <li>Never implement features not defined in specifications</li>
+                                                <li>Never modify specifications directly</li>
+                                            </ul>
+                                        </li>
+                                        <li class="mb-0">When critical errors are detected in specifications:
+                                            <ul>
+                                                <li>Halt development immediately</li>
+                                                <li>Report the issue to developers with specific details</li>
+                                                <li>Recommend specification improvements</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="mb-5">
+                            <div class="alert alert-primary" role="alert">
+                                <h3 class="h5 mb-2"><strong>Note</strong></h3>
+                                <p class="mb-0">The CLI tool (<code>npx spec init</code>) can help scaffold the initial structure, but understanding the manual process ensures you grasp SED fundamentals and can create high-quality specifications.</p>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
                         <div class="d-flex justify-content-between mt-5">
-                            <a href="what-is-sed.html" class="btn btn-outline-secondary">← Previous: What is SED?</a>
-                            <a href="getting-started.html" class="btn btn-primary">Next: Getting Started →</a>
+                            <a href="principles.html" class="btn btn-outline-secondary">← Previous: Principles</a>
+                            <a href="structure.html" class="btn btn-primary">Next: Structure →</a>
                         </div>
                     </div>
                 </div>
