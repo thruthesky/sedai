@@ -64,7 +64,7 @@ Your contributions help the entire SED community by providing proven, reusable s
 
 While SEDAI provides a CLI tool for project initialization, we recommend manually creating your specification structure to gain a deeper understanding of SED principles:
 
-### Quick Setup (6 Steps)
+### Quick Setup (7 Steps)
 
 1. **Create the specs directory**
    ```bash
@@ -101,6 +101,21 @@ While SEDAI provides a CLI tool for project initialization, we recommend manuall
    - If the overall project score is 95 or higher, proceed with development
    - If below 95, improve specifications based on AI recommendations
    - Re-evaluate until achieving the minimum score threshold
+
+7. **Configure AI System Prompts for SED Compliance**
+   - Add SED compliance rules to your AI's system prompt files
+   - Common files: `CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md`, etc.
+   - Include these mandatory requirements:
+     1. Read and understand SED methodology from https://www.npmjs.com/package/sedai
+     2. Always consult `./specs/instructions.md` and `./specs/index.md` before starting any development task
+     3. Execute only what is explicitly defined in specifications:
+        - Follow specifications exactly, even if they appear incorrect
+        - Never implement features not defined in specifications
+        - Never modify specifications directly
+     4. When critical errors are detected in specifications:
+        - Halt development immediately
+        - Report the issue to developers with specific details
+        - Recommend specification improvements
 
 **Note:** The CLI tool (`npx spec init`) can help scaffold the initial structure, but understanding the manual process ensures you grasp SED fundamentals and can create high-quality specifications.
 
