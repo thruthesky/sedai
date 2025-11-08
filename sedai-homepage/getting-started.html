@@ -269,8 +269,8 @@
 
         /* Code blocks */
         pre {
-            background: var(--sedai-gray-900);
-            color: #f8f8f2;
+            background: var(--sedai-gray-900) !important;
+            color: #f8f8f2 !important;
             padding: 1.5rem;
             border-radius: 0.5rem;
             overflow-x: auto;
@@ -278,17 +278,20 @@
         }
 
         pre code {
-            color: #f8f8f2;
+            background: transparent !important;
+            color: #f8f8f2 !important;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9rem;
+            padding: 0 !important;
         }
 
         code {
             background: var(--sedai-gray-100);
-            color: var(--sedai-gray-800);
+            color: var(--sedai-gray-900);
             padding: 0.2rem 0.4rem;
             border-radius: 0.25rem;
             font-size: 0.875rem;
+            font-weight: 600;
         }
 
         /* Step highlight */
