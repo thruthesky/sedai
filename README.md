@@ -64,18 +64,18 @@ Your contributions help the entire SED community by providing proven, reusable s
 
 For a comprehensive step-by-step guide to getting started with SED, please refer to:
 
-**🚀 [Quick Start Guide](https://sedai.dev/quickstarts)**
+**🚀 [Getting Started Guide](https://sedai.dev/getting-started)**
 
 This guide provides:
-- 7-step setup process from scratch
+- 7-step manual setup process (recommended for understanding SED fundamentals)
 - Detailed instructions for creating specs directory, index.md, and instructions.md
 - Guidelines for writing individual specification files
 - AI evaluation prompt template for scoring your specifications
 - Development workflow (proceed only when score ≥ 95)
 - System prompt configuration examples for AI compliance
-- Best practices for creating high-quality specifications
+- Optional CLI tools section (convenient but not required)
 
-**Note:** The CLI tool (`npx spec init`) can help scaffold the initial structure, but understanding the manual process ensures you grasp SED fundamentals.
+**Important:** Manual specification creation is **strongly recommended** to deeply understand SED methodology. CLI tools are optional convenience features.
 
 ---
 
@@ -871,9 +871,14 @@ The documentation includes:
 
 ## SEDAI Utilities (Optional)
 
-**Note:** The tools and utilities described in this section are **optional convenience features**. The core of SED is the methodology described in [Getting Started with SED](#getting-started-with-sed). You can practice SED by manually creating specification files following the SED principles—no tools required.
+**⚠️ Important:** The tools and utilities described in this section are **entirely optional**. You do **NOT** need to run `npx sedai` or install any CLI tools to practice SED.
 
-These utilities simply help automate some repetitive tasks, but understanding and following the SED methodology is what truly matters.
+**The core of SED is:**
+1. **Manually creating specification files** following SED principles (recommended approach)
+2. **Asking AI to evaluate and score your specifications** (the essential step)
+3. **Understanding the SED methodology** through hands-on practice
+
+These CLI utilities simply help automate some repetitive tasks, but they are **convenience features, not requirements**. Manual specification creation provides deeper understanding and is the recommended approach for learning SED.
 
 ---
 
@@ -929,7 +934,7 @@ npx spec validate specs/my-spec.md
 npx spec score specs/my-spec.md
 ```
 
-**Remember:** These utilities are helpers, not requirements. Focus on understanding and applying SED principles as described in the [Getting Started with SED](#getting-started-with-sed) section.
+**Remember:** These utilities are helpers, not requirements. The best way to learn SED is by manually creating specifications and asking AI to score them, as described in the [Getting Started with SED](#getting-started-with-sed) guide.
 
 ---
 
