@@ -89,15 +89,28 @@ Your contributions help the entire SED community by providing proven, reusable s
 
 #### Problems with Prior Approaches
 
+All modern AI development tools—Context, SpecKit, Skills, MCP, and others—are fundamentally the same: they all inject prompts to AI in identical ways, just with different names. This is the eternal nature of AI interaction.
+
+The critical problem is not the tools themselves, but how AI interprets these prompts:
+
 - Specifications, context, and required skills are often described vaguely.
 - MCPs provide only fragmented pieces of information.
-- AI freely interprets requirements, creating unpredictable outcomes.
+- AI freely interprets requirements based on assumptions, creating unpredictable outcomes.
+- When AI produces incorrect results, developers enter a "hamster wheel" of iterative corrections.
+- This cycle repeats endlessly because AI has no choice but to interpret ambiguous instructions.
+- The fundamental flaw lies in the prompt itself, not the AI's capabilities.
 
 #### SED's Solution
 
-- Provide AI with complete blueprints.
-- AI follows the blueprints precisely without making inferences.
-- Specifications become the absolute standard that guarantees consistency.
+SED fundamentally solves the contradiction in how humans communicate with AI:
+
+- **AI Evaluates Prompts**: AI actively scores specifications and identifies gaps before execution.
+- **Requests Improvements**: AI can ask developers to enhance incomplete specifications rather than making assumptions.
+- **Creates Better Specifications**: Through this feedback loop, specifications become increasingly complete and precise.
+- **Strict Execution Only**: AI executes exactly what is specified—no interpretation, no improvisation, no assumptions.
+- **Breaks the Hamster Wheel**: By demanding complete specifications upfront, SED eliminates the cycle of guess-fix-repeat.
+
+The specification becomes the absolute standard that guarantees consistency. AI neither interprets nor infers—it executes only what is explicitly written.
 
 ---
 
@@ -111,6 +124,12 @@ Your contributions help the entire SED community by providing proven, reusable s
 - In practice, the AI is given a complete architectural blueprint and reproduces it without deviation.
 
 > *"If the spec is wrong, the product is wrong — by design."*
+
+#### The Root Problem SED Solves
+
+Traditional AI development approaches—whether using Context files, SpecKits, Skills, or MCPs—all suffer from the same fundamental issue: they deliver prompts that AI must interpret. Regardless of the tool's name or format, the core problem remains unchanged. AI interprets these prompts freely, often incorrectly, leading developers into an endless cycle of corrections. This "hamster wheel" exists not because AI is flawed, but because the prompts themselves are inherently incomplete and ambiguous.
+
+SED breaks this cycle by transforming the relationship between developers and AI. Instead of passively accepting vague prompts, AI actively evaluates them, assigns completeness scores, and requests improvements before execution. This collaborative validation process creates specifications of unprecedented clarity and completeness. Once validated, AI executes these specifications with absolute fidelity—no interpretation, no guesswork, only precise implementation.
 
 #### What Must Be Specified
 
