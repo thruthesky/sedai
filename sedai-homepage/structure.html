@@ -368,6 +368,8 @@ license: MIT                           # License identifier
 step: 20                               # Execution order
 screenshot: https://example.com/img.png # Preview image URL
 dependencies: account/repo/specs       # External spec dependencies
+created: 2025-01-15                    # Spec creation date (YYYY-MM-DD)
+updated: 2025-01-20                    # Last modification date (YYYY-MM-DD)
 ---</code></pre>
 
                             <h3 class="h3 mb-3 mt-4">Field Descriptions</h3>
@@ -457,6 +459,23 @@ step: 30   # Integration tests (runs after both)</code></pre>
                                 <li><strong>Purpose:</strong> Reference or require other specifications for reuse</li>
                                 <li><strong>Format:</strong> Comma-separated list of spec repository paths</li>
                                 <li><strong>Details:</strong> See <a href="#dependencies-system">Dependencies System</a> section</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-created"><code>created</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Record when the specification was initially created</li>
+                                <li><strong>Format:</strong> ISO 8601 date format (YYYY-MM-DD)</li>
+                                <li><strong>Example:</strong> <code>created: 2025-01-15</code></li>
+                                <li><strong>Use Case:</strong> Track specification history and age for documentation purposes</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-updated"><code>updated</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Record the last modification date of the specification</li>
+                                <li><strong>Format:</strong> ISO 8601 date format (YYYY-MM-DD)</li>
+                                <li><strong>Example:</strong> <code>updated: 2025-01-20</code></li>
+                                <li><strong>Use Case:</strong> Help users identify recently updated specifications and track maintenance activity</li>
+                                <li><strong>Note:</strong> Should be updated whenever significant changes are made to the specification content</li>
                             </ul>
                         </div>
 
