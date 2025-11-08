@@ -92,7 +92,7 @@ While SEDAI provides a CLI tool for project initialization, we recommend manuall
    - Before starting development, ask AI to score your specifications
    - Use this prompt:
    ```
-   Please evaluate the specifications in the ./specs directory and assign a score (0-100) for each file.
+   Please evaluate the specifications in the ./specs directory and assign a score (0-100) for each file based on the criteria outlined in https://www.npmjs.com/package/sedai
    The score should assess completeness, clarity, and adherence to SED principles.
    Provide an overall project score and recommendations for improvement.
    ```
