@@ -188,7 +188,7 @@
 
         /* Improved text colors with better contrast */
         .text-muted {
-            color: var(--sedai-gray-700) !important;
+            color: var(--sedai-gray-800) !important;
         }
 
         .text-primary {
@@ -209,7 +209,7 @@
         /* Better contrast for small text */
         .small.text-muted,
         small.text-muted {
-            color: var(--sedai-gray-800) !important;
+            color: var(--sedai-gray-900) !important;
         }
 
         /* Fix contrast issue: light text on dark backgrounds */
@@ -217,6 +217,50 @@
         .bg-dark .text-primary,
         .sidebar .text-primary {
             color: var(--sedai-gray-300) !important;
+        }
+
+        /* Alert boxes with improved contrast */
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffecb5;
+            color: #664d03;
+        }
+
+        .alert-warning strong {
+            color: #332700;
+            font-weight: 700;
+        }
+
+        .alert-warning code {
+            background-color: #ffe69c;
+            color: #332700;
+            font-weight: 600;
+        }
+
+        .alert-info {
+            background-color: #cfe2ff;
+            border-color: #b6d4fe;
+            color: #084298;
+        }
+
+        .alert-info strong {
+            color: #052c65;
+            font-weight: 700;
+        }
+
+        .alert-info code {
+            background-color: #9ec5fe;
+            color: #052c65;
+            font-weight: 600;
+        }
+
+        /* Footer links with better visibility */
+        footer a.text-white-50 {
+            color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        footer a.text-white-50:hover {
+            color: white !important;
         }
 
         .bg-light {
@@ -539,7 +583,45 @@ Provide an overall project score and recommendations for improvement.</code></pr
                                             </ul>
                                         </li>
                                     </ol>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> System prompts ensure AI consistently follows SED principles across all development sessions, preventing spec deviation and maintaining implementation accuracy.</p>
+
+                                    <h4 class="h6 mb-2 mt-4">Quick Copy Template:</h4>
+                                    <p class="small text-muted mb-2">Copy the following markdown template and paste it into your AI system prompt files:</p>
+
+                                    <div style="position: relative;">
+                                        <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copyToClipboard(this)" style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                        <pre style="margin-bottom: 0;"><code>Learn SED Methodology: Read the following pages and understand SED methodology:
+- https://sedai.dev
+- https://sedai.dev/principles
+- https://sedai.dev/philosophy
+
+Always Consult Specifications First: Before starting any development task, read ./specs/instructions.md and ./specs/index.md
+
+Strict Specification Obedience:
+- Follow specifications exactly, even if they appear incorrect
+- Never implement features not defined in specifications
+- Never modify specifications directly during implementation
+- If specifications are unclear, ask for clarification rather than guessing
+
+Error Reporting Protocol: When critical errors are detected in specifications:
+- Halt development immediately
+- Report the issue to developers with specific details
+- Recommend specification improvements
+- Wait for specification updates before continuing
+
+Ask for Clarification When Needed: When specifications are ambiguous or incomplete:
+- Request clarification from the developer instead of making assumptions
+- Ask for specific details about logic, source code, styles, or any other information needed
+- Never proceed with implementation based on guesswork or inference
+- Ensure all details are explicitly documented before continuing development</code></pre>
+                                    </div>
+
+                                    <p class="text-muted small mb-0 mt-3"><strong>Why this matters:</strong> System prompts ensure AI consistently follows SED principles across all development sessions, preventing spec deviation and maintaining implementation accuracy.</p>
                                 </div>
                             </div>
                         </div>
@@ -688,5 +770,33 @@ Provide an overall project score and recommendations for improvement.</code></pr
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+        function copyToClipboard(button) {
+            // Find the code element within the same parent div
+            const codeBlock = button.parentElement.querySelector('code');
+            const textToCopy = codeBlock.textContent;
+
+            // Use the Clipboard API to copy text
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Change button text to "Copied!"
+                const originalHTML = button.innerHTML;
+                button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                </svg> Copied!`;
+                button.classList.remove('btn-outline-secondary');
+                button.classList.add('btn-success');
+
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-outline-secondary');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy to clipboard. Please copy manually.');
+            });
+        }
+    </script>
 </body>
 </html>
