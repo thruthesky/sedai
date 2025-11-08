@@ -621,7 +621,36 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
 - Request clarification from the developer instead of making assumptions
 - Ask for specific details about logic, source code, styles, or any other information needed
 - Never proceed with implementation based on guesswork or inference
-- Ensure all details are explicitly documented before continuing development</code></pre>
+- Ensure all details are explicitly documented before continuing development
+
+---
+
+# Workflow for Claude SED Agent
+
+- [ ] Learn SED Methodology: Read the following pages and understand SED methodology:
+  - https://sedai.dev
+  - https://sedai.dev/principles
+  - https://sedai.dev/philosophy
+
+- [ ] Always Consult Specifications First: Before starting any development task, read ./specs/instructions.md and ./specs/index.md
+
+- [ ] Strict Specification Obedience:
+  - Follow specifications exactly, even if they appear incorrect
+  - Never implement features not defined in specifications
+  - Never modify specifications directly during implementation
+  - If specifications are unclear, ask for clarification rather than guessing
+
+- [ ] Error Reporting Protocol: When critical errors are detected in specifications:
+  - Halt development immediately
+  - Report the issue to developers with specific details
+  - Recommend specification improvements
+  - Wait for specification updates before continuing
+
+- [ ] Ask for Clarification When Needed: When specifications are ambiguous or incomplete:
+  - Request clarification from the developer instead of making assumptions
+  - Ask for specific details about logic, source code, styles, or any other information needed
+  - Never proceed with implementation based on guesswork or inference
+  - Ensure all details are explicitly documented before continuing development</code></pre>
                                     </div>
 
                                     <p class="text-muted small mb-0 mt-3"><strong>Why this matters:</strong> System prompts ensure AI consistently follows SED principles across all development sessions, preventing spec deviation and maintaining implementation accuracy.</p>
