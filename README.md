@@ -125,60 +125,15 @@ While SEDAI provides a CLI tool for project initialization, we recommend manuall
 
 Before development begins, AI evaluates specifications using a comprehensive scoring system. Understanding these criteria helps you write complete, high-quality specs.
 
-### Evaluation Process
+For detailed information about specification scoring criteria, evaluation dimensions, and scoring thresholds, please refer to:
 
-AI assesses each specification file on six key dimensions:
+**📊 [Specification Scoring Criteria](https://sedai.dev/score)**
 
-#### 1. YAML Header Completeness
-- All required fields present: name, version, description, author, email
-- Optional fields used appropriately: license, dependencies, step, screenshot
-- Correct format and valid values
-- Globally unique name identifier
-
-#### 2. Required Sections Present
-- **Overview**: Clear summary of the specification's purpose
-- **Requirements**: Complete list of prerequisites (libraries, tools, environment)
-- **Workflow**: Step-by-step process AI must follow
-- **Details**: Exhaustive implementation specifications
-
-#### 3. Detail Completeness
-- **Database**: Exact versions, schemas, indexes, foreign keys, transaction isolation
-- **Functions**: Names, parameters, return types, locations, call sites, error handling
-- **UI/UX**: Colors, spacing, typography, breakpoints, animations, accessibility
-- **Testing**: Tools, versions, coverage targets, test cases, CI/CD pipeline
-- **Code Comments**: JSDoc annotations, inline explanations, file headers
-- **User-Facing Text**: Button labels, messages, tooltips, placeholder text
-- **Internationalization**: Complete translation dictionaries for all supported languages
-- **Everything else**: No ambiguity, no room for interpretation
-
-#### 4. Individual File Scores (0-100)
-Each specification file receives a score based on:
-- Clarity and precision of language
-- Absence of ambiguous statements
-- Completeness of technical specifications
-- Alignment with SED principles (no interpretation required)
-
-#### 5. Overall Project Score
-- Average of all individual file scores
-- Weighted by importance and dependencies
-- **Minimum passing score: 95**
-- Below 95 = specifications need improvement before development
-
-#### 6. AI Recommendations
-When scores are below 95, AI provides:
-- Specific sections that need more detail
-- Examples of missing information
-- Suggestions for improving clarity
-- Guidance on achieving SED compliance
-
-### Scoring Thresholds
-
-| Score Range | Status | Action Required |
-|-------------|--------|-----------------|
-| 95-100 | Excellent | Proceed with development |
-| 90-94 | Good | Minor improvements recommended |
-| 80-89 | Needs Work | Significant gaps to address |
-| 0-79 | Insufficient | Major revisions required |
+This comprehensive guide covers:
+- Six key evaluation dimensions (YAML Header, Required Sections, Detail Completeness, etc.)
+- Scoring thresholds and status levels (95-100: Excellent, 90-94: Good, etc.)
+- AI recommendations for improvement
+- Minimum passing score requirements
 
 **Key Principle:** Development may begin **only** when the overall project score is **95 or higher**. This ensures AI can execute specifications without interpretation, assumption, or guesswork.
 

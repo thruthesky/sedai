@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understand how AI evaluates SED specifications using a comprehensive scoring system to ensure complete, high-quality specs.">
+    <title>Specification Scoring Criteria - SEDAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>        :root {
+            /* Primary colors */
+            --bs-primary: #000000;
+            --bs-primary-rgb: 0, 0, 0;
+            --bs-secondary: #6B7280;
+            --bs-secondary-rgb: 107, 114, 128;
+
+            /* Gray palette - dark to light */
+            --sedai-gray-900: #111827;
+            --sedai-gray-800: #1f2937;
+            --sedai-gray-700: #374151;
+            --sedai-gray-600: #4b5563;
+            --sedai-gray-500: #6b7280;
+            --sedai-gray-400: #9ca3af;
+            --sedai-gray-300: #d1d5db;
+            --sedai-gray-200: #e5e7eb;
+            --sedai-gray-100: #f3f4f6;
+            --sedai-gray-50: #f9fafb;
+
+            /* Semantic colors */
+            --sedai-bg-dark: #1a1a1a;
+            --sedai-bg-light: var(--sedai-gray-50);
+            --sedai-text-dark: var(--sedai-gray-800);
+            --sedai-text-light: var(--sedai-gray-500);
+            --sedai-border: var(--sedai-gray-200);
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: var(--sedai-text-dark);
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--sedai-bg-dark);
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-brand {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-brand:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav-item {
+            margin: 0;
+        }
+
+        .sidebar-nav-link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left-color: white;
+            font-weight: 600;
+        }
+
+        /* 모바일 토글 버튼 */
+        .sidebar-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1050;
+            padding: 0.5rem 0.75rem;
+            background: var(--sedai-bg-dark);
+            border: none;
+            border-radius: 0.375rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 모바일 Offcanvas 사이드바 */
+        .offcanvas-sidebar {
+            background: var(--sedai-bg-dark);
+            color: white;
+            width: var(--sidebar-width);
+        }
+
+        .offcanvas-sidebar .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .offcanvas-sidebar .sidebar-brand {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        .page-header {
+            background: var(--sedai-bg-dark);
+            color: white;
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--sedai-border);
+        }
+
+        /* Improved card styling */
+        .card {
+            border: 1px solid var(--sedai-gray-200);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+            border-color: var(--sedai-gray-400);
+        }
+
+        /* Badge styles */
+        .badge-dimension {
+            background: var(--sedai-gray-100);
+            color: var(--sedai-gray-800);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Improved text colors */
+        .text-muted {
+            color: var(--sedai-gray-600) !important;
+        }
+
+        .text-primary {
+            color: #000000 !important;
+        }
+
+        /* Fix contrast issue: light text on dark backgrounds */
+        footer .text-primary,
+        .bg-dark .text-primary,
+        .sidebar .text-primary {
+            color: var(--sedai-gray-300) !important;
+        }
+
+        .bg-light {
+            background-color: var(--sedai-gray-50) !important;
+        }
+
+        /* Table styling */
+        .table-scoring {
+            border: 1px solid var(--sedai-gray-200);
+        }
+
+        .table-scoring thead {
+            background: var(--sedai-gray-100);
+        }
+
+        .table-scoring tbody tr:hover {
+            background: var(--sedai-gray-50);
+        }
+
+        /* Score range badges */
+        .score-excellent { background: #10b981; color: white; }
+        .score-good { background: #3b82f6; color: white; }
+        .score-needs-work { background: #f59e0b; color: white; }
+        .score-insufficient { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+    <!-- 모바일 토글 버튼 -->
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+
+    <!-- 데스크톱 사이드바 -->
+    <aside class="sidebar d-none d-lg-block">
+        <a href="index.html" class="sidebar-brand">SEDAI</a>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="score.html">Scoring Criteria</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 모바일 Offcanvas 사이드바 -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="sidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="score.html">Scoring Criteria</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <header class="page-header text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">Specification Scoring Criteria</h1>
+                <p class="lead fs-5">Comprehensive scoring system to ensure complete, high-quality specifications</p>
+            </div>
+        </header>
+
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+
+                        <!-- Introduction -->
+                        <div class="mb-5 pb-4 border-bottom">
+                            <p class="lead">Before development begins, AI evaluates specifications using a comprehensive scoring system. Understanding these criteria helps you write complete, high-quality specs.</p>
+                        </div>
+
+                        <!-- Evaluation Process -->
+                        <div class="mb-5 pb-4 border-bottom">
+                            <h2 class="h2 text-primary mb-4">Evaluation Process</h2>
+                            <p class="mb-4">AI assesses each specification file on six key dimensions:</p>
+
+                            <!-- Dimension 1 -->
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-dimension me-3">1</span>
+                                        <h3 class="h4 mb-0">YAML Header Completeness</h3>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li>All required fields present: <code>name</code>, <code>version</code>, <code>description</code>, <code>author</code>, <code>email</code></li>
+                                        <li>Optional fields used appropriately: <code>license</code>, <code>dependencies</code>, <code>step</code>, <code>screenshot</code></li>
+                                        <li>Correct format and valid values</li>
+                                        <li>Globally unique name identifier</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Dimension 2 -->
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-dimension me-3">2</span>
+                                        <h3 class="h4 mb-0">Required Sections Present</h3>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li><strong>Overview:</strong> Clear summary of the specification's purpose</li>
+                                        <li><strong>Requirements:</strong> Complete list of prerequisites (libraries, tools, environment)</li>
+                                        <li><strong>Workflow:</strong> Step-by-step process AI must follow</li>
+                                        <li><strong>Details:</strong> Exhaustive implementation specifications</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Dimension 3 -->
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-dimension me-3">3</span>
+                                        <h3 class="h4 mb-0">Detail Completeness</h3>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li><strong>Database:</strong> Exact versions, schemas, indexes, foreign keys, transaction isolation</li>
+                                        <li><strong>Functions:</strong> Names, parameters, return types, locations, call sites, error handling</li>
+                                        <li><strong>UI/UX:</strong> Colors, spacing, typography, breakpoints, animations, accessibility</li>
+                                        <li><strong>Testing:</strong> Tools, versions, coverage targets, test cases, CI/CD pipeline</li>
+                                        <li><strong>Code Comments:</strong> JSDoc annotations, inline explanations, file headers</li>
+                                        <li><strong>User-Facing Text:</strong> Button labels, messages, tooltips, placeholder text</li>
+                                        <li><strong>Internationalization:</strong> Complete translation dictionaries for all supported languages</li>
+                                        <li><strong>Everything else:</strong> No ambiguity, no room for interpretation</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Dimension 4 -->
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-dimension me-3">4</span>
+                                        <h3 class="h4 mb-0">Individual File Scores (0-100)</h3>
+                                    </div>
+                                    <p class="mb-2">Each specification file receives a score based on:</p>
+                                    <ul class="mb-0">
+                                        <li>Clarity and precision of language</li>
+                                        <li>Absence of ambiguous statements</li>
+                                        <li>Completeness of technical specifications</li>
+                                        <li>Alignment with SED principles (no interpretation required)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Dimension 5 -->
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-dimension me-3">5</span>
+                                        <h3 class="h4 mb-0">Overall Project Score</h3>
+                                    </div>
+                                    <ul class="mb-0">
+                                        <li>Average of all individual file scores</li>
+                                        <li>Weighted by importance and dependencies</li>
+                                        <li><strong>Minimum passing score: 95</strong></li>
+                                        <li>Below 95 = specifications need improvement before development</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Dimension 6 -->
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="badge-dimension me-3">6</span>
+                                        <h3 class="h4 mb-0">AI Recommendations</h3>
+                                    </div>
+                                    <p class="mb-2">When scores are below 95, AI provides:</p>
+                                    <ul class="mb-0">
+                                        <li>Specific sections that need more detail</li>
+                                        <li>Examples of missing information</li>
+                                        <li>Suggestions for improving clarity</li>
+                                        <li>Guidance on achieving SED compliance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scoring Thresholds -->
+                        <div class="mb-5 pb-4 border-bottom">
+                            <h2 class="h2 text-primary mb-4">Scoring Thresholds</h2>
+                            <div class="table-responsive">
+                                <table class="table table-scoring">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Score Range</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action Required</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="badge score-excellent">95-100</span></td>
+                                            <td><strong>Excellent</strong></td>
+                                            <td>Proceed with development</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge score-good">90-94</span></td>
+                                            <td><strong>Good</strong></td>
+                                            <td>Minor improvements recommended</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge score-needs-work">80-89</span></td>
+                                            <td><strong>Needs Work</strong></td>
+                                            <td>Significant gaps to address</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge score-insufficient">0-79</span></td>
+                                            <td><strong>Insufficient</strong></td>
+                                            <td>Major revisions required</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Key Principle -->
+                        <div class="mb-5">
+                            <div class="alert alert-primary" role="alert">
+                                <h3 class="h5 mb-2"><strong>Key Principle</strong></h3>
+                                <p class="mb-0">Development may begin <strong>only</strong> when the overall project score is <strong>95 or higher</strong>. This ensures AI can execute specifications without interpretation, assumption, or guesswork.</p>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="workflow.html" class="btn btn-outline-secondary">← Previous: Workflow</a>
+                            <a href="examples.html" class="btn btn-primary">Next: Examples →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">SEDAI</h5>
+                        <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Learn</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                            <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                            <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                            <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Resources</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                            <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr class="border-secondary">
+                <div class="text-center py-3">
+                    <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
