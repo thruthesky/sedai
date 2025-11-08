@@ -13,13 +13,15 @@
 
     <style>
         :root {
-            --bs-primary: #6366F1;
-            --bs-primary-rgb: 99, 102, 241;
-            --bs-secondary: #8B5CF6;
-            --bs-secondary-rgb: 139, 92, 246;
-            --sedai-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            --bs-primary: #000000;
+            --bs-primary-rgb: 0, 0, 0;
+            --bs-secondary: #6B7280;
+            --bs-secondary-rgb: 107, 114, 128;
+            --sedai-bg-dark: #1a1a1a;
+            --sedai-bg-light: #f9fafb;
             --sedai-text-dark: #1F2937;
             --sedai-text-light: #6B7280;
+            --sedai-border: #e5e7eb;
             --sidebar-width: 280px;
         }
 
@@ -28,6 +30,7 @@
             line-height: 1.7;
             color: var(--sedai-text-dark);
             overflow-x: hidden;
+            background: white;
         }
 
         /* 사이드바 스타일 */
@@ -37,12 +40,12 @@
             position: fixed;
             top: 0;
             left: 0;
-            background: var(--sedai-gradient);
+            background: var(--sedai-bg-dark);
             color: white;
             padding: 2rem 0;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-brand {
@@ -106,15 +109,15 @@
             top: 1rem;
             left: 1rem;
             z-index: 1050;
-            background: var(--sedai-gradient);
+            background: var(--sedai-bg-dark);
             border: none;
             padding: 0.5rem 0.75rem;
             border-radius: 0.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .sidebar-toggle:hover {
-            opacity: 0.9;
+            background: #000000;
         }
 
         /* 모바일 대응 */
@@ -141,7 +144,7 @@
 
         /* Offcanvas 사이드바 스타일 */
         .offcanvas-sidebar {
-            background: var(--sedai-gradient);
+            background: var(--sedai-bg-dark);
             color: white;
         }
 
@@ -150,10 +153,11 @@
         }
 
         .hero {
-            background: var(--sedai-gradient);
+            background: var(--sedai-bg-dark);
             min-height: 600px;
             display: flex;
             align-items: center;
+            border-bottom: 1px solid var(--sedai-border);
         }
 
         .hero .display-3 {
@@ -168,33 +172,63 @@
 
         .btn-light:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: #f9fafb;
         }
 
         .btn-outline-light:hover {
             background: white;
-            color: #6366F1;
+            color: #000000;
+        }
+
+        .btn-primary {
+            background: #000000;
+            border-color: #000000;
+        }
+
+        .btn-primary:hover {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-primary {
+            color: #000000;
+            border-color: #000000;
+        }
+
+        .btn-outline-primary:hover {
+            background: #000000;
+            border-color: #000000;
+            color: white;
         }
 
         .card {
             border-radius: 0.75rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: none;
+            border: 1px solid var(--sedai-border);
+            background: white;
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+            border-color: #000000;
         }
 
         .feature-icon {
             width: 70px;
             height: 70px;
-            background: var(--sedai-gradient);
+            background: #000000;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .text-primary {
+            color: #000000 !important;
         }
 
         footer a:hover {
