@@ -719,6 +719,52 @@ dependencies: **another/project/specs/main.md</code></pre>
                                 <li>Location: <code>./specs/preview.png</code></li>
                             </ul>
                             <p><strong>Usage:</strong> Spec browsers, catalogs, and repository viewers display this image to help users quickly identify specifications.</p>
+
+                            <h4 class="h4 mb-2 mt-4" id="file-optional-toc"><code>Table of Contents (TOC)</code> (OPTIONAL)</h4>
+                            <p><strong>Purpose:</strong> Enhance navigation and improve discoverability of specifications</p>
+                            <p>You can optionally add a structured Table of Contents at the top of your <code>index.md</code> file. This TOC serves as a quick reference guide for developers and AI to understand the overall structure of your specifications.</p>
+                            <p><strong>Format Example:</strong></p>
+                            <pre><code>## Table of Contents
+
+1. [Setup & Installation](my-app-setup.md)
+2. [Database Schema](my-app-database.md)
+3. [Authentication](my-app-auth-login.md)
+4. [API Endpoints](my-app-api.md)
+5. [Frontend Components](my-app-frontend.md)</code></pre>
+                            <p><strong>Benefits:</strong></p>
+                            <ul>
+                                <li>Faster navigation through multiple specification files</li>
+                                <li>Clear project structure overview</li>
+                                <li>Helps AI understand the relationship between different specs</li>
+                                <li>Improves developer onboarding</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-4" id="file-optional-external-refs"><code>External References</code> (OPTIONAL)</h4>
+                            <p><strong>Purpose:</strong> Reference external specifications and shared specs repositories</p>
+                            <p>You can optionally include references to internet URL addresses and external specification repositories in your <code>index.md</code> or individual spec files. This allows you to:</p>
+                            <ul>
+                                <li>Share and reuse specifications across projects</li>
+                                <li>Reference public specification repositories</li>
+                                <li>Link to external documentation and standards</li>
+                                <li>Maintain a centralized specification catalog</li>
+                            </ul>
+                            <p><strong>Usage Example:</strong></p>
+                            <pre><code>## External Specifications & References
+
+### Shared Libraries
+- [User Authentication Spec](https://github.com/myteam/shared-specs/blob/main/specs/auth.md)
+- [Database Utilities](https://github.com/myteam/shared-specs/blob/main/specs/db-utils.md)
+
+### Public References
+- [REST API Standards](https://jsonapi.org/)
+- [Google OAuth 2.0 Protocol](https://developers.google.com/identity/protocols/oauth2)</code></pre>
+                            <p><strong>Benefits:</strong></p>
+                            <ul>
+                                <li>Avoid specification duplication across projects</li>
+                                <li>Leverage community specifications and best practices</li>
+                                <li>Maintain version control and documentation of external dependencies</li>
+                                <li>Enable specification composition and reuse</li>
+                            </ul>
                         </div>
 
                         <!-- Complete Examples -->

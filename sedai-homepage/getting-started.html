@@ -491,7 +491,7 @@
                                         <span class="badge-step me-3">4</span>
                                         <h2 class="h3 mb-0">Write individual specification files</h2>
                                     </div>
-                                    <p class="mb-3">Create detailed specification files for each component of your project.</p>
+                                    <p class="mb-3">Create detailed specification files for each component of your project as described in <a href="https://sedai.dev/structure" target="_blank">Spec Structure</a>.</p>
                                     <ul class="mb-3">
                                         <li>Follow the naming convention: <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;.md</code></li>
                                         <li>Include YAML headers with metadata (title, author, date, version, status, dependencies)</li>
@@ -505,7 +505,29 @@
                                         </li>
                                         <li>Specify <strong>everything</strong>: database schemas, API endpoints, function signatures, UI components, testing criteria, error handling, etc.</li>
                                     </ul>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> The completeness and precision of these specifications directly determine how accurately AI can implement your project. Vague specs lead to implementation errors.</p>
+
+                                    <h4 class="h5 mb-3 mt-4">Optional Enhancements</h4>
+                                    <p class="mb-3">The following features are optional and can enhance your specifications:</p>
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-md-6">
+                                            <div class="card h-100 border-0 bg-light">
+                                                <div class="card-body p-3">
+                                                    <h5 class="card-title mb-2">📋 Table of Contents (TOC)</h5>
+                                                    <p class="small text-muted mb-0">Optionally add a Table of Contents at the top of your <code>index.md</code> to help developers and AI navigate through all specifications quickly.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card h-100 border-0 bg-light">
+                                                <div class="card-body p-3">
+                                                    <h5 class="card-title mb-2">🔗 External References</h5>
+                                                    <p class="small text-muted mb-0">Optionally add internet URL references to external specifications and shared specs repositories, not just local specs folder files.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> The completeness and precision of these specifications directly determine how accurately AI can implement your project. Vague specs lead to implementation errors. For comprehensive guidance on specification structure, YAML headers, dependencies, and best practices, refer to the <a href="https://sedai.dev/structure" target="_blank">Spec Structure documentation</a>.</p>
                                 </div>
                             </div>
                         </div>
