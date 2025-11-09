@@ -364,7 +364,7 @@ CLI 진입점으로, Commander.js를 사용하여 다음 명령어를 구현합�
 
 **홈페이지 작업 시 필수 참고 문서:**
 
-- **`sedai-homepage/specs/instructions.md`**: 홈페이지(웹) 작업을 수행할 때는 반드시 이 문서를 참고하세요
+- **[https://sedai.dev/instructions](https://sedai.dev/instructions)**: 홈페이지(웹) 작업을 수행할 때는 반드시 이 문서를 참고하세요
 - 이 문서에는 다음과 같은 중요한 지시사항이 포함되어 있습니다:
   - Index-Driven Development 워크플로우
   - Dependency Resolution 규칙

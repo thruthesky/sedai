@@ -342,6 +342,7 @@
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="instructions.html">Instructions</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
@@ -368,6 +369,7 @@
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="instructions.html">Instructions</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
@@ -445,17 +447,17 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">3</span>
-                                        <h2 class="h3 mb-0">Write instructions.md (AI Workflow Guide)</h2>
+                                        <h2 class="h3 mb-0">Configure AI Instructions Reference</h2>
                                     </div>
-                                    <p class="mb-3">Define how AI should work with your specifications.</p>
+                                    <p class="mb-3">Direct AI to read SED development instructions from the web.</p>
                                     <ul class="mb-3">
-                                        <li>Create <code>specs/instructions.md</code> with SED methodology guidelines</li>
-                                        <li>Specify Index-Driven Development workflow rules</li>
-                                        <li>Define Dependency Resolution requirements</li>
-                                        <li>Establish Specification Obedience principles</li>
-                                        <li>You can use the <code>sed-instructions.md</code> template as a starting point</li>
+                                        <li>In your <code>specs/index.md</code>, add a directive for AI to read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a></li>
+                                        <li>This ensures AI understands Index-Driven Development workflow rules</li>
+                                        <li>AI will learn Dependency Resolution requirements from the web</li>
+                                        <li>AI will understand Specification Obedience principles</li>
+                                        <li>No need to maintain a local instructions.md file</li>
                                     </ul>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> This file instructs AI on how to read and implement your specifications correctly, ensuring adherence to SED principles throughout development.</p>
+                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> By referencing the canonical web version, AI always has access to the latest SED development instructions, ensuring adherence to SED principles throughout development.</p>
                                 </div>
                             </div>
                         </div>
@@ -560,7 +562,7 @@ Provide an overall project score and recommendations for improvement.</code></pr
                                                 <li><a href="https://sedai.dev/philosophy" target="_blank">https://sedai.dev/philosophy</a></li>
                                             </ul>
                                         </li>
-                                        <li class="mb-2"><strong>Always Consult Specifications First:</strong> Before starting any development task, read <code>./specs/instructions.md</code> and <code>./specs/index.md</code></li>
+                                        <li class="mb-2"><strong>Always Consult Specifications First:</strong> Before starting any development task, read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> and <code>./specs/index.md</code></li>
                                         <li class="mb-2"><strong>Strict Specification Obedience:</strong>
                                             <ul class="mt-1">
                                                 <li>Follow specifications exactly, even if they appear incorrect</li>
@@ -603,7 +605,7 @@ Provide an overall project score and recommendations for improvement.</code></pr
 - https://sedai.dev/principles
 - https://sedai.dev/philosophy
 
-Always Consult Specifications First: Before starting any development task, read ./specs/instructions.md and ./specs/index.md
+Always Consult Specifications First: Before starting any development task, read https://sedai.dev/instructions and ./specs/index.md
 
 Strict Specification Obedience:
 - Follow specifications exactly, even if they appear incorrect
@@ -632,7 +634,7 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
   - https://sedai.dev/principles
   - https://sedai.dev/philosophy
 
-- [ ] Always Consult Specifications First: Before starting any development task, read ./specs/instructions.md and ./specs/index.md
+- [ ] Always Consult Specifications First: Before starting any development task, read https://sedai.dev/instructions and ./specs/index.md
 
 - [ ] Strict Specification Obedience:
   - Follow specifications exactly, even if they appear incorrect

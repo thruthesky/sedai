@@ -68,7 +68,8 @@ For a comprehensive step-by-step guide to getting started with SED, please refer
 
 This guide provides:
 - 7-step manual setup process (recommended for understanding SED fundamentals)
-- Detailed instructions for creating specs directory, index.md, and instructions.md
+- Detailed instructions for creating specs directory and index.md
+- AI development instructions available at [https://sedai.dev/instructions](https://sedai.dev/instructions)
 - Guidelines for writing individual specification files
 - AI evaluation prompt template for scoring your specifications
 - Development workflow (proceed only when score ≥ 95)

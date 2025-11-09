@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Development Instructions for SEDAI - Universal guidelines for AI assistants working with SED specifications.">
+    <title>AI Development Instructions - SEDAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+    <style>
+        :root {
+            /* Primary colors */
+            --bs-primary: #000000;
+            --bs-primary-rgb: 0, 0, 0;
+            --bs-secondary: #6B7280;
+            --bs-secondary-rgb: 107, 114, 128;
+
+            /* Gray palette - dark to light */
+            --sedai-gray-900: #111827;
+            --sedai-gray-800: #1f2937;
+            --sedai-gray-700: #374151;
+            --sedai-gray-600: #4b5563;
+            --sedai-gray-500: #6b7280;
+            --sedai-gray-400: #9ca3af;
+            --sedai-gray-300: #d1d5db;
+            --sedai-gray-200: #e5e7eb;
+            --sedai-gray-100: #f3f4f6;
+            --sedai-gray-50: #f9fafb;
+
+            /* Semantic colors */
+            --sedai-bg-dark: #1a1a1a;
+            --sedai-bg-light: var(--sedai-gray-50);
+            --sedai-text-dark: var(--sedai-gray-800);
+            --sedai-text-light: var(--sedai-gray-500);
+            --sedai-border: var(--sedai-gray-200);
+            --sidebar-width: 280px;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; overflow-x: hidden; background: white; color: var(--sedai-text-dark); }
+
+        /* 사이드바 스타일 */
+        .sidebar { width: var(--sidebar-width); height: 100vh; position: fixed; top: 0; left: 0; background: var(--sedai-bg-dark); color: white; padding: 2rem 0; overflow-y: auto; z-index: 1000; border-right: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-brand { font-size: 1.75rem; font-weight: 700; color: white; text-decoration: none; padding: 0 1.5rem; display: block; margin-bottom: 2rem; }
+        .sidebar-brand:hover { color: white; opacity: 0.9; }
+        .sidebar-nav { list-style: none; padding: 0; margin: 0; }
+        .sidebar-nav-item { margin-bottom: 0.25rem; }
+        .sidebar-nav-link { display: block; padding: 0.75rem 1.5rem; color: rgba(255, 255, 255, 0.9); text-decoration: none; font-weight: 500; transition: all 0.2s ease; border-left: 3px solid transparent; }
+        .sidebar-nav-link:hover { background: rgba(255, 255, 255, 0.1); color: white; border-left-color: white; }
+        .sidebar-nav-link.active { background: rgba(255, 255, 255, 0.15); color: white; border-left-color: white; font-weight: 600; }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content { margin-left: var(--sidebar-width); min-height: 100vh; width: calc(100% - var(--sidebar-width)); }
+
+        /* 모바일 토글 버튼 */
+        .sidebar-toggle { position: fixed; top: 1rem; left: 1rem; z-index: 1050; background: var(--sedai-bg-dark); border: none; padding: 0.5rem 0.75rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+        .sidebar-toggle:hover { background: #000000; }
+
+        @media (max-width: 991.98px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; width: 100%; }
+            .sidebar-toggle { display: block; }
+        }
+        @media (min-width: 992px) {
+            .sidebar-toggle { display: none; }
+        }
+
+        /* Offcanvas 사이드바 스타일 */
+        .offcanvas-sidebar { background: var(--sedai-bg-dark); color: white; }
+        .offcanvas-sidebar .btn-close { filter: invert(1); }
+
+        .page-header { background: var(--sedai-bg-dark); color: white; padding: 4rem 0 3rem; border-bottom: 1px solid var(--sedai-border); }
+        .highlight-box { background: var(--sedai-bg-dark); color: white; padding: 2rem; border-radius: 0.75rem; }
+
+        /* Improved card styling */
+        .card {
+            border: 1px solid var(--sedai-gray-200);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+            border-color: var(--sedai-gray-400);
+        }
+
+        /* Improved text colors */
+        .text-muted {
+            color: var(--sedai-gray-600) !important;
+        }
+
+        .text-primary {
+            color: #000000 !important;
+        }
+
+        /* Fix contrast issue: light text on dark backgrounds */
+        footer .text-primary,
+        .bg-dark .text-primary,
+        .sidebar .text-primary {
+            color: var(--sedai-gray-300) !important;
+        }
+
+        .bg-light {
+            background-color: var(--sedai-gray-50) !important;
+        }
+
+        /* Code blocks */
+        pre {
+            background: var(--sedai-gray-100);
+            border: 1px solid var(--sedai-gray-300);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            background: var(--sedai-gray-100);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 모바일 토글 버튼 -->
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </button>
+
+    <!-- 데스크톱 사이드바 -->
+    <aside class="sidebar d-none d-lg-block">
+        <a href="index.html" class="sidebar-brand">SEDAI</a>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="instructions.html">Instructions</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 모바일 Offcanvas 사이드바 -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="sidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="instructions.html">Instructions</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="main-content">
+        <header class="page-header text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">AI Development Instructions</h1>
+                <p class="lead fs-5">Universal guidelines for AI assistants working with SEDAI specifications</p>
+            </div>
+        </header>
+
+        <!-- Overview Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h2 class="h2 text-primary mb-4">Overview</h2>
+                        <p class="lead">
+                            This document contains universal guidelines that all AI assistants must follow.
+                            It includes AI-agnostic directives and prompts applicable to any AI system working with SEDAI specifications.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Principles Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h2 class="h2 text-primary mb-5 text-center">Core Principles</h2>
+
+                        <!-- First Principle -->
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body p-4">
+                                <h3 class="h4 text-primary mb-3">First Principle: Index-Driven Development</h3>
+
+                                <h4 class="h5 mb-3">Mandatory Workflow</h4>
+                                <ol class="mb-4">
+                                    <li class="mb-2"><strong>Read index.md first:</strong> Always begin by reading the <code>index.md</code> file to understand what documentation exists in the project</li>
+                                    <li class="mb-2"><strong>Identify relevant documents:</strong> Based on the developer's request or task requirements, identify which specification documents are relevant</li>
+                                    <li class="mb-2"><strong>Read and understand:</strong> Read the relevant specification documents thoroughly and understand their concepts</li>
+                                    <li class="mb-2"><strong>Follow the workflow:</strong> Execute tasks strictly according to the workflow defined in each specification document</li>
+                                </ol>
+
+                                <h4 class="h5 mb-3">Example Workflow</h4>
+                                <pre><code>Developer request → Read index.md → Identify relevant specs →
+Read specs → Understand concepts → Follow spec workflow → Execute task</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Second Principle -->
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body p-4">
+                                <h3 class="h4 text-primary mb-3">Second Principle: Dependency Resolution</h3>
+
+                                <h4 class="h5 mb-3">SED Specification Compliance</h4>
+                                <ol class="mb-4">
+                                    <li class="mb-2"><strong>Understand SED:</strong> Read and understand the SED (Spec-Exact Development) documentation at <a href="https://www.npmjs.com/package/sedai" target="_blank">https://www.npmjs.com/package/sedai</a></li>
+                                    <li class="mb-2"><strong>Parse YAML headers:</strong> Carefully examine the YAML header at the top of each specification file</li>
+                                    <li class="mb-2"><strong>Load dependencies:</strong> Follow the <code>dependencies</code> field in the YAML header to load dependent specifications</li>
+                                    <li class="mb-2"><strong>Integrate specifications:</strong> Combine the current specification with all dependency specifications when performing development work</li>
+                                    <li class="mb-2"><strong>Respect priority:</strong> When multiple specs contain conflicting information, respect the priority system (asterisks: *, **, ***)</li>
+                                </ol>
+
+                                <h4 class="h5 mb-3">Dependency Loading Sequence</h4>
+                                <pre><code>1. Read current spec YAML header
+2. Parse dependencies field
+3. Load each dependency spec (respecting priority)
+4. Merge specifications (higher priority overrides lower)
+5. Execute development with combined context</code></pre>
+
+                                <h4 class="h5 mb-3 mt-4">Step-based Execution Order</h4>
+                                <p>Each specification can define a <code>step</code> field in its YAML header to indicate execution order:</p>
+                                <ol class="mb-3">
+                                    <li class="mb-2"><strong>Step numbering:</strong> Specifications use incremental step numbers (e.g., 10, 20, 30) to define execution order</li>
+                                    <li class="mb-2"><strong>Execution precedence:</strong> When AI processes multiple specification files, it must execute them based on step numbers</li>
+                                    <li class="mb-2"><strong>Lower number runs first:</strong> Specifications with lower step numbers execute before higher step numbers
+                                        <ul>
+                                            <li>Example: <code>step: 10</code> runs before <code>step: 20</code>, which runs before <code>step: 30</code></li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-2"><strong>Concurrent execution:</strong> Multiple specs with the same step number can be processed simultaneously</li>
+                                    <li class="mb-2"><strong>No step defined:</strong> If a specification has no <code>step</code> field, it should be executed only when needed (on-demand)</li>
+                                </ol>
+
+                                <h4 class="h5 mb-3">Step Execution Workflow</h4>
+                                <pre><code>1. Collect all relevant specification files
+2. Group specs by step number:
+   - Group 1: step: 10 (Database setup)
+   - Group 2: step: 20 (Backend API, Frontend setup)
+   - Group 3: step: 30 (Integration tests)
+   - No step: Feature-specific specs (execute on-demand)
+3. Execute each group in order (lower to higher)
+4. Within each group, execute specs concurrently
+5. Wait for group completion before moving to next group
+6. Execute no-step specs when their functionality is required</code></pre>
+
+                                <h4 class="h5 mb-3">Example Step Usage</h4>
+                                <pre><code>---
+title: Database Setup
+step: 10  # Runs first
+---
+
+---
+title: Backend API Implementation
+step: 20  # Runs second (concurrent with frontend)
+---
+
+---
+title: Frontend Setup
+step: 20  # Runs second (concurrent with backend)
+---
+
+---
+title: Integration Tests
+step: 30  # Runs third (after backend and frontend)
+---
+
+---
+title: User Authentication Feature
+# No step field - runs on-demand when authentication is needed
+---</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Third Principle -->
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body p-4">
+                                <h3 class="h4 text-primary mb-3">Third Principle: Specification Obedience</h3>
+
+                                <h4 class="h5 mb-3">AI Must Obey Specifications</h4>
+                                <ol class="mb-4">
+                                    <li class="mb-3">
+                                        <strong>Absolute compliance:</strong> You must follow the specification exactly as it is written. The specification is the absolute rule.
+                                        <ul class="mt-2">
+                                            <li>Even if the specification appears incorrect or contains errors, you must follow it precisely as written without deviation.</li>
+                                            <li>The specification is the single source of truth that must be obeyed unconditionally.</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>No interpretation or assumption:</strong> You must never interpret or assume anything beyond what is explicitly stated in the specification.
+                                        <ul class="mt-2">
+                                            <li>Do not perform any task that is not explicitly defined in the specification.</li>
+                                            <li>Do not arbitrarily interpret specification content based on your own judgment.</li>
+                                            <li>If something is not in the spec, it should not be implemented.</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>Critical error handling:</strong> If you discover severe errors or critical issues in the specification, you must stop work immediately and report to the developer.
+                                        <ul class="mt-2">
+                                            <li>Clearly explain what the critical issue is and why it prevents execution.</li>
+                                            <li>Provide specific details about the problematic section of the specification.</li>
+                                            <li>Wait for developer confirmation or specification update before proceeding.</li>
+                                            <li>However, you must NEVER perform tasks not in the spec or arbitrarily interpret the spec content, even when reporting errors.</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-3">
+                                        <strong>Request clarification:</strong> When specifications are ambiguous or incomplete, you must request clarification from the developer rather than making assumptions.
+                                    </li>
+                                </ol>
+
+                                <h4 class="h5 mb-3">Exception Handling</h4>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <h5 class="h6">Acceptable Refusal Reasons:</h5>
+                                        <ul>
+                                            <li>Security vulnerabilities (e.g., SQL injection, XSS)</li>
+                                            <li>Destructive operations without explicit confirmation</li>
+                                            <li>Conflicting or logically impossible requirements</li>
+                                            <li>Missing critical information required for execution</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <h5 class="h6">When Refusing:</h5>
+                                        <ul>
+                                            <li>Clearly explain the issue</li>
+                                            <li>Quote the problematic section from the spec</li>
+                                            <li>Suggest potential solutions or request specification updates</li>
+                                            <li>Wait for developer confirmation before proceeding</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Guidelines Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h2 class="h2 text-primary mb-5 text-center">Development Guidelines</h2>
+
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">Code Style</h3>
+                                        <ul class="mb-0">
+                                            <li>Use TypeScript strict mode</li>
+                                            <li>Follow functional programming principles</li>
+                                            <li>Add comprehensive JSDoc comments in Korean for internal code</li>
+                                            <li>Use English for all user-facing messages (CLI output, errors, logs)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">Testing Requirements</h3>
+                                        <ul class="mb-0">
+                                            <li>Minimum 80% code coverage</li>
+                                            <li>Write tests before implementation (TDD approach)</li>
+                                            <li>Include edge cases and error scenarios</li>
+                                            <li>Test both success and failure paths</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">Naming Conventions</h3>
+                                        <ul class="mb-0">
+                                            <li>Use camelCase for variables and functions</li>
+                                            <li>Use PascalCase for classes and types</li>
+                                            <li>Use UPPER_SNAKE_CASE for constants</li>
+                                            <li>Use descriptive names that clearly indicate purpose</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h3 class="h5 text-primary mb-3">File Encoding</h3>
+                                        <ul class="mb-0">
+                                            <li><strong>MANDATORY:</strong> All files must be saved with UTF-8 encoding (without BOM)</li>
+                                            <li>Verify encoding after creating or modifying files</li>
+                                            <li>Never use EUC-KR, CP949, or other legacy encodings</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h3 class="h5 text-primary mb-3">HTML Content Language</h3>
+                                <p><strong>MANDATORY:</strong> All HTML document content must be written in English</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="h6">This includes:</h4>
+                                        <ul>
+                                            <li>All text content visible to users</li>
+                                            <li>Page titles, headings, and body text</li>
+                                            <li>Navigation menus and buttons</li>
+                                            <li>Form labels and placeholders</li>
+                                            <li>Error messages and notifications</li>
+                                            <li>Footer content and copyright notices</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="h6">Exceptions:</h4>
+                                        <ul>
+                                            <li>Code comments may be in Korean for internal development</li>
+                                            <li>Configuration files may contain Korean comments</li>
+                                        </ul>
+                                        <p class="mt-3"><strong>Rationale:</strong> Ensures international accessibility and broader audience reach</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Workflow Summary Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h2 class="h2 text-primary mb-4 text-center">AI Workflow Summary</h2>
+                        <div class="card shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="mermaid">
+graph TD
+    A[Receive Developer Request] --> B[Read index.md]
+    B --> C[Identify Relevant Specs]
+    C --> D[Read Specification Documents]
+    D --> E[Parse YAML Headers]
+    E --> F[Load Dependencies]
+    F --> G[Group Specs by Step Number]
+    G --> H[Sort Groups: Lower Step First]
+    H --> I[Execute Step Groups in Order]
+    I --> J{Specification Clear?}
+    J -->|Yes| K[Execute Strictly According to Spec]
+    J -->|No| L[Request Clarification]
+    K --> M{More Step Groups?}
+    M -->|Yes| I
+    M -->|No| N{On-Demand Specs Needed?}
+    N -->|Yes| O[Execute On-Demand Specs]
+    N -->|No| P{Critical Issues?}
+    O --> P
+    P -->|No| Q[Complete Task]
+    P -->|Yes| R[Report Issues & Refuse]
+    L --> S[Wait for Developer Response]
+    R --> S
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Important Reminders Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h2 class="h2 text-primary mb-4 text-center">Important Reminders</h2>
+                        <div class="card shadow-sm border-primary">
+                            <div class="card-body p-4">
+                                <ol class="mb-0">
+                                    <li class="mb-2"><strong>Never improvise:</strong> If something is not in the specification, ask before implementing</li>
+                                    <li class="mb-2"><strong>Read before write:</strong> Always read existing code/specs before making changes</li>
+                                    <li class="mb-2"><strong>Validate before commit:</strong> Run tests and builds before committing changes</li>
+                                    <li class="mb-2"><strong>Document changes:</strong> Update relevant documentation when making changes</li>
+                                    <li class="mb-2"><strong>Follow SED philosophy:</strong> "AI develops exactly as the spec defines — no interpretation, no assumption."</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-4" role="alert">
+                            <strong>Note:</strong> These instructions apply to all AI assistants working with SEDAI projects.
+                            Strict adherence to these guidelines ensures consistency, predictability, and maintainability of the codebase.
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="getting-started.html" class="btn btn-outline-secondary">← Getting Started</a>
+                            <a href="workflow.html" class="btn btn-primary">Next: Workflow →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+            <div class="container">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">SEDAI</h5>
+                        <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Learn</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
+                            <li class="mb-2"><a href="principles.html" class="text-white-50 text-decoration-none">Core Principles</a></li>
+                            <li class="mb-2"><a href="workflow.html" class="text-white-50 text-decoration-none">Workflow</a></li>
+                            <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Resources</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
+                            <li class="mb-2"><a href="https://www.npmjs.com/package/sedai" class="text-white-50 text-decoration-none" target="_blank">NPM</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-primary mb-3">Contact</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
+                            <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr class="border-secondary">
+                <div class="text-center py-3">
+                    <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- 메인 콘텐츠 영역 끝 -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -252,6 +252,7 @@
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="instructions.html">Instructions</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="structure.html">Structure</a></li>
@@ -278,6 +279,7 @@
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="getting-started.html">Getting Started</a></li>
+                    <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="instructions.html">Instructions</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="structure.html">Structure</a></li>
@@ -626,7 +628,7 @@ dependencies: **another/project/specs/main.md</code></pre>
                             <pre><code>project-root/
 ├── specs/                    # All spec files go here
 │   ├── index.md              # DTOC (Detailed Table of Contents)
-│   ├── instructions.md       # AI workflow guidelines (MANDATORY)
+│   │                          # Must reference https://sedai.dev/instructions for AI
 │   ├── preview.png           # Spec repository preview image (1024×1024)
 │   ├── project-setup.md
 │   ├── project-database.md
@@ -676,24 +678,26 @@ dependencies: **another/project/specs/main.md</code></pre>
 
                             <p>This allows AI to make intelligent decisions about which specifications to load and in what order to execute them, following the <strong>5W1H principle</strong> to determine relevance to the current task.</p>
 
-                            <h4 class="h4 mb-2 mt-4" id="file-instructions"><code>instructions.md</code> (MANDATORY)</h4>
+                            <h4 class="h4 mb-2 mt-4" id="file-instructions">AI Development Instructions (MANDATORY)</h4>
                             <p><strong>Purpose:</strong> AI Development Directive — The mandatory guideline document that AI must strictly follow when working with specifications</p>
 
                             <div class="alert alert-primary" role="alert">
-                                <h5 class="mb-2"><strong>What is instructions.md?</strong></h5>
-                                <p class="mb-0"><code>instructions.md</code> is <strong>not just documentation</strong>—it is a <strong>directive file</strong> that defines the rules, conventions, and workflows that AI must obey when executing specifications. This file serves as the <strong>AI's operational manual</strong> for the project.</p>
+                                <h5 class="mb-2"><strong>What are SED Instructions?</strong></h5>
+                                <p class="mb-0">SED Instructions are available at <strong><a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a></strong> and serve as the <strong>AI's operational manual</strong> for all SED projects. This is a <strong>directive document</strong> that defines the rules, conventions, and workflows that AI must obey when executing specifications.</p>
                             </div>
 
-                            <p><strong>Why instructions.md is Critical for SED:</strong></p>
+                            <p><strong>Why SED Instructions are Critical:</strong></p>
                             <p>According to SED principles, AI must:</p>
                             <ol>
-                                <li><strong>Read <code>specs/instructions.md</code> FIRST</strong> before starting any task</li>
+                                <li><strong>Read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> FIRST</strong> before starting any task</li>
                                 <li><strong>Follow the instructions EXACTLY</strong> as written, without interpretation</li>
                                 <li><strong>Apply these rules consistently</strong> throughout development</li>
                                 <li><strong>Report violations</strong> if instructions conflict with specifications</li>
                             </ol>
 
-                            <p>This file transforms AI from a passive code generator into a <strong>compliant development agent</strong> that follows project-specific rules with absolute fidelity.</p>
+                            <p>This directive transforms AI from a passive code generator into a <strong>compliant development agent</strong> that follows project-specific rules with absolute fidelity.</p>
+
+                            <p><strong>How to Configure:</strong> In your <code>specs/index.md</code>, add a directive for AI to read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> before starting any development task. This ensures AI always has access to the latest SED development guidelines.</p>
 
                             <p><strong>Mandatory Sections:</strong></p>
                             <ol>
