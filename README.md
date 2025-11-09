@@ -2,6 +2,8 @@
 
 > "AI develops exactly as the spec defines — no interpretation, no assumption."
 
+**SED is beautifully simple.** At its core, SED is just a collection of Markdown documents—specifications that tell AI exactly what to build. These human-readable documents, called "specs," are easy to write and understand. No complex frameworks, no steep learning curves—just clear, straightforward instructions that both humans and AI can comprehend.
+
 A development methodology and toolset where artificial intelligence implements solutions strictly according to specifications without deviation.
 
 [![npm version](https://img.shields.io/npm/v/sedai.svg)](https://www.npmjs.com/package/sedai)
