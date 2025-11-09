@@ -384,7 +384,13 @@ updated: 2025-01-20                    # Last modification date (YYYY-MM-DD)
                                 <li><strong>Format:</strong> English letters, numbers, hyphens only</li>
                                 <li><strong>Length:</strong> ≤255 characters</li>
                                 <li><strong>Convention:</strong> <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;</code> (e.g., <code>my-app-auth-login</code>)</li>
-                                <li><strong>Important:</strong> All spec files in the same <code>./specs</code> directory must share the same <code>name</code> value</li>
+                                <li><strong>Two Usage Patterns:</strong>
+                                    <ul>
+                                        <li><strong>Unified Project Name:</strong> All spec files in the same <code>./specs</code> directory can share the same <code>name</code> value (representing the project name). Example: All files use <code>my-app</code> as the base name</li>
+                                        <li><strong>Individual Spec Names:</strong> Each spec file can have its own unique <code>name</code> value (representing individual components). Example: <code>my-app-auth-login</code>, <code>my-app-database-schema</code>, <code>my-app-api-users</code></li>
+                                    </ul>
+                                </li>
+                                <li><strong>Recommendation:</strong> Choose one pattern for consistency across your entire spec directory. The unified project name pattern works better for related specs that form a single project; the individual spec names pattern works better when specs are independent or reusable across projects</li>
                             </ul>
 
                             <h4 class="h4 mb-2 mt-3" id="field-version"><code>version</code> (Required)</h4>
@@ -705,11 +711,23 @@ dependencies: **another/project/specs/main.md</code></pre>
                                 <li><code>forum-posts-create.md</code></li>
                             </ul>
 
+                            <p><strong>Important Note on Hyphens:</strong></p>
+                            <p>The <code>&lt;feature&gt;</code> portion of the filename can contain multiple hyphens. Only the <strong>first two hyphens</strong> are used as separators for <code>&lt;project&gt;</code> and <code>&lt;module&gt;</code>. Everything after the second hyphen is considered part of the feature name.</p>
+
+                            <p><strong>Example with Multiple Hyphens:</strong></p>
+                            <p>For a filename like <code>a-b-c-d-e.md</code>:</p>
+                            <ul>
+                                <li><code>a</code> = project name</li>
+                                <li><code>b</code> = module name</li>
+                                <li><code>c-d-e</code> = feature name (contains additional hyphens)</li>
+                            </ul>
+
                             <p><strong>Benefits:</strong></p>
                             <ul>
                                 <li>Clear hierarchy (project → module → feature)</li>
                                 <li>Easy to locate specific functionality</li>
                                 <li>Systematic organization for large projects</li>
+                                <li>Feature names can be descriptive with multiple words separated by hyphens</li>
                             </ul>
 
                             <h3 class="h3 mb-3 mt-4">Mandatory Files</h3>
