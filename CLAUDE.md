@@ -362,16 +362,35 @@ CLI 진입점으로, Commander.js를 사용하여 다음 명령어를 구현합�
 
 ### Homepage (Web) Development
 
-**홈페이지 작업 시 필수 참고 문서:**
 
-- **[https://sedai.dev/instructions](https://sedai.dev/instructions)**: 홈페이지(웹) 작업을 수행할 때는 반드시 이 문서를 참고하세요
-- 이 문서에는 다음과 같은 중요한 지시사항이 포함되어 있습니다:
-  - Index-Driven Development 워크플로우
-  - Dependency Resolution 규칙
-  - Specification Obedience 원칙
-  - HTML Content Language 규칙 (모든 HTML 콘텐츠는 영어로 작성)
-  - Step-based Execution Order
-- 홈페이지 관련 작업 전에 반드시 해당 문서를 읽고 지시사항을 따라야 합니다
+
+
+#### Workflow for Claude SED Agent
+
+- [ ] Learn SED Methodology: Read the following pages and understand SED methodology:
+  - https://sedai.dev
+  - https://sedai.dev/principles
+  - https://sedai.dev/philosophy
+
+- [ ] Always Consult Specifications First: Before starting any development task, read https://sedai.dev/instructions and ./specs/index.md
+
+- [ ] Strict Specification Obedience:
+  - Follow specifications exactly, even if they appear incorrect
+  - Never implement features not defined in specifications
+  - Never modify specifications directly during implementation
+  - If specifications are unclear, ask for clarification rather than guessing
+
+- [ ] Error Reporting Protocol: When critical errors are detected in specifications:
+  - Halt development immediately
+  - Report the issue to developers with specific details
+  - Recommend specification improvements
+  - Wait for specification updates before continuing
+
+- [ ] Ask for Clarification When Needed: When specifications are ambiguous or incomplete:
+  - Request clarification from the developer instead of making assumptions
+  - Ask for specific details about logic, source code, styles, or any other information needed
+  - Never proceed with implementation based on guesswork or inference
+  - Ensure all details are explicitly documented before continuing development
 
 **예시:**
 
