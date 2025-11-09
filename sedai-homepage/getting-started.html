@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn SED methodology by manually creating specifications. Understand core principles before using optional CLI tools.">
+    <meta name="description"
+        content="Learn SED methodology by manually creating specifications. Understand core principles before using optional CLI tools.">
     <title>Getting Started - SEDAI</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <style>        :root {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        :root {
             /* Primary colors */
             --bs-primary: #000000;
             --bs-primary-rgb: 0, 0, 0;
@@ -322,13 +326,147 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
+        /* 향상된 시각적 스타일 */
+        .step-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-checklist li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .step-checklist li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        /* 개선된 Optional Enhancements 카드 */
+        .enhancement-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid var(--sedai-gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .enhancement-card:hover {
+            border-color: #000000;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .enhancement-card .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000;
+        }
+
+        /* Why This Matters 섹션 강조 */
+        .why-matters {
+            background: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-top: 1.5rem;
+        }
+
+        .why-matters strong {
+            color: #0051a8;
+            font-weight: 700;
+        }
+
+        /* Step 체크리스트 개선 */
+        .requirement-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .requirement-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.75rem;
+            position: relative;
+        }
+
+        .requirement-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        /* 코드 블록 컨테이너 */
+        .code-wrapper {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-wrapper pre {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+        }
+
+        /* 헤딩 스타일 개선 */
+        .step-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 700;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #000000;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* 카드 내부 콘텐츠 개선 */
+        .card-body h4 {
+            color: #000000;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .card-body ul li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
     </style>
 </head>
+
 <body>
     <!-- 모바일 토글 버튼 -->
-    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas">
+    <button class="sidebar-toggle btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#sidebarOffcanvas">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            <path fill-rule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
         </svg>
     </button>
 
@@ -341,15 +479,18 @@
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="what-is-sed.html">What is SED?</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="manifesto.html">Manifesto</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="principles.html">Principles</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="getting-started.html">Getting Started</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link active" href="getting-started.html">Getting
+                        Started</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="instructions.html">Instructions</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="workflow.html">Workflow</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="score.html">Scoring Criteria</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="structure.html">Structure</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="philosophy.html">Philosophy</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="examples.html">Examples</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec Repositories</a></li>
-                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai" target="_blank">GitHub</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="spec-repositories.html">Spec
+                        Repositories</a></li>
+                <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="https://github.com/thruthesky/sedai"
+                        target="_blank">GitHub</a></li>
                 <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="login.html">Login</a></li>
             </ul>
         </nav>
@@ -361,7 +502,7 @@
             <h5 class="offcanvas-title sidebar-brand" style="margin-bottom: 0;">SEDAI</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body p-0">
+    <div class="offcanvas-body p-0">
             <nav>
                 <ul class="sidebar-nav">
                     <li class="sidebar-nav-item"><a class="sidebar-nav-link" href="index.html">Home</a></li>
@@ -390,10 +531,10 @@
                 <h1 class="display-4 fw-bold mb-3">Getting Started with SEDAI</h1>
                 <p class="lead fs-5">Learn SED methodology by manually creating specifications - CLI tools are optional</p>
             </div>
-        </header>
+    </header>
 
-        <section class="py-5">
-            <div class="container">
+    <section class="py-5">
+        <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
 
@@ -404,57 +545,62 @@
                             <div class="alert alert-warning mt-3" role="alert">
                                 <strong>Recommended Approach:</strong> Follow the manual 7-step process below to truly understand how SED works. The CLI tools (<code>npx spec init</code>) are optional helpers that you can use later once you've mastered the methodology.
                             </div>
-                        </div>
+        </div>
 
-                        <!-- Step 1 -->
-                        <div id="step-1" class="mb-5 pb-4 border-bottom">
+        <!-- Step 1 -->
+        <div id="step-1" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">1</span>
                                         <h2 class="h3 mb-0">Create the specs directory</h2>
                                     </div>
-                                    <p class="mb-3">Start by creating the main directory that will contain all your specifications.</p>
-                                    <pre><code>mkdir specs</code></pre>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> Centralizing all specifications in a dedicated directory makes them easy for both AI and developers to find and reference.</p>
-                                </div>
-                            </div>
-                        </div>
+        <p class="mb-3">Start by creating the main directory that will contain all your specifications.</p>
+        <pre><code>mkdir specs</code></pre>
+        <div class="why-matters">
+            <p class="mb-0"><strong>Why this matters:</strong> Centralizing all specifications in a dedicated directory makes them easy for both AI and developers to find and reference.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Step 2 -->
-                        <div id="step-2" class="mb-5 pb-4 border-bottom">
+        <!-- Step 2 -->
+        <div id="step-2" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">2</span>
                                         <h2 class="h3 mb-0">Write index.md (Detailed Table of Contents)</h2>
                                     </div>
-                                    <p class="mb-3">Create the index file that serves as a navigation map for all your specifications.</p>
-                                    <ul class="mb-3">
-                                        <li>Create <code>specs/index.md</code> with YAML header</li>
-                                        <li>Include project summary and overview</li>
-                                        <li>List all specification files with brief descriptions</li>
-                                        <li>This is the first file AI should read to understand your project structure</li>
-                                    </ul>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> The index.md serves as a Detailed Table of Contents (DTOC), allowing AI to quickly understand the full scope and structure of your project before diving into specific specifications.</p>
-                                </div>
-                            </div>
-                        </div>
+        <p class="mb-3">Create the index file that serves as a navigation map for all your specifications.</p>
+        <ul class="requirement-list mb-3">
+            <li>Create <code>specs/index.md</code> with YAML header</li>
+            <li>Include project summary and overview</li>
+            <li>List all specification files with brief descriptions</li>
+            <li>This is the first file AI should read to understand your project structure</li>
+        </ul>
+        <div class="why-matters">
+            <p class="mb-0"><strong>Why this matters:</strong> The index.md serves as a Detailed Table of Contents (DTOC), allowing AI to quickly understand the full scope and structure of your project before diving into specific specifications.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Step 3 -->
-                        <div id="step-3" class="mb-5 pb-4 border-bottom">
+        <!-- Step 3 -->
+        <div id="step-3" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">3</span>
                                         <h2 class="h3 mb-0">Configure AI Instructions Reference</h2>
                                     </div>
-                                    <p class="mb-3">Direct AI to read SED development instructions from the web.</p>
+        <p class="mb-3">Direct AI to read SED development instructions from the web.</p>
 
-                                    <h4 class="h5 mb-3">Add the following directive to your <code>specs/index.md</code>:</h4>
-                                    <p class="mb-2">Copy and paste this markdown snippet into your <code>specs/index.md</code> file to ensure AI reads SED instructions:</p>
+        <h4 class="h5 mb-3">Add the following directive to your <code>specs/index.md</code>:</h4>
+        <p class="mb-2">Copy and paste this markdown snippet into your <code>specs/index.md</code> file to ensure AI
+            reads SED instructions:</p>
 
-                                    <div style="position: relative;">
+        <div style="position: relative;">
                                         <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copyToClipboard(this)" style="position: absolute; top: 8px; right: 8px; z-index: 10;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
@@ -470,78 +616,86 @@
 ---</code></pre>
                                     </div>
 
-                                    <h4 class="h5 mt-4 mb-3">What this directive does:</h4>
-                                    <ul class="mb-3">
-                                        <li>Instructs AI to read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> before starting work</li>
-                                        <li>Ensures AI understands Index-Driven Development workflow rules</li>
-                                        <li>AI learns Dependency Resolution requirements from the web</li>
-                                        <li>AI understands Specification Obedience principles</li>
-                                        <li>No need to maintain a local instructions.md file</li>
-                                    </ul>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> By referencing the canonical web version, AI always has access to the latest SED development instructions, ensuring adherence to SED principles throughout development.</p>
-                                </div>
-                            </div>
-                        </div>
+        <h4 class="h5 mt-4 mb-3">What this directive does:</h4>
+        <ul class="requirement-list mb-3">
+            <li>Instructs AI to read <a href="https://sedai.dev/instructions"
+                    target="_blank">https://sedai.dev/instructions</a> before starting work</li>
+            <li>Ensures AI understands Index-Driven Development workflow rules</li>
+            <li>AI learns Dependency Resolution requirements from the web</li>
+            <li>AI understands Specification Obedience principles</li>
+            <li>No need to maintain a local instructions.md file</li>
+        </ul>
+        <div class="why-matters">
+            <p class="mb-0"><strong>Why this matters:</strong> By referencing the canonical web version, AI always has access to the latest SED development instructions, ensuring adherence to SED principles throughout development.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Step 4 -->
-                        <div id="step-4" class="mb-5 pb-4 border-bottom">
+        <!-- Step 4 -->
+        <div id="step-4" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">4</span>
                                         <h2 class="h3 mb-0">Write individual specification files</h2>
                                     </div>
-                                    <p class="mb-3">Create detailed specification files for each component of your project as described in <a href="https://sedai.dev/structure" target="_blank">Spec Structure</a>.</p>
-                                    <ul class="mb-3">
-                                        <li>Follow the naming convention: <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;.md</code></li>
-                                        <li>Include YAML headers with metadata (title, author, date, version, status, dependencies)</li>
-                                        <li>Structure each file with required sections:
-                                            <ul class="mt-2">
-                                                <li><strong>Overview:</strong> High-level summary of what this spec covers</li>
-                                                <li><strong>Requirements:</strong> Functional and non-functional requirements</li>
-                                                <li><strong>Workflow:</strong> User workflows and process flows</li>
-                                                <li><strong>Details:</strong> Technical implementation details</li>
-                                            </ul>
-                                        </li>
-                                        <li>Specify <strong>everything</strong>: database schemas, API endpoints, function signatures, UI components, testing criteria, error handling, etc.</li>
-                                    </ul>
+        <p class="mb-3">Create detailed specification files for each component of your project as described in <a
+                href="https://sedai.dev/structure" target="_blank">Spec Structure</a>.</p>
+        <ul class="requirement-list mb-3">
+            <li>Follow the naming convention: <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;.md</code></li>
+            <li>Include YAML headers with metadata (title, author, date, version, status, dependencies)</li>
+            <li>Structure each file with required sections:
+                <ul class="mt-2">
+                    <li><strong>Overview:</strong> High-level summary of what this spec covers</li>
+                    <li><strong>Requirements:</strong> Functional and non-functional requirements</li>
+                    <li><strong>Workflow:</strong> User workflows and process flows</li>
+                    <li><strong>Details:</strong> Technical implementation details</li>
+                </ul>
+            </li>
+            <li>Specify <strong>everything</strong>: database schemas, API endpoints, function signatures, UI
+                components, testing criteria, error handling, etc.</li>
+        </ul>
 
-                                    <h4 class="h5 mb-3 mt-4">Optional Enhancements</h4>
-                                    <p class="mb-3">The following features are optional and can enhance your specifications:</p>
-                                    <div class="row g-3 mb-4">
-                                        <div class="col-md-6">
-                                            <div class="card h-100 border-0 bg-light">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title mb-2">📋 Table of Contents (TOC)</h5>
-                                                    <p class="small text-muted mb-0">Optionally add a Table of Contents at the top of your <code>index.md</code> to help developers and AI navigate through all specifications quickly.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card h-100 border-0 bg-light">
-                                                <div class="card-body p-3">
-                                                    <h5 class="card-title mb-2">🔗 External References</h5>
-                                                    <p class="small text-muted mb-0">Optionally add internet URL references to external specifications and shared specs repositories, not just local specs folder files.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        <h4 class="h5 mb-3 mt-4">Optional Enhancements</h4>
+        <p class="mb-3">The following features are optional and can enhance your specifications:</p>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card enhancement-card h-100">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-3">📋 Table of Contents (TOC)</h5>
+                        <p class="mb-0">Optionally add a Table of Contents at the top of your <code>index.md</code> to help developers and AI navigate through all specifications quickly.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card enhancement-card h-100">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-3">🔗 External References</h5>
+                        <p class="mb-0">Optionally add internet URL references to external specifications and shared specs repositories, not just local specs folder files.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> The completeness and precision of these specifications directly determine how accurately AI can implement your project. Vague specs lead to implementation errors. For comprehensive guidance on specification structure, YAML headers, dependencies, and best practices, refer to the <a href="https://sedai.dev/structure" target="_blank">Spec Structure documentation</a>.</p>
-                                </div>
-                            </div>
-                        </div>
+        <div class="why-matters">
+            <p class="mb-0"><strong>Why this matters:</strong> The completeness and precision of these specifications directly determine how accurately AI can implement your project. Vague specs lead to implementation errors. For comprehensive guidance on specification structure, YAML headers, dependencies, and best practices, refer to the <a href="https://sedai.dev/structure" target="_blank">Spec Structure documentation</a>.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Step 5 -->
-                        <div id="step-5" class="mb-5 pb-4 border-bottom">
+        <!-- Step 5 -->
+        <div id="step-5" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">5</span>
                                         <h2 class="h3 mb-0">Request AI evaluation</h2>
                                     </div>
-                                    <p class="mb-3">Before starting development, ask AI to score your specifications to ensure they meet SED quality standards.</p>
-                                    <div class="step-highlight">
+        <p class="mb-3">Before starting development, ask AI to score your specifications to ensure they meet SED quality
+            standards.</p>
+        <div class="step-highlight">
                                         <p class="mb-2"><strong>Use this evaluation prompt:</strong></p>
                                         <pre><code>Read the following documents first to understand the concept of SED:
   - https://sedai.dev/
@@ -554,88 +708,99 @@ Then, please evaluate the specifications in the ./specs directory and assign a s
 The score should assess completeness, clarity, and adherence to SED principles.
 Provide an overall project score and recommendations for improvement.</code></pre>
                                     </div>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> AI evaluation helps you identify gaps, ambiguities, and missing details in your specifications before implementation begins, saving time and reducing errors.</p>
-                                </div>
-                            </div>
-                        </div>
+        <div class="why-matters">
+            <p class="mb-0"><strong>Why this matters:</strong> AI evaluation helps you identify gaps, ambiguities, and missing details in your specifications before implementation begins, saving time and reducing errors.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Step 6 -->
-                        <div id="step-6" class="mb-5 pb-4 border-bottom">
+        <!-- Step 6 -->
+        <div id="step-6" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">6</span>
                                         <h2 class="h3 mb-0">Begin development (only if score ≥ 95)</h2>
                                     </div>
-                                    <p class="mb-3">Only proceed with implementation when your specifications meet the quality threshold.</p>
-                                    <ul class="mb-3">
-                                        <li>If the overall project score is <strong>95 or higher</strong>, you can proceed with development</li>
-                                        <li>If below 95, <strong>improve your specifications</strong> based on AI recommendations</li>
-                                        <li>Re-evaluate after making improvements until achieving the minimum score threshold</li>
-                                        <li>Never compromise on specification quality - poor specs lead to poor implementation</li>
-                                    </ul>
-                                    <p class="text-muted small mb-0"><strong>Why this matters:</strong> The 95+ threshold ensures your specifications are complete enough for AI to implement correctly without guessing or making assumptions.</p>
-                                </div>
-                            </div>
-                        </div>
+        <p class="mb-3">Only proceed with implementation when your specifications meet the quality threshold.</p>
+        <ul class="requirement-list mb-3">
+            <li>If the overall project score is <strong>95 or higher</strong>, you can proceed with development</li>
+            <li>If below 95, <strong>improve your specifications</strong> based on AI recommendations</li>
+            <li>Re-evaluate after making improvements until achieving the minimum score threshold</li>
+            <li>Never compromise on specification quality - poor specs lead to poor implementation</li>
+        </ul>
+        <div class="why-matters">
+            <p class="mb-0"><strong>Why this matters:</strong> The 95+ threshold ensures your specifications are complete enough for AI to implement correctly without guessing or making assumptions.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Step 7 -->
-                        <div id="step-7" class="mb-5 pb-4 border-bottom">
+        <!-- Step 7 -->
+        <div id="step-7" class="mb-5 pb-4 border-bottom">
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center mb-3">
                                         <span class="badge-step me-3">7</span>
                                         <h2 class="h3 mb-0">Configure AI System Prompts for SED Compliance</h2>
                                     </div>
-                                    <p class="mb-3">Add SED compliance rules to your AI's system prompt files to ensure consistent adherence throughout development.</p>
+        <p class="mb-3">Add SED compliance rules to your AI's system prompt files to ensure consistent adherence
+            throughout development.</p>
 
-                                    <h4 class="h6 mb-2">Common System Prompt Files:</h4>
-                                    <ul class="mb-3">
-                                        <li><code>CLAUDE.md</code> - For Claude AI</li>
-                                        <li><code>AGENTS.md</code> - For AI agents</li>
-                                        <li><code>.github/copilot-instructions.md</code> - For GitHub Copilot</li>
-                                    </ul>
+        <h4 class="h6 mb-2">Common System Prompt Files:</h4>
+        <ul class="mb-3">
+            <li><code>CLAUDE.md</code> - For Claude AI</li>
+            <li><code>AGENTS.md</code> - For AI agents</li>
+            <li><code>.github/copilot-instructions.md</code> - For GitHub Copilot</li>
+        </ul>
 
-                                    <h4 class="h6 mb-2">Mandatory Requirements to Include:</h4>
-                                    <ol class="mb-3">
-                                        <li class="mb-2"><strong>Learn SED Methodology:</strong> Read the following pages and understand SED methodology:
-                                            <ul class="mt-1">
-                                                <li><a href="https://sedai.dev" target="_blank">https://sedai.dev</a></li>
-                                                <li><a href="https://sedai.dev/principles" target="_blank">https://sedai.dev/principles</a></li>
-                                                <li><a href="https://sedai.dev/philosophy" target="_blank">https://sedai.dev/philosophy</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mb-2"><strong>Always Consult Specifications First:</strong> Before starting any development task, read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> and <code>./specs/index.md</code></li>
-                                        <li class="mb-2"><strong>Strict Specification Obedience:</strong>
-                                            <ul class="mt-1">
-                                                <li>Follow specifications exactly, even if they appear incorrect</li>
-                                                <li>Never implement features not defined in specifications</li>
-                                                <li>Never modify specifications directly during implementation</li>
-                                                <li>If specifications are unclear, ask for clarification rather than guessing</li>
-                                            </ul>
-                                        </li>
-                                        <li class="mb-2"><strong>Error Reporting Protocol:</strong> When critical errors are detected in specifications:
-                                            <ul class="mt-1">
-                                                <li>Halt development immediately</li>
-                                                <li>Report the issue to developers with specific details</li>
-                                                <li>Recommend specification improvements</li>
-                                                <li>Wait for specification updates before continuing</li>
-                                            </ul>
-                                        </li>
-                                        <li class="mb-0"><strong>Ask for Clarification When Needed:</strong> When specifications are ambiguous or incomplete:
-                                            <ul class="mt-1">
-                                                <li>Request clarification from the developer instead of making assumptions</li>
-                                                <li>Ask for specific details about logic, source code, styles, or any other information needed</li>
-                                                <li>Never proceed with implementation based on guesswork or inference</li>
-                                                <li>Ensure all details are explicitly documented before continuing development</li>
-                                            </ul>
-                                        </li>
-                                    </ol>
+        <h4 class="h6 mb-2">Mandatory Requirements to Include:</h4>
+        <ol class="mb-3">
+            <li class="mb-2"><strong>Learn SED Methodology:</strong> Read the following pages and understand SED
+                methodology:
+                <ul class="mt-1">
+                    <li><a href="https://sedai.dev" target="_blank">https://sedai.dev</a></li>
+                    <li><a href="https://sedai.dev/principles" target="_blank">https://sedai.dev/principles</a></li>
+                    <li><a href="https://sedai.dev/philosophy" target="_blank">https://sedai.dev/philosophy</a></li>
+                </ul>
+            </li>
+            <li class="mb-2"><strong>Always Consult Specifications First:</strong> Before starting any development task,
+                read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> and
+                <code>./specs/index.md</code></li>
+            <li class="mb-2"><strong>Strict Specification Obedience:</strong>
+                <ul class="mt-1">
+                    <li>Follow specifications exactly, even if they appear incorrect</li>
+                    <li>Never implement features not defined in specifications</li>
+                    <li>Never modify specifications directly during implementation</li>
+                    <li>If specifications are unclear, ask for clarification rather than guessing</li>
+                </ul>
+            </li>
+            <li class="mb-2"><strong>Error Reporting Protocol:</strong> When critical errors are detected in
+                specifications:
+                <ul class="mt-1">
+                    <li>Halt development immediately</li>
+                    <li>Report the issue to developers with specific details</li>
+                    <li>Recommend specification improvements</li>
+                    <li>Wait for specification updates before continuing</li>
+                </ul>
+            </li>
+            <li class="mb-0"><strong>Ask for Clarification When Needed:</strong> When specifications are ambiguous or
+                incomplete:
+                <ul class="mt-1">
+                    <li>Request clarification from the developer instead of making assumptions</li>
+                    <li>Ask for specific details about logic, source code, styles, or any other information needed</li>
+                    <li>Never proceed with implementation based on guesswork or inference</li>
+                    <li>Ensure all details are explicitly documented before continuing development</li>
+                </ul>
+            </li>
+        </ol>
 
-                                    <h4 class="h6 mb-2 mt-4">Quick Copy Template:</h4>
-                                    <p class="small text-muted mb-2">Copy the following markdown template and paste it into your AI system prompt files:</p>
+        <h4 class="h6 mb-2 mt-4">Quick Copy Template:</h4>
+        <p class="small text-muted mb-2">Copy the following markdown template and paste it into your AI system prompt
+            files:</p>
 
-                                    <div style="position: relative;">
+        <div style="position: relative;">
                                         <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copyToClipboard(this)" style="position: absolute; top: 8px; right: 8px; z-index: 10;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
@@ -643,32 +808,8 @@ Provide an overall project score and recommendations for improvement.</code></pr
                                             </svg>
                                             Copy
                                         </button>
-                                        <pre style="margin-bottom: 0;"><code>Learn SED Methodology: Read the following pages and understand SED methodology:
-- https://sedai.dev
-- https://sedai.dev/principles
-- https://sedai.dev/philosophy
+                                        <pre style="margin-bottom: 0;"><code>
 
-Always Consult Specifications First: Before starting any development task, read https://sedai.dev/instructions and ./specs/index.md
-
-Strict Specification Obedience:
-- Follow specifications exactly, even if they appear incorrect
-- Never implement features not defined in specifications
-- Never modify specifications directly during implementation
-- If specifications are unclear, ask for clarification rather than guessing
-
-Error Reporting Protocol: When critical errors are detected in specifications:
-- Halt development immediately
-- Report the issue to developers with specific details
-- Recommend specification improvements
-- Wait for specification updates before continuing
-
-Ask for Clarification When Needed: When specifications are ambiguous or incomplete:
-- Request clarification from the developer instead of making assumptions
-- Ask for specific details about logic, source code, styles, or any other information needed
-- Never proceed with implementation based on guesswork or inference
-- Ensure all details are explicitly documented before continuing development
-
----
 
 # Workflow for Claude SED Agent
 
@@ -698,52 +839,55 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
   - Ensure all details are explicitly documented before continuing development</code></pre>
                                     </div>
 
-                                    <p class="text-muted small mb-0 mt-3"><strong>Why this matters:</strong> System prompts ensure AI consistently follows SED principles across all development sessions, preventing spec deviation and maintaining implementation accuracy.</p>
-                                </div>
-                            </div>
-                        </div>
+        <div class="why-matters mt-3">
+            <p class="mb-0"><strong>Why this matters:</strong> System prompts ensure AI consistently follows SED principles across all development sessions, preventing spec deviation and maintaining implementation accuracy.</p>
+        </div>
+        </div>
+        </div>
+        </div>
 
-                        <!-- Optional CLI Tools Section -->
-                        <div class="optional-section mb-5">
+        <!-- Optional CLI Tools Section -->
+        <div class="optional-section mb-5">
                             <div class="mb-4">
                                 <span class="optional-badge me-2">Optional</span>
                                 <h2 class="h3 d-inline">Using CLI Tools</h2>
                             </div>
 
-                            <div class="alert alert-info mb-4" role="alert">
+        <div class="alert alert-info mb-4" role="alert">
                                 <strong>Important:</strong> The CLI tools are convenience features, not requirements. Understanding the manual process above is more important than using these tools. Use them only after you've created specifications manually at least once.
                             </div>
 
-                            <h3 class="h5 mb-3">Installation</h3>
-                            <p>SEDAI can be installed globally or used directly with npx. Both <code>sedai</code> and <code>spec</code> commands are available.</p>
+        <h3 class="h5 mb-3">Installation</h3>
+        <p>SEDAI can be installed globally or used directly with npx. Both <code>sedai</code> and <code>spec</code>
+            commands are available.</p>
 
-                            <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4">
                                 <div class="col-md-6">
                                     <p class="mb-2"><strong>Global Installation:</strong></p>
                                     <pre><code>npm install -g sedai</code></pre>
                                 </div>
-                                <div class="col-md-6">
+        <div class="col-md-6">
                                     <p class="mb-2"><strong>Use with npx (No Installation):</strong></p>
                                     <pre><code>npx spec --help</code></pre>
                                 </div>
-                            </div>
+        </div>
 
-                            <h3 class="h5 mb-3">spec init - Project Scaffolding</h3>
-                            <p>Automatically generates the initial specification structure (equivalent to Steps 1-3 above).</p>
+        <h3 class="h5 mb-3">spec init - Project Scaffolding</h3>
+        <p>Automatically generates the initial specification structure (equivalent to Steps 1-3 above).</p>
 
-                            <div class="mb-4">
+        <div class="mb-4">
                                 <p class="mb-2"><strong>Interactive Mode:</strong></p>
                                 <pre><code>npx spec init</code></pre>
                                 <p class="small text-muted mb-0">The tool will prompt you for project name, summary, author, and email.</p>
                             </div>
 
-                            <div class="mb-4">
+        <div class="mb-4">
                                 <p class="mb-2"><strong>Non-Interactive Mode:</strong></p>
                                 <pre><code>npx spec init -n "my-app" -s "My project" -a "Your Name" -e "your@email.com"</code></pre>
                                 <p class="small text-muted mb-0">All options provided via command-line flags.</p>
                             </div>
 
-                            <div class="mb-4">
+        <div class="mb-4">
                                 <p class="mb-2"><strong>Options:</strong></p>
                                 <ul class="small">
                                     <li><code>-n, --name &lt;name&gt;</code> - Project name</li>
@@ -753,7 +897,7 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
                                 </ul>
                             </div>
 
-                            <div class="mb-4">
+        <div class="mb-4">
                                 <p class="mb-2"><strong>Generated Files:</strong></p>
                                 <ul class="small">
                                     <li><code>specs/index.md</code> - Main index specification</li>
@@ -763,57 +907,57 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
                                 </ul>
                             </div>
 
-                            <h3 class="h5 mb-3">Other Commands (Coming Soon)</h3>
-                            <div class="row g-3">
+        <h3 class="h5 mb-3">Other Commands (Coming Soon)</h3>
+        <div class="row g-3">
                                 <div class="col-md-4">
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h4 class="h6 mb-2"><code>spec doctor</code></h4>
                                             <p class="small text-muted mb-0">Validate all specification files in your project</p>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+        </div>
+        </div>
+        <div class="col-md-4">
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h4 class="h6 mb-2"><code>spec validate</code></h4>
                                             <p class="small text-muted mb-0">Validate a single specification file</p>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+        </div>
+        </div>
+        <div class="col-md-4">
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h4 class="h6 mb-2"><code>spec score</code></h4>
                                             <p class="small text-muted mb-0">Calculate completeness score (0-100) for a spec</p>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
+        </div>
+        </div>
+        </div>
 
-                            <div class="alert alert-warning mt-4" role="alert">
+        <div class="alert alert-warning mt-4" role="alert">
                                 <strong>Remember:</strong> Even if you use CLI tools to generate initial files, you must still manually fill in the detailed specifications (Step 4) and have AI evaluate them (Step 5) before development.
                             </div>
-                        </div>
+        </div>
 
-                        <!-- Navigation -->
-                        <div class="d-flex justify-content-between mt-5">
+        <!-- Navigation -->
+        <div class="d-flex justify-content-between mt-5">
                             <a href="principles.html" class="btn btn-outline-secondary">← Previous: Principles</a>
                             <a href="workflow.html" class="btn btn-primary">Next: Workflow →</a>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
+        </div>
+        </div>
+    </section>
 
-        <footer class="bg-dark text-white pt-5 pb-3 mt-5">
-            <div class="container">
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
                 <div class="row g-4 mb-4">
                     <div class="col-md-3">
                         <h5 class="text-primary mb-3">SEDAI</h5>
                         <p class="small">Spec-Exact Development with AI<br>Created by Song Jaeho<br>November 4, 2025</p>
                     </div>
-                    <div class="col-md-3">
+        <div class="col-md-3">
                         <h5 class="text-primary mb-3">Learn</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2"><a href="what-is-sed.html" class="text-white-50 text-decoration-none">What is SED?</a></li>
@@ -822,7 +966,7 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
                             <li class="mb-2"><a href="philosophy.html" class="text-white-50 text-decoration-none">Philosophy</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+        <div class="col-md-3">
                         <h5 class="text-primary mb-3">Resources</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2"><a href="https://github.com/thruthesky/sedai" class="text-white-50 text-decoration-none" target="_blank">GitHub</a></li>
@@ -830,23 +974,25 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
                             <li class="mb-2"><a href="https://github.com/thruthesky/sedai/blob/main/README.md" class="text-white-50 text-decoration-none" target="_blank">Docs</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+        <div class="col-md-3">
                         <h5 class="text-primary mb-3">Contact</h5>
                         <ul class="list-unstyled">
                             <li class="mb-2"><a href="mailto:thruthesky@gmail.com" class="text-white-50 text-decoration-none">Email</a></li>
                             <li class="mb-2"><a href="https://github.com/thruthesky/sedai/issues" class="text-white-50 text-decoration-none" target="_blank">Issues</a></li>
                         </ul>
                     </div>
-                </div>
-                <hr class="border-secondary">
-                <div class="text-center py-3">
+        </div>
+        <hr class="border-secondary">
+        <div class="text-center py-3">
                     <p class="small text-muted mb-0">&copy; 2025 Song Jaeho. All rights reserved.</p>
                 </div>
-            </div>
-        </footer>
+        </div>
+    </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz4YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
     <script>
         function copyToClipboard(button) {
             // Find the code element within the same parent div
@@ -876,4 +1022,5 @@ Ask for Clarification When Needed: When specifications are ambiguous or incomple
         }
     </script>
 </body>
+
 </html>
