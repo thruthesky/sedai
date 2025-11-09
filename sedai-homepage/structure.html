@@ -370,6 +370,8 @@ license: MIT                           # License identifier
 step: 20                               # Execution order
 screenshot: https://example.com/img.png # Preview image URL
 dependencies: account/repo/specs       # External spec dependencies
+priority: **                           # Spec importance level
+tags: [authentication, security, core] # Spec categorization tags
 created: 2025-01-15                    # Spec creation date (YYYY-MM-DD)
 updated: 2025-01-20                    # Last modification date (YYYY-MM-DD)
 ---</code></pre>
@@ -461,6 +463,61 @@ step: 30   # Integration tests (runs after both)</code></pre>
                                 <li><strong>Purpose:</strong> Reference or require other specifications for reuse</li>
                                 <li><strong>Format:</strong> Comma-separated list of spec repository paths</li>
                                 <li><strong>Details:</strong> See <a href="#dependencies-system">Dependencies System</a> section</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-priority"><code>priority</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Mark the importance level of your own specification</li>
+                                <li><strong>Format:</strong> Asterisks (<code>*</code>) indicating priority level:
+                                    <ul>
+                                        <li>No asterisk: Default/normal priority</li>
+                                        <li><code>*</code>: Priority level 1</li>
+                                        <li><code>**</code>: Priority level 2 (highest)</li>
+                                        <li>More asterisks = higher priority</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Example:</strong> <code>priority: **</code></li>
+                                <li><strong>Relationship to Dependencies:</strong> When specifications have dependencies, the priority levels in the dependencies system override this field's value</li>
+                                <li><strong>Use Case:</strong> Help AI and developers understand which specs are critical for core functionality vs. optional enhancements</li>
+                            </ul>
+
+                            <h4 class="h4 mb-2 mt-3" id="field-tags"><code>tags</code> (Optional)</h4>
+                            <ul>
+                                <li><strong>Purpose:</strong> Categorize and label specifications for easy filtering and organization</li>
+                                <li><strong>Format:</strong> YAML array format with comma-separated tags enclosed in brackets</li>
+                                <li><strong>Syntax:</strong> <code>tags: [tag1, tag2, tag3]</code></li>
+                                <li><strong>Examples:</strong>
+                                    <ul>
+                                        <li><code>tags: [authentication, security, core]</code></li>
+                                        <li><code>tags: [frontend, ui, react]</code></li>
+                                        <li><code>tags: [database, postgresql, schema]</code></li>
+                                        <li><code>tags: [api, rest, endpoints]</code></li>
+                                    </ul>
+                                </li>
+                                <li><strong>Common Tag Categories:</strong>
+                                    <ul>
+                                        <li><strong>Feature Area:</strong> authentication, database, api, frontend, backend</li>
+                                        <li><strong>Functionality:</strong> core, optional, experimental, deprecated</li>
+                                        <li><strong>Technical Domain:</strong> security, performance, testing, documentation</li>
+                                        <li><strong>Technology Stack:</strong> react, nodejs, postgresql, docker</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Use Cases:</strong>
+                                    <ul>
+                                        <li>Filter specifications by topic in spec browsers</li>
+                                        <li>Organize large specification repositories</li>
+                                        <li>Help AI quickly identify related specifications</li>
+                                        <li>Enable spec discovery and navigation</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Best Practices:</strong>
+                                    <ul>
+                                        <li>Use 2-5 tags per specification for optimal organization</li>
+                                        <li>Use lowercase for consistency</li>
+                                        <li>Use hyphens for multi-word tags (e.g., <code>user-authentication</code>)</li>
+                                        <li>Keep tags relevant and meaningful</li>
+                                    </ul>
+                                </li>
                             </ul>
 
                             <h4 class="h4 mb-2 mt-3" id="field-created"><code>created</code> (Optional)</h4>
