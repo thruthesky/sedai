@@ -450,11 +450,32 @@
                                         <h2 class="h3 mb-0">Configure AI Instructions Reference</h2>
                                     </div>
                                     <p class="mb-3">Direct AI to read SED development instructions from the web.</p>
+
+                                    <h4 class="h5 mb-3">Add the following directive to your <code>specs/index.md</code>:</h4>
+                                    <p class="mb-2">Copy and paste this markdown snippet into your <code>specs/index.md</code> file to ensure AI reads SED instructions:</p>
+
+                                    <div style="position: relative;">
+                                        <button class="btn btn-sm btn-outline-secondary copy-btn" onclick="copyToClipboard(this)" style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                            </svg>
+                                            Copy
+                                        </button>
+                                        <pre style="margin-bottom: 0;"><code>---
+## 🔥 MUST-FOLLOW: SED (Spec-Exact Development) 지침
+
+모든 개발자와 AI는 반드시 다음 SED 지침을 따라야 합니다:
+📖 **필독**: https://sedai.dev/instructions 을 읽고 SED instructions 지침을 잘 이해하고 항상 이 지침대로 수행해 주세요.
+---</code></pre>
+                                    </div>
+
+                                    <h4 class="h5 mt-4 mb-3">What this directive does:</h4>
                                     <ul class="mb-3">
-                                        <li>In your <code>specs/index.md</code>, add a directive for AI to read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a></li>
-                                        <li>This ensures AI understands Index-Driven Development workflow rules</li>
-                                        <li>AI will learn Dependency Resolution requirements from the web</li>
-                                        <li>AI will understand Specification Obedience principles</li>
+                                        <li>Instructs AI to read <a href="https://sedai.dev/instructions" target="_blank">https://sedai.dev/instructions</a> before starting work</li>
+                                        <li>Ensures AI understands Index-Driven Development workflow rules</li>
+                                        <li>AI learns Dependency Resolution requirements from the web</li>
+                                        <li>AI understands Specification Obedience principles</li>
                                         <li>No need to maintain a local instructions.md file</li>
                                     </ul>
                                     <p class="text-muted small mb-0"><strong>Why this matters:</strong> By referencing the canonical web version, AI always has access to the latest SED development instructions, ensuring adherence to SED principles throughout development.</p>
