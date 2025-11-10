@@ -12,7 +12,7 @@ describe('SEDAI 기본 테스트', () => {
     expect(version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  it('버전이 0.1.0이어야 함', () => {
-    expect(version).toBe('0.1.0');
+  it('버전이 0.1.5이어야 함', () => {
+    expect(version).toBe('0.1.5');
   });
 });

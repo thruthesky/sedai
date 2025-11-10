@@ -80,9 +80,15 @@ This guide provides:
 
 **Important:** Manual specification creation is **strongly recommended** to deeply understand SED methodology. CLI tools are optional convenience features.
 
-### Using `/score` Command in Claude Code
+### Using `/score` Command in AI Coding Assistants
 
-If you're using Claude Code, you can evaluate your specifications directly with a simple slash command:
+Running `npx sedai` automatically installs the `/score` command for multiple AI coding assistants:
+
+- **Claude Code**: `.claude/commands/score.md`
+- **GitHub Copilot**: `.github/copilot-instructions.md`
+- **Codex & Other AI Agents**: `AGENTS.md`
+
+You can evaluate your specifications directly with a simple command:
 
 ```bash
 # Basic: Evaluate ./specs directory and output in markdown format

@@ -735,8 +735,14 @@ for spec improvements with target files and expected score uplift.</code></pre>
         </div>
 
         <div class="alert alert-info mt-4" role="alert">
-            <h5 class="alert-heading">Using <code>/score</code> in Claude Code</h5>
-            <p>If you're using Claude Code, you can evaluate your specifications with a simple slash command:</p>
+            <h5 class="alert-heading">Using <code>/score</code> in AI Coding Assistants</h5>
+            <p class="mb-2">Running <code>npx sedai</code> automatically installs the <code>/score</code> command for multiple AI coding assistants:</p>
+            <ul class="mb-3">
+                <li><strong>Claude Code:</strong> <code>.claude/commands/score.md</code></li>
+                <li><strong>GitHub Copilot:</strong> <code>.github/copilot-instructions.md</code></li>
+                <li><strong>Codex & Other AI Agents:</strong> <code>AGENTS.md</code></li>
+            </ul>
+            <p class="mb-2">You can evaluate your specifications with a simple slash command:</p>
             <pre class="mb-2"><code># Basic: Evaluate ./specs directory and output in markdown format
 /score
 

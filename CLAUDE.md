@@ -268,23 +268,36 @@ npm login
 npm publish
 ```
 
-### Claude Code `/score` 명령 사용법
+### AI 코딩 어시스턴트에서 `/score` 명령 사용법
 
-`npx sedai` 명령을 실행하면 자동으로 프로젝트의 `.claude/commands/` 디렉터리에 `/score` 명령이 설치됩니다.
+`npx sedai` 명령을 실행하면 자동으로 여러 AI 코딩 어시스턴트에 `/score` 명령이 설치됩니다.
 
-**설치 조건:**
-- 프로젝트 루트에 `.claude` 폴더가 존재해야 함
-- `npx sedai` 실행 시 자동으로 `.claude/commands/score.md` 파일 생성됨
+#### 지원하는 AI 어시스턴트
 
-**설치 과정:**
-1. `npx sedai` 실행
-2. 워크플로우의 Step 5에서 `.claude` 폴더 존재 확인
-3. `.claude/commands/` 폴더 생성 (없는 경우)
-4. `score.md` 파일 생성 (이미 존재하면 스킵)
+1. **Claude Code** - `.claude/commands/score.md`
+2. **GitHub Copilot** - `.github/copilot-instructions.md`
+3. **Codex 및 기타 AI 에이전트** - `AGENTS.md`
 
-**사용 방법:**
+#### 설치 과정
 
-Claude Code에서 다음과 같이 `/score` 명령을 사용할 수 있습니다:
+`npx sedai` 실행 시 자동으로 다음을 수행합니다:
+
+1. **Claude Code 설치**
+   - `.claude` 폴더가 존재하면 `.claude/commands/score.md` 파일 생성
+   - 이미 존재하면 스킵
+
+2. **GitHub Copilot 설치**
+   - `.github` 폴더 생성 (없는 경우)
+   - `.github/copilot-instructions.md` 파일 생성/업데이트
+   - 이미 `/score` 명령이 있으면 스킵
+
+3. **Codex 설치**
+   - `AGENTS.md` 파일 생성/업데이트
+   - 이미 `/score` 명령이 있으면 스킵
+
+#### 사용 방법
+
+모든 AI 어시스턴트에서 동일하게 사용할 수 있습니다:
 
 ```bash
 # 기본: ./specs 폴더를 읽고 마크다운으로 결과 출력
@@ -297,25 +310,29 @@ Claude Code에서 다음과 같이 `/score` 명령을 사용할 수 있습니다
 /score ./specs json
 ```
 
-**기능:**
+#### 기능
+
 - SED 원칙에 따라 스펙 파일 평가 (0-100점)
 - 완성도(Completeness), 명확성(Clarity), SED 원칙 준수(Adherence) 세 가지 차원에서 평가
 - 개선 가이드라인 제공
 - 프로젝트 전체 점수 및 우선순위 백로그 생성
 
-**평가 기준:**
+#### 평가 기준
+
 - **Completeness (40점)**: 문제 정의, 입출력, 제약사항, 수용 기준 등의 완성도
 - **Clarity (30점)**: 명확한 언어 사용, 일관된 구조, 모호하지 않은 표현
 - **Adherence to SED Principles (30점)**: SED 철학 및 원칙 준수, 근거 기반 사고
 
-**출력 형식:**
+#### 출력 형식
+
 - 기본적으로 마크다운 형식으로 결과 출력 (테이블, 체크리스트 포함)
 - JSON 형식 옵션 지원 (`json` 파라미터 사용 시)
 
-**참고:**
-- `/score` 명령은 Claude Code에서만 사용 가능
+#### 참고
+
 - SED 웹사이트(https://sedai.dev)의 최신 평가 기준을 자동으로 가져옴
 - 평가 결과를 바탕으로 스펙 개선을 위한 구체적인 액션 아이템 제공
+- Claude Code, GitHub Copilot, Codex 등 모든 주요 AI 어시스턴트에서 동일하게 작동
 
 ## 📝 다음 단계 제안
 

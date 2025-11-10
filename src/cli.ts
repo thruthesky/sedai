@@ -694,47 +694,29 @@ Add any additional notes here.
 
   console.log(chalk.bold(`Average Score: ${averageScore}/100 ${overallStatus}\n`));
 
-  // 5. Claude Code /score 명령 설치
-  console.log(chalk.bold.cyan('📋 Step 5: Installing Claude Code /score command...\n'));
+  // 5. AI Coding Assistants에 /score 명령 설치
+  console.log(chalk.bold.cyan('📋 Step 5: Installing /score command for AI coding assistants...\n'));
 
-  const claudeDir = path.join(process.cwd(), '.claude');
-  const commandsDir = path.join(claudeDir, 'commands');
-  const scoreCommandPath = path.join(commandsDir, 'score.md');
+  // /score 명령 내용 (공통)
+  const scoreInstructionContent = `
+# /score - SED Specification Scoring
 
-  // .claude 폴더가 존재하는지 확인
-  if (fs.existsSync(claudeDir)) {
-    console.log(chalk.green('✅ .claude directory found.'));
+When the user types \`/score\` (with optional parameters), evaluate SED specifications and provide scoring results.
 
-    // .claude/commands 폴더 생성 (없는 경우)
-    if (!fs.existsSync(commandsDir)) {
-      fs.mkdirSync(commandsDir, { recursive: true });
-      console.log(chalk.green(`✅ Created directory: ${commandsDir}`));
-    }
+**Usage:**
+\`\`\`
+/score                    # Evaluate ./specs directory, output in markdown
+/score docs/specs         # Evaluate a different directory
+/score ./specs json       # Get results in JSON format
+\`\`\`
 
-    // score.md 파일이 이미 존재하는지 확인
-    if (fs.existsSync(scoreCommandPath)) {
-      console.log(chalk.yellow('⚠️  /score command already exists, skipping...'));
-    } else {
-      // score.md 파일 생성
-      const scoreCommandContent = `---
-description: "Summarize the concept of SED and evaluate the specification files in ./specs (or a specified directory) according to SED criteria (0–100), providing rationale and improvement guidelines."
-argument-hint: "[specs-dir?] [output-format?]"
-# Tool permissions: allow only the minimum required
-# - WebFetch: allow only SED documents from sedai.dev
-# - Read: read local spec files
-# - Grep/Glob: file discovery (no permission required)
-allowed-tools: WebFetch(https://sedai.dev/**), Read(./**)
----
+**Task: SED-based Specification Scoring & Recommendations**
 
-# Task: SED-based Specification Scoring & Recommendations
+## Parameters
+- \`SPEC_DIR\`: Use first argument if provided, else default to \`./specs\`.
+- \`OUTPUT_FORMAT\`: Use second argument if provided, else default to \`markdown\`.
 
-You are Claude Code running a custom project command. Follow these steps strictly.
-
-## 0) Parameters
-- \`SPEC_DIR\`: Use \`$1\` if provided, else default to \`./specs\`.
-- \`OUTPUT_FORMAT\`: Use \`$2\` if provided, else default to \`markdown\`.
-
-## 1) Load SED Fundamentals (WebFetch)
+## 1) Load SED Fundamentals
 Fetch and briefly summarize the essential SED concepts (3~7 bullet points each) from:
 - https://sedai.dev/
 - https://sedai.dev/what-is-sed
@@ -779,7 +761,7 @@ Create a weighted rubric with **100 total points**. Use these three top-level di
 ## 3) Discover Spec Files
 - Look under \`SPEC_DIR\` for likely spec files: \`**/*.md\`, \`**/*.txt\`, \`**/*.sed.md\` etc.
 - Skip non-spec noise (images/binaries).
-- For each file: read content with \`Read()\` and parse major sections (headings, tables, checklists).
+- For each file: read content and parse major sections (headings, tables, checklists).
 
 ## 4) Score Each File
 For each spec file:
@@ -810,16 +792,124 @@ For each spec file:
 - Keep the rubric & recommendations **actionable**: suggest edits (sections to add, examples to include, acceptance criteria wording, traceability links, etc.).
 `;
 
-      fs.writeFileSync(scoreCommandPath, scoreCommandContent, 'utf-8');
-      console.log(chalk.green('✅ Created: .claude/commands/score.md'));
-      console.log(chalk.dim('\nYou can now use /score command in Claude Code to evaluate your specs!\n'));
+  // 5-1. Claude Code 설치
+  const claudeDir = path.join(process.cwd(), '.claude');
+  const commandsDir = path.join(claudeDir, 'commands');
+  const scoreCommandPath = path.join(commandsDir, 'score.md');
+
+  // .claude 폴더가 존재하는지 확인
+  if (fs.existsSync(claudeDir)) {
+    console.log(chalk.green('✅ Claude Code: .claude directory found.'));
+
+    // .claude/commands 폴더 생성 (없는 경우)
+    if (!fs.existsSync(commandsDir)) {
+      fs.mkdirSync(commandsDir, { recursive: true });
+      console.log(chalk.green(`✅ Created directory: ${commandsDir}`));
+    }
+
+    // score.md 파일이 이미 존재하는지 확인
+    if (fs.existsSync(scoreCommandPath)) {
+      console.log(chalk.yellow('   ⏭️  /score command already exists, skipping...'));
+    } else {
+      // score.md 파일 생성 (Claude Code 전용 YAML 헤더 포함)
+      const claudeScoreContent = `---
+description: "Summarize the concept of SED and evaluate the specification files in ./specs (or a specified directory) according to SED criteria (0–100), providing rationale and improvement guidelines."
+argument-hint: "[specs-dir?] [output-format?]"
+# Tool permissions: allow only the minimum required
+# - WebFetch: allow only SED documents from sedai.dev
+# - Read: read local spec files
+# - Grep/Glob: file discovery (no permission required)
+allowed-tools: WebFetch(https://sedai.dev/**), Read(./**)
+---
+
+# Task: SED-based Specification Scoring & Recommendations
+
+You are Claude Code running a custom project command. Follow these steps strictly.
+
+## 0) Parameters
+- \`SPEC_DIR\`: Use \`$1\` if provided, else default to \`./specs\`.
+- \`OUTPUT_FORMAT\`: Use \`$2\` if provided, else default to \`markdown\`.
+${scoreInstructionContent}
+`;
+
+      fs.writeFileSync(scoreCommandPath, claudeScoreContent, 'utf-8');
+      console.log(chalk.green('   ✅ Created: .claude/commands/score.md'));
     }
   } else {
-    console.log(chalk.yellow('⚠️  .claude directory not found, skipping /score command installation.'));
-    console.log(chalk.dim('   Tip: Run "claude init" in your project to enable Claude Code integration.\n'));
+    console.log(chalk.dim('   ⏭️  Claude Code: .claude directory not found, skipping...'));
   }
 
+  // 5-2. GitHub Copilot 설치
+  const githubDir = path.join(process.cwd(), '.github');
+  const copilotInstructionsPath = path.join(githubDir, 'copilot-instructions.md');
+
+  // .github 폴더 생성 (없는 경우)
+  if (!fs.existsSync(githubDir)) {
+    fs.mkdirSync(githubDir, { recursive: true });
+    console.log(chalk.green(`✅ GitHub Copilot: Created directory: ${githubDir}`));
+  } else {
+    console.log(chalk.green('✅ GitHub Copilot: .github directory found.'));
+  }
+
+  // copilot-instructions.md 파일 확인
+  let copilotContent = '';
+  if (fs.existsSync(copilotInstructionsPath)) {
+    copilotContent = fs.readFileSync(copilotInstructionsPath, 'utf-8');
+
+    // 이미 /score 명령이 포함되어 있는지 확인
+    if (copilotContent.includes('/score - SED Specification Scoring')) {
+      console.log(chalk.yellow('   ⏭️  /score instruction already exists, skipping...'));
+    } else {
+      // 파일 끝에 /score 명령 추가
+      copilotContent += '\n\n---\n' + scoreInstructionContent;
+      fs.writeFileSync(copilotInstructionsPath, copilotContent, 'utf-8');
+      console.log(chalk.green('   ✅ Updated: .github/copilot-instructions.md (appended /score instruction)'));
+    }
+  } else {
+    // 새 파일 생성
+    copilotContent = `# GitHub Copilot Instructions
+
+This file contains instructions for GitHub Copilot to better assist with this project.
+${scoreInstructionContent}
+`;
+    fs.writeFileSync(copilotInstructionsPath, copilotContent, 'utf-8');
+    console.log(chalk.green('   ✅ Created: .github/copilot-instructions.md'));
+  }
+
+  // 5-3. Codex (AGENTS.md) 설치
+  const agentsPath = path.join(process.cwd(), 'AGENTS.md');
+
+  // AGENTS.md 파일 확인
+  let agentsContent = '';
+  if (fs.existsSync(agentsPath)) {
+    agentsContent = fs.readFileSync(agentsPath, 'utf-8');
+
+    // 이미 /score 명령이 포함되어 있는지 확인
+    if (agentsContent.includes('/score - SED Specification Scoring')) {
+      console.log(chalk.yellow('   ⏭️  Codex: /score instruction already exists in AGENTS.md, skipping...'));
+    } else {
+      // 파일 끝에 /score 명령 추가
+      agentsContent += '\n\n---\n' + scoreInstructionContent;
+      fs.writeFileSync(agentsPath, agentsContent, 'utf-8');
+      console.log(chalk.green('   ✅ Updated: AGENTS.md (appended /score instruction)'));
+    }
+  } else {
+    // 새 파일 생성
+    agentsContent = `# AI Agent Instructions
+
+This file contains instructions for AI coding agents (Codex, etc.) to better assist with this project.
+${scoreInstructionContent}
+`;
+    fs.writeFileSync(agentsPath, agentsContent, 'utf-8');
+    console.log(chalk.green('   ✅ Created: AGENTS.md'));
+  }
+
+  console.log();
   console.log(chalk.bold.green('🎉 SEDAI workflow completed!\n'));
+  console.log(chalk.dim('You can now use /score command in:'));
+  console.log(chalk.dim('  - Claude Code (if .claude directory exists)'));
+  console.log(chalk.dim('  - GitHub Copilot (via .github/copilot-instructions.md)'));
+  console.log(chalk.dim('  - Codex/Other AI agents (via AGENTS.md)\n'));
 }
 
 // 명령어가 제공되지 않았을 때 기본 워크플로우 실행
