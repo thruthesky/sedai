@@ -173,13 +173,18 @@ spec init [options]
   -a, --author <author>    Author name
   -e, --email <email>      Author email
 
+# Install specification dependencies (fully implemented)
+spec install [options]
+spec i [options]           # Short alias
+  -p, --path <path>        Path to specifications directory (default: ./specs)
+
 # Validate specifications (coming soon)
 spec doctor [options]
 
 # Validate single file (coming soon)
 spec validate <file>
 
-# Calculate specification score (coming soon)
+# Calculate specification score (fully implemented)
 spec score <file>
 ```
 
@@ -192,15 +197,46 @@ npx spec init
 # Or with all options (non-interactive)
 npx spec init -n "my-project" -s "My awesome project" -a "Your Name" -e "your@email.com"
 
+# Install all specification dependencies
+npx spec install
+# or use the short alias
+npx spec i
+
 # Validate your specifications (coming soon)
 npx spec doctor
 
 # Validate a single spec file (coming soon)
 npx spec validate specs/my-spec.md
 
-# Calculate specification score (coming soon)
+# Calculate specification score
 npx spec score specs/my-spec.md
 ```
+
+### Understanding Dependencies
+
+SED specifications can depend on other specifications. Dependencies are defined in the YAML header of each spec file:
+
+```yaml
+---
+title: My Feature Specification
+dependencies:
+  - https://example.com/base-spec.md
+  - https://sedai.dev/common/auth-spec.md
+---
+```
+
+**How Dependencies Work:**
+
+1. **Define dependencies** in your specification's YAML header
+2. **Install dependencies** using `npx sedai install` command
+3. **AI reads dependencies** from `./specs/dependencies/` folder when executing specifications
+4. **If not found locally**, AI fetches them from the URL automatically
+
+**Benefits:**
+- **Reusability:** Share common specifications across projects
+- **Consistency:** Ensure all projects follow the same standards
+- **Modularity:** Break down complex specs into manageable pieces
+- **Offline capability:** Pre-downloaded dependencies work without internet
 
 **Remember:** These utilities are helpers, not requirements. The best way to learn SED is by manually creating specifications and asking AI to score them, as described in the [Getting Started with SED](#getting-started-with-sed) guide.
 

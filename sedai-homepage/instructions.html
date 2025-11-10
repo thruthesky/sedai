@@ -366,6 +366,62 @@ Read specs → Understand concepts → Follow spec workflow → Execute task</co
                                     <li class="mb-2"><strong>Respect priority:</strong> When multiple specs contain conflicting information, respect the priority system (asterisks: *, **, ***)</li>
                                 </ol>
 
+                                <h4 class="h5 mb-3 mt-4">Dependency Resolution Strategy</h4>
+                                <p>When executing a specification that contains <code>dependencies</code> in its YAML header, AI must follow this resolution strategy:</p>
+                                <ol class="mb-4">
+                                    <li class="mb-2">
+                                        <strong>Check local dependencies first:</strong> Look for dependency files in <code>./specs/dependencies/</code> folder
+                                        <ul class="mt-2">
+                                            <li>If the dependency file exists locally, read and parse it</li>
+                                            <li>This ensures faster execution and offline capability</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-2">
+                                        <strong>Fetch remote dependencies if needed:</strong> If dependency is not found locally and is a URL
+                                        <ul class="mt-2">
+                                            <li>Use web fetch to download the specification from the URL</li>
+                                            <li>Parse the downloaded content</li>
+                                            <li>Optionally cache it for future use</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-2">
+                                        <strong>Understand dependency content:</strong> Thoroughly read and understand the dependency specification
+                                        <ul class="mt-2">
+                                            <li>Parse its YAML header and workflow</li>
+                                            <li>Identify any nested dependencies (transitive dependencies)</li>
+                                            <li>Resolve nested dependencies recursively</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-2">
+                                        <strong>Merge with current specification:</strong> Combine dependency knowledge with current spec
+                                        <ul class="mt-2">
+                                            <li>Current spec overrides dependencies when there's a conflict</li>
+                                            <li>Dependencies provide additional context and requirements</li>
+                                            <li>Follow priority indicators (*, **, ***) if specified</li>
+                                        </ul>
+                                    </li>
+                                    <li class="mb-2">
+                                        <strong>Execute with complete context:</strong> Perform the development work with full understanding of all specifications
+                                        <ul class="mt-2">
+                                            <li>Obey all requirements from both current spec and dependencies</li>
+                                            <li>Maintain consistency across all specification requirements</li>
+                                            <li>Never assume or interpret - only follow what's explicitly defined</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+
+                                <h4 class="h5 mb-3">Installing Dependencies</h4>
+                                <p>Developers can pre-download all specification dependencies using the <code>sedai install</code> command:</p>
+                                <pre><code># Install all dependencies from spec files
+npx sedai install
+
+# Or use the short alias
+npx sedai i
+
+# Specify custom specs directory
+npx sedai install --path ./my-specs</code></pre>
+                                <p class="mt-2 mb-4">This command scans all <code>.md</code> files in the specs directory, extracts <code>dependencies</code> from YAML headers, downloads URL-based dependencies, and saves them to <code>./specs/dependencies/</code> folder with UTF-8 encoding.</p>
+
                                 <h4 class="h5 mb-3">Dependency Loading Sequence</h4>
                                 <pre><code>1. Read current spec YAML header
 2. Parse dependencies field

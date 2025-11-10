@@ -12,6 +12,7 @@ import chalk from 'chalk';
 import prompts from 'prompts';
 import * as fs from 'fs';
 import * as path from 'path';
+import { parse as parseYaml } from 'yaml';
 import { version } from './version.js';
 import { calculateScore } from './scorer.js';
 
@@ -270,6 +271,164 @@ program
       console.log();
     } else {
       console.log(chalk.green('🎉 Perfect score! No recommendations.\n'));
+    }
+  });
+
+/**
+ * install 명령어: 스펙 파일의 dependencies 다운로드
+ *
+ * 각 스펙 파일의 YAML 헤더에서 dependencies를 추출하고,
+ * URL 형식의 dependencies를 다운로드하여 ./specs/dependencies/ 폴더에 저장합니다.
+ */
+program
+  .command('install')
+  .alias('i')
+  .description('Download and install specification dependencies')
+  .option('-p, --path <path>', 'Path to specifications directory', './specs')
+  .action(async (options) => {
+    console.log(chalk.blue('\n📦 Installing specification dependencies...\n'));
+
+    const specsDir = path.resolve(options.path);
+
+    // specs 폴더 확인
+    if (!fs.existsSync(specsDir)) {
+      console.log(chalk.red(`❌ Error: Specifications directory not found: ${specsDir}\n`));
+      console.log(chalk.yellow('💡 Tip: Run "sedai init" to create a new project first.\n'));
+      process.exit(1);
+    }
+
+    // dependencies 폴더 생성
+    const depsDir = path.join(specsDir, 'dependencies');
+    if (!fs.existsSync(depsDir)) {
+      fs.mkdirSync(depsDir, { recursive: true });
+      console.log(chalk.green(`✅ Created directory: ${depsDir}\n`));
+    }
+
+    // 모든 스펙 파일 찾기
+    const specFiles = fs.readdirSync(specsDir)
+      .filter(file => file.endsWith('.md') && file !== 'dependencies')
+      .map(file => path.join(specsDir, file));
+
+    if (specFiles.length === 0) {
+      console.log(chalk.yellow('⚠️  No specification files found.\n'));
+      return;
+    }
+
+    console.log(chalk.cyan(`📄 Found ${specFiles.length} specification file(s)\n`));
+
+    // 모든 dependencies 수집
+    const allDependencies = new Set<string>();
+    let processedFiles = 0;
+
+    for (const specFile of specFiles) {
+      const fileName = path.basename(specFile);
+      const content = fs.readFileSync(specFile, 'utf-8');
+
+      // YAML 헤더 파싱
+      const yamlMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      if (!yamlMatch || !yamlMatch[1]) {
+        console.log(chalk.dim(`⏭️  ${fileName}: No YAML header found, skipping`));
+        continue;
+      }
+
+      try {
+        const yaml: any = parseYaml(yamlMatch[1]);
+
+        if (yaml && yaml.dependencies) {
+          const deps = Array.isArray(yaml.dependencies)
+            ? yaml.dependencies
+            : [yaml.dependencies];
+
+          deps.forEach((dep: any) => {
+            if (typeof dep === 'string' && dep.trim()) {
+              allDependencies.add(dep.trim());
+            }
+          });
+
+          if (deps.length > 0) {
+            console.log(chalk.green(`✅ ${fileName}: Found ${deps.length} dependenc${deps.length === 1 ? 'y' : 'ies'}`));
+            processedFiles++;
+          }
+        }
+      } catch (error) {
+        console.log(chalk.yellow(`⚠️  ${fileName}: Failed to parse YAML header`));
+      }
+    }
+
+    console.log();
+
+    if (allDependencies.size === 0) {
+      console.log(chalk.yellow('ℹ️  No dependencies found in specification files.\n'));
+      return;
+    }
+
+    console.log(chalk.cyan(`📥 Downloading ${allDependencies.size} unique dependenc${allDependencies.size === 1 ? 'y' : 'ies'}...\n`));
+
+    // dependencies 다운로드
+    let downloadedCount = 0;
+    let skippedCount = 0;
+    let failedCount = 0;
+
+    for (const dep of allDependencies) {
+      // URL 형식인지 확인
+      if (!dep.startsWith('http://') && !dep.startsWith('https://')) {
+        console.log(chalk.dim(`⏭️  Skipped: ${dep} (not a URL)`));
+        skippedCount++;
+        continue;
+      }
+
+      try {
+        // URL에서 파일명 추출
+        const url = new URL(dep);
+        const fileName = path.basename(url.pathname);
+        const outputPath = path.join(depsDir, fileName);
+
+        // 이미 파일이 존재하는지 확인
+        if (fs.existsSync(outputPath)) {
+          console.log(chalk.dim(`⏭️  ${fileName}: Already exists, skipping`));
+          skippedCount++;
+          continue;
+        }
+
+        // 파일 다운로드
+        console.log(chalk.cyan(`⬇️  Downloading: ${fileName}...`));
+        const response = await fetch(dep);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const fileContent = await response.text();
+
+        // UTF-8 인코딩으로 파일 저장
+        fs.writeFileSync(outputPath, fileContent, 'utf-8');
+
+        console.log(chalk.green(`✅ Downloaded: ${fileName}`));
+        downloadedCount++;
+
+      } catch (error) {
+        const fileName = dep.split('/').pop() || dep;
+        console.log(chalk.red(`❌ Failed: ${fileName} - ${error instanceof Error ? error.message : 'Unknown error'}`));
+        failedCount++;
+      }
+    }
+
+    // 결과 요약
+    console.log();
+    console.log(chalk.bold('Installation Summary:'));
+    console.log(chalk.green(`  ✅ Downloaded: ${downloadedCount}`));
+    console.log(chalk.dim(`  ⏭️  Skipped: ${skippedCount}`));
+    if (failedCount > 0) {
+      console.log(chalk.red(`  ❌ Failed: ${failedCount}`));
+    }
+    console.log();
+
+    if (downloadedCount > 0) {
+      console.log(chalk.green('🎉 Dependencies installed successfully!\n'));
+    } else if (failedCount === 0) {
+      console.log(chalk.yellow('ℹ️  All dependencies were already installed or skipped.\n'));
+    } else {
+      console.log(chalk.yellow('⚠️  Installation completed with errors.\n'));
     }
   });
 
