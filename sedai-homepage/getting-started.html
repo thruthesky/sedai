@@ -695,6 +695,14 @@
                                     </div>
         <p class="mb-3">Before starting development, ask AI to score your specifications to ensure they meet SED quality
             standards.</p>
+
+        <h4 class="h5 mb-3">Evaluation Criteria (100 points):</h4>
+        <ul class="requirement-list mb-3">
+            <li><strong>Completeness (40 pts):</strong> Problem definition, inputs/outputs, constraints, acceptance criteria, dependencies, examples</li>
+            <li><strong>Clarity (30 pts):</strong> Unambiguous language, consistent structure, visual aids, no contradictions</li>
+            <li><strong>Adherence to SED Principles (30 pts):</strong> SED philosophy referenced, instructions aligned, risk/assumption disclosure</li>
+        </ul>
+
         <div class="step-highlight">
                                         <p class="mb-2"><strong>Use this evaluation prompt:</strong></p>
                                         <pre><code>Read the following documents first to understand the concept of SED:
@@ -709,9 +717,18 @@ Then, please evaluate the specifications in the ./specs directory by referring t
   - https://sedai.dev/examples
   - https://sedai.dev/score
 
-Assign a score (0-100) for each file based on the criteria outlined in the scoring page.
-The score should assess completeness, clarity, and adherence to SED principles.
-Provide an overall project score and recommendations for improvement.</code></pre>
+Build a rubric with 100 total points:
+- Completeness (40 pts): Problem definition, inputs/outputs, constraints, dependencies, examples
+- Clarity (30 pts): Unambiguous language, consistent structure, visual aids
+- Adherence to SED Principles (30 pts): SED philosophy referenced, instructions aligned
+
+For each spec file:
+- Assign 0-100 score with subscores per dimension
+- List Top 3 Gaps with actionable fixes
+- Provide Readiness Level: Draft / Review-Ready / Build-Ready
+
+Provide an overall project score (weighted average) and a prioritized backlog (5-10 items)
+for spec improvements with target files and expected score uplift.</code></pre>
                                     </div>
         <div class="why-matters">
             <p class="mb-0"><strong>Why this matters:</strong> AI evaluation helps you identify gaps, ambiguities, and missing details in your specifications before implementation begins, saving time and reducing errors.</p>
