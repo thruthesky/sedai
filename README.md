@@ -80,6 +80,23 @@ This guide provides:
 
 **Important:** Manual specification creation is **strongly recommended** to deeply understand SED methodology. CLI tools are optional convenience features.
 
+### Using `/score` Command in Claude Code
+
+If you're using Claude Code, you can evaluate your specifications directly with a simple slash command:
+
+```bash
+# Basic: Evaluate ./specs directory and output in markdown format
+/score
+
+# Evaluate a different directory
+/score docs/specs
+
+# Get results in JSON format
+/score ./specs json
+```
+
+**After all, it's just a prompt.** SED is fundamentally about clear communication with AI—regardless of which AI you use. You don't need to rely on `npx sedai` commands. **SED works with any AI** (Claude, ChatGPT, Gemini, etc.). Simply talk to your AI as you would naturally, asking it to score your specifications, provide feedback, and develop following the SED methodology. The essence of SED is the conversation, not the tools.
+
 ---
 
 ## Specification Scoring Criteria
