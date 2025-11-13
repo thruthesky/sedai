@@ -178,27 +178,41 @@ The documentation includes:
 
 ### Hierarchical Specification Structure
 
-SED supports **multi-level folder hierarchies** within the `./specs` directory, allowing you to organize specifications that mirror your application's structure:
+SED supports **multi-level folder hierarchies** within the `./specs` directory. All source code, assets, and resources are organized under `./specs/repository/`, which mirrors your application's structure:
 
 ```
 ./specs/
-  ├── index.md
-  ├── assets/
-  │   ├── favicon.png
-  │   └── logo.png
-  └── src/
-      └── lib/
-          └── ui/
-              └── components/
-                  └── dev/
-                      └── dev-menu.svelte.md
+  ├── index.md                    # Main DTOC - references ./specs/repository/
+  ├── preview.png
+  └── repository/                 # All source code and resources go here
+      ├── assets/
+      │   ├── favicon.png
+      │   └── logo.png
+      └── src/
+          └── lib/
+              └── ui/
+                  └── components/
+                      └── dev/
+                          └── dev-menu.svelte.md
 ```
+
+**Key Structure:**
+- **`./specs/index.md`**: Main DTOC that references `./specs/repository/` for all source code specs
+- **`./specs/repository/`**: Contains all source code, assets, and implementation resources
+- **Mirror structure**: The `./specs/repository/src/` hierarchy mirrors `./src/` implementation
+
+**In index.md (DTOC):**
+When documenting source code specifications in your `index.md`, reference the `./specs/repository/` folder and include:
+- Brief description of each source file's purpose
+- Exact file path within `./specs/repository/`
+- Dependencies and relationships with other specs
 
 **Benefits:**
 - **Structural clarity**: Organize specs to match your application's architecture
 - **Explicit file paths**: Clearly define where each file should be implemented
 - **Asset inclusion**: Include images, icons, and other resources directly in specs
 - **Easier implementation**: AI can understand exact file locations and hierarchies
+- **Clean separation**: Keep specification documents separate from implementation blueprints
 
 This hierarchical approach transforms specifications into a complete blueprint that includes not just code and logic, but also the exact project structure and all necessary assets.
 

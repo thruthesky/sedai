@@ -717,40 +717,43 @@ dependencies: **another/project/specs/main.md</code></pre>
                             <p><strong>Example Hierarchical Structure:</strong></p>
                             <pre><code>project-root/
 ├── specs/
-│   ├── index.md                              # Main DTOC
-│   ├── preview.png                            # Spec repository preview
+│   ├── index.md                                      # Main DTOC (references ./specs/repository/)
+│   ├── preview.png                                   # Spec repository preview image
+│   ├── project-setup.md                              # High-level specification docs
+│   ├── project-database.md
 │   │
-│   ├── assets/                                # Asset specifications
-│   │   ├── favicon.png                        # Actual favicon file
-│   │   ├── logo.png                           # Actual logo file
-│   │   └── icons/
-│   │       ├── home.svg
-│   │       └── settings.svg
-│   │
-│   ├── database/                              # Database specs
-│   │   ├── schema.md                          # Database schema spec
-│   │   └── migrations/
-│   │       └── 001-initial-setup.sql.md       # Migration spec with SQL
-│   │
-│   └── src/                                   # Source code specs (mirrors implementation)
-│       ├── lib/
-│       │   ├── utils/
-│       │   │   ├── date-helpers.ts.md         # Spec for date helpers
-│       │   │   └── validation.ts.md           # Spec for validation utils
-│       │   │
-│       │   └── ui/
-│       │       └── components/
-│       │           ├── header.svelte.md       # Component spec
-│       │           ├── footer.svelte.md
-│       │           └── dev/
-│       │               └── dev-menu.svelte.md # Dev component spec
+│   └── repository/                                   # ⭐ All source code & resources
+│       ├── assets/                                   # Asset files
+│       │   ├── favicon.png                           # Actual favicon file
+│       │   ├── logo.png                              # Actual logo file
+│       │   └── icons/
+│       │       ├── home.svg
+│       │       └── settings.svg
 │       │
-│       └── routes/
-│           ├── +page.svelte.md                # Home page spec
-│           └── about/
-│               └── +page.svelte.md            # About page spec
+│       ├── database/                                 # Database resources
+│       │   ├── schema.sql                            # Actual SQL schema
+│       │   └── migrations/
+│       │       └── 001-initial-setup.sql             # Migration SQL file
+│       │
+│       └── src/                                      # Source code specs (mirrors implementation)
+│           ├── lib/
+│           │   ├── utils/
+│           │   │   ├── date-helpers.ts.md            # Spec for date helpers
+│           │   │   └── validation.ts.md              # Spec for validation utils
+│           │   │
+│           │   └── ui/
+│           │       └── components/
+│           │           ├── header.svelte.md          # Component spec
+│           │           ├── footer.svelte.md
+│           │           └── dev/
+│           │               └── dev-menu.svelte.md    # Dev component spec
+│           │
+│           └── routes/
+│               ├── +page.svelte.md                   # Home page spec
+│               └── about/
+│                   └── +page.svelte.md               # About page spec
 │
-└── src/                                       # Implementation (mirrors specs/src/)
+└── src/                                              # Implementation (mirrors specs/repository/src/)
     ├── lib/
     │   ├── utils/
     │   │   ├── date-helpers.ts
@@ -768,12 +771,37 @@ dependencies: **another/project/specs/main.md</code></pre>
 
                             <p><strong>Key Principles:</strong></p>
                             <ul>
-                                <li><strong>Mirror structure:</strong> The <code>./specs/src/</code> hierarchy mirrors <code>./src/</code> implementation</li>
-                                <li><strong>Include assets:</strong> Place actual image files, icons, fonts in <code>./specs/assets/</code></li>
+                                <li><strong>Repository folder:</strong> All source code and resources must be under <code>./specs/repository/</code></li>
+                                <li><strong>Mirror structure:</strong> The <code>./specs/repository/src/</code> hierarchy mirrors <code>./src/</code> implementation</li>
+                                <li><strong>Include assets:</strong> Place actual image files, icons, fonts in <code>./specs/repository/assets/</code></li>
                                 <li><strong>Markdown specs:</strong> Source code specs use <code>.{extension}.md</code> naming (e.g., <code>component.svelte.md</code>)</li>
                                 <li><strong>Explicit paths:</strong> File paths in specs directly correspond to implementation paths</li>
+                                <li><strong>Clean separation:</strong> Keep high-level spec docs in <code>./specs/</code>, implementation blueprints in <code>./specs/repository/</code></li>
                                 <li><strong>Complete blueprint:</strong> Specifications become a complete project blueprint including structure, assets, and code</li>
                             </ul>
+
+                            <div class="alert alert-warning" role="alert">
+                                <h5 class="mb-2"><strong>Important: index.md (DTOC) Structure</strong></h5>
+                                <p class="mb-2">Your <code>index.md</code> should reference <code>./specs/repository/</code> for all source code specifications:</p>
+                                <pre class="mb-2"><code>## Source Code Specifications
+
+All source code and implementation resources are located in `./specs/repository/`.
+
+### Frontend Components
+- **Header Component** (`./specs/repository/src/lib/ui/components/header.svelte.md`)
+  - Main navigation header with responsive design
+  - Dependencies: None
+
+- **Footer Component** (`./specs/repository/src/lib/ui/components/footer.svelte.md`)
+  - Site footer with links and copyright
+  - Dependencies: None
+
+### Utilities
+- **Date Helpers** (`./specs/repository/src/lib/utils/date-helpers.ts.md`)
+  - Date formatting and manipulation functions
+  - Dependencies: None</code></pre>
+                                <p class="mb-0">Include brief descriptions, exact paths within <code>./specs/repository/</code>, and dependencies for each source file.</p>
+                            </div>
 
                             <div class="alert alert-success" role="alert">
                                 <h5 class="mb-2"><strong>Benefits for AI Implementation</strong></h5>
