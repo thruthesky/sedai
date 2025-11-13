@@ -700,6 +700,99 @@ dependencies: **another/project/specs/main.md</code></pre>
 ├── src/                      # Implementation code
 └── README.md</code></pre>
 
+                            <h3 class="h3 mb-3 mt-4">Hierarchical Folder Structure</h3>
+                            <p>SED supports <strong>multi-level folder hierarchies</strong> within the <code>./specs</code> directory, allowing you to organize specifications that <strong>mirror your application's structure</strong>:</p>
+
+                            <div class="alert alert-info" role="alert">
+                                <h5 class="mb-2"><strong>Why Hierarchical Structure?</strong></h5>
+                                <p class="mb-2">By mirroring your application's directory structure in specifications, you achieve:</p>
+                                <ul class="mb-0">
+                                    <li><strong>Structural clarity:</strong> Organize specs to match your application's architecture</li>
+                                    <li><strong>Explicit file paths:</strong> Clearly define where each file should be implemented</li>
+                                    <li><strong>Asset inclusion:</strong> Include images, icons, and resources directly in specs</li>
+                                    <li><strong>Easier implementation:</strong> AI understands exact file locations and hierarchies</li>
+                                </ul>
+                            </div>
+
+                            <p><strong>Example Hierarchical Structure:</strong></p>
+                            <pre><code>project-root/
+├── specs/
+│   ├── index.md                              # Main DTOC
+│   ├── preview.png                            # Spec repository preview
+│   │
+│   ├── assets/                                # Asset specifications
+│   │   ├── favicon.png                        # Actual favicon file
+│   │   ├── logo.png                           # Actual logo file
+│   │   └── icons/
+│   │       ├── home.svg
+│   │       └── settings.svg
+│   │
+│   ├── database/                              # Database specs
+│   │   ├── schema.md                          # Database schema spec
+│   │   └── migrations/
+│   │       └── 001-initial-setup.sql.md       # Migration spec with SQL
+│   │
+│   └── src/                                   # Source code specs (mirrors implementation)
+│       ├── lib/
+│       │   ├── utils/
+│       │   │   ├── date-helpers.ts.md         # Spec for date helpers
+│       │   │   └── validation.ts.md           # Spec for validation utils
+│       │   │
+│       │   └── ui/
+│       │       └── components/
+│       │           ├── header.svelte.md       # Component spec
+│       │           ├── footer.svelte.md
+│       │           └── dev/
+│       │               └── dev-menu.svelte.md # Dev component spec
+│       │
+│       └── routes/
+│           ├── +page.svelte.md                # Home page spec
+│           └── about/
+│               └── +page.svelte.md            # About page spec
+│
+└── src/                                       # Implementation (mirrors specs/src/)
+    ├── lib/
+    │   ├── utils/
+    │   │   ├── date-helpers.ts
+    │   │   └── validation.ts
+    │   └── ui/
+    │       └── components/
+    │           ├── header.svelte
+    │           ├── footer.svelte
+    │           └── dev/
+    │               └── dev-menu.svelte
+    └── routes/
+        ├── +page.svelte
+        └── about/
+            └── +page.svelte</code></pre>
+
+                            <p><strong>Key Principles:</strong></p>
+                            <ul>
+                                <li><strong>Mirror structure:</strong> The <code>./specs/src/</code> hierarchy mirrors <code>./src/</code> implementation</li>
+                                <li><strong>Include assets:</strong> Place actual image files, icons, fonts in <code>./specs/assets/</code></li>
+                                <li><strong>Markdown specs:</strong> Source code specs use <code>.{extension}.md</code> naming (e.g., <code>component.svelte.md</code>)</li>
+                                <li><strong>Explicit paths:</strong> File paths in specs directly correspond to implementation paths</li>
+                                <li><strong>Complete blueprint:</strong> Specifications become a complete project blueprint including structure, assets, and code</li>
+                            </ul>
+
+                            <div class="alert alert-success" role="alert">
+                                <h5 class="mb-2"><strong>Benefits for AI Implementation</strong></h5>
+                                <p class="mb-0">When AI reads hierarchical specifications, it knows <strong>exactly</strong> where to create each file, what to name it, and where to place assets. This eliminates ambiguity and ensures the implemented project matches the specification structure perfectly.</p>
+                            </div>
+
+                            <p class="mt-4"><strong>File Types You Can Include:</strong></p>
+                            <ul>
+                                <li>Markdown specification files (<code>.md</code>)</li>
+                                <li>Images (<code>.png</code>, <code>.jpg</code>, <code>.svg</code>, <code>.webp</code>)</li>
+                                <li>Icons and favicons</li>
+                                <li>Configuration files (<code>.json</code>, <code>.yaml</code>, <code>.toml</code>)</li>
+                                <li>SQL scripts and migration files</li>
+                                <li>Sample data files (<code>.csv</code>, <code>.json</code>)</li>
+                                <li>Any file type your application needs</li>
+                            </ul>
+
+                            <p class="mt-4"><strong>This hierarchical approach transforms specifications from abstract documentation into a complete, executable blueprint that includes not just code and logic, but also the exact project structure and all necessary assets.</strong></p>
+
                             <h3 class="h3 mb-3 mt-4">File Naming Convention</h3>
                             <p><strong>Pattern:</strong> <code>&lt;project&gt;-&lt;module&gt;-&lt;feature&gt;.md</code></p>
 

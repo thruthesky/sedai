@@ -34,6 +34,24 @@ This is the **"hamster wheel"** problem—running endlessly without making real 
 
 SED takes a radically different approach: **Provide complete specifications to the AI and demand absolute obedience**. Even if the spec is wrong, follow the spec exactly.
 
+#### The Core Concept: Complete Source Code in Specifications
+
+**The fundamental purpose of SED is to develop complete web/app solutions using only specifications.** To achieve this, specifications must include not just planning, goals, concepts, descriptions, and structural diagrams—but also **detailed, precise, and complete logic along with perfect source code embedded entirely within the spec**.
+
+This approach ensures AI cannot arbitrarily generate source code. Instead, AI strictly implements what is explicitly defined in the specification. By including complete source code in specs, developers maintain absolute control over implementation, eliminating AI's interpretation and improvisation.
+
+**Key aspects of SED specifications:**
+- Complete implementation logic, not just abstract requirements
+- Actual source code for functions, components, and modules
+- Database schemas with exact table structures and queries
+- UI/UX implementation details including CSS and component code
+- Error handling code and edge case implementations
+- Test cases with expected inputs and outputs
+
+This level of completeness transforms specifications from abstract documentation into executable blueprints that AI follows exactly.
+
+#### AI's Limited Authority
+
 Of course, AI does have two authorities:
 
 1. **Authority to halt**: If the specification contains critical errors that would cause severe problems, AI has the authority to stop work
@@ -157,6 +175,32 @@ The documentation includes:
 - Function specifications with TypeScript code and error handling
 - Testing requirements and coverage targets
 - API endpoints with request/response examples
+
+### Hierarchical Specification Structure
+
+SED supports **multi-level folder hierarchies** within the `./specs` directory, allowing you to organize specifications that mirror your application's structure:
+
+```
+./specs/
+  ├── index.md
+  ├── assets/
+  │   ├── favicon.png
+  │   └── logo.png
+  └── src/
+      └── lib/
+          └── ui/
+              └── components/
+                  └── dev/
+                      └── dev-menu.svelte.md
+```
+
+**Benefits:**
+- **Structural clarity**: Organize specs to match your application's architecture
+- **Explicit file paths**: Clearly define where each file should be implemented
+- **Asset inclusion**: Include images, icons, and other resources directly in specs
+- **Easier implementation**: AI can understand exact file locations and hierarchies
+
+This hierarchical approach transforms specifications into a complete blueprint that includes not just code and logic, but also the exact project structure and all necessary assets.
 
 ---
 
